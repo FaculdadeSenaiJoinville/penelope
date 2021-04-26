@@ -1,5 +1,3 @@
-# hiker
-
 ## Build Setup
 
 ```bash

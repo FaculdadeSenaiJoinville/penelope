@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./penelope.png" width="100" alt="Odysseus and Penelope Logo" />
+  <img src="./penelope.png" width="160" alt="Odysseus and Penelope Logo" />
 </p>
 
 ## Build Setup

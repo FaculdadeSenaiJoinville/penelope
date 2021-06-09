@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./penelope.png" width="320" alt="Odysseus and Penelope Logo" />
+</p>
+
 ## Build Setup
 
 ```bash

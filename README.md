@@ -5,6 +5,9 @@
     <img src="https://img.shields.io/badge/node-12.18.2-green.svg">
 </div>
 
+## Descrição
+Penelope é o frontend do projeto Odyssey, da Escola Sistêmica. Construído com [Nuxt](https://nuxtjs.org/).
+
 ## Build Setup
 
 ```bash
@@ -21,5 +24,3 @@ $ yarn start
 # generate static project
 $ yarn generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

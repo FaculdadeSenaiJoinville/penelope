@@ -1,7 +1,7 @@
 export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		title: 'hiker',
+		title: 'penelope',
 		meta: [
 			{
 				charset: 'utf-8'
@@ -45,11 +45,50 @@ export default {
 		// https://go.nuxtjs.dev/axios
 		'@nuxtjs/axios',
 		// https://go.nuxtjs.dev/pwa
-		'@nuxtjs/pwa'
+		'@nuxtjs/pwa',
+		'@nuxtjs/auth-next'
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
-	axios: {},
+	axios: {
+		baseURL: 'http://localhost:3000'
+	},
+
+	middleware: ['auth'],
+
+	server: {
+		port: 8080
+	},
+
+	auth: {
+		strategies: {
+			local: {
+				token: {
+					property: 'token',
+					required: true,
+					type: 'Bearer'
+				},
+				user: {
+					property: false, // <--- Default "user"
+					autoFetch: true
+				},
+				endpoints: {
+					login: {
+						url: '/auth/login',
+						method: 'post'
+					},
+					logout: {
+						url: '/auth/logout',
+						method: 'delete'
+					},
+					user: {
+						url: '/auth/me',
+						method: 'get'
+					}
+				}
+			}
+		}
+	},
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {

@@ -1,3 +1,4 @@
+import auth from './middleware/auth';
 export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
@@ -54,7 +55,9 @@ export default {
 		baseURL: 'http://localhost:3000'
 	},
 
-	middleware: ['auth'],
+	router: {
+		middleware: auth
+	},
 
 	server: {
 		port: 8080

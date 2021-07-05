@@ -1,20 +1,29 @@
 import { Middleware } from '@nuxt/types';
 
-export const auth: Middleware = (context) => {
-	const user = context.$auth.user;
+const auth: Middleware = (context) => {
+	enum UserType {
+		ADMIN = 'ADMIN',
+		PROFESSOR = 'PROFESSOR',
+		STUDENT = 'STUDENT'
+	}
 
+	const user = context.$auth.user;
 	const professorRoutes = ['/professor'];
 	const studentRoutes = ['/student'];
 
-	if (!user && !context.$auth.loggedIn) {
+	if (!user || !context.$auth.loggedIn) {
 		context.redirect('/login');
-	} else if (user?.type === 'PROFESSOR') {
-		if (!professorRoutes.includes(context.from.path)) {
+	}
+
+	if (user?.type === UserType.ADMIN) {
+		if (!professorRoutes.includes(context.route.path)) {
 			context.redirect('/');
 		}
-	} else if (user?.type === 'STUDENT') {
-		if (!studentRoutes.includes(context.from.path)) {
+	} else if (user?.type === UserType.STUDENT) {
+		if (!studentRoutes.includes(context.route.path)) {
 			context.redirect('/');
 		}
 	}
 };
+
+export default auth;

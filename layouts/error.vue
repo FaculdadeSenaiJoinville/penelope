@@ -9,6 +9,7 @@
 
 			<template v-else>
 				<h1>Ocorreu algo inesperado!</h1>
+				<h2>{{ `${error.statusCode} - ${error.message}` }}</h2>
 
 				<img :src="require('~/static/illustrations/bored.png')" />
 			</template>

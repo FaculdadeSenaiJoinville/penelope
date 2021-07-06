@@ -34,7 +34,7 @@ export default {
 		]
 	},
 
-	css: [],
+	css: ['~/assets/styles/global.css'],
 
 	plugins: [],
 
@@ -42,9 +42,49 @@ export default {
 
 	buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
 
-	modules: ['@nuxtjs/axios'],
+	modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 
-	axios: {},
+	axios: {
+		baseURL: 'http://localhost:3000'
+	},
+
+	router: {
+		middleware: auth
+	},
+
+	server: {
+		port: 8080
+	},
+
+	auth: {
+		strategies: {
+			local: {
+				token: {
+					property: 'token',
+					required: true,
+					type: 'Bearer'
+				},
+				user: {
+					property: false, // <--- Default "user"
+					autoFetch: true
+				},
+				endpoints: {
+					login: {
+						url: '/auth/login',
+						method: 'post'
+					},
+					logout: {
+						url: '/auth/logout',
+						method: 'delete'
+					},
+					user: {
+						url: '/auth/me',
+						method: 'get'
+					}
+				}
+			}
+		}
+	},
 
 	vuetify: {
 		customVariables: ['~/assets/variables.scss'],

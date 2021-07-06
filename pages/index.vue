@@ -1,37 +1,38 @@
 <template>
 	<div class="container">
+		<div v-if="$auth.user.type === 'ADMIN'">
+			<admin />
+		</div>
+		<div v-if="$auth.user.type === 'PROFESSOR'">
+			<professor />
+		</div>
+		<div v-if="$auth.user.type === 'STUDENT'">
+			<student />
+		</div>
 		<div>
-			<Logo />
-
-			<div class="links">
-				<a
-					href="https://nuxtjs.org/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="button--green"
-				>
-					Documentation
-				</a>
-				<a
-					href="https://github.com/nuxt/nuxt.js"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="button--grey"
-				>
-					GitHub
-				</a>
-			</div>
+			<button type="button" class="btn" @click="doLogout">Sair</button>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
-	import Logo from '~/components/Logo.vue';
+	import admin from './admin.vue';
+	import professor from './professor.vue';
+	import student from './login.vue';
 
 	export default Vue.extend({
 		components: {
-			Logo
+			admin,
+			professor,
+			student
+		},
+
+		methods: {
+			async doLogout() {
+				await this.$auth.logout();
+				this.$router.push('/login');
+			}
 		}
 	});
 </script>

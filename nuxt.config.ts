@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors';
+import { NuxtConfig } from '@nuxt/types';
 
-export default {
+const config: NuxtConfig = {
 	head: {
 		titleTemplate: '%s - penelope',
 		title: 'penelope',
@@ -49,7 +50,7 @@ export default {
 	},
 
 	router: {
-		middleware: auth
+		middleware: ['auth']
 	},
 
 	server: {
@@ -64,10 +65,9 @@ export default {
 					required: true,
 					type: 'Bearer'
 				},
-				user: {
-					property: false, // <--- Default "user"
-					autoFetch: true
-				},
+				autoFetchUser: false,
+				rewriteRedirects: true,
+				fullPathRedirect: true,
 				endpoints: {
 					login: {
 						url: '/auth/login',
@@ -106,3 +106,5 @@ export default {
 
 	build: {}
 };
+
+export default config;

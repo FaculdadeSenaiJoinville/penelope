@@ -1,14 +1,14 @@
-/* eslint-disable no-console */
 <template>
 	<div class="container">
 		<div>
 			<div>
 				<label for="email">E-mail</label>
-				<input v-model="email" name="email" type="text" />
+				<input v-model="user.email" name="email" type="text" />
 			</div>
+
 			<div>
 				<label for="password">Senha</label>
-				<input v-model="password" name="password" type="text" />
+				<input v-model="user.password" name="password" type="text" />
 			</div>
 		</div>
 
@@ -26,26 +26,30 @@
 	import Vue from 'vue';
 
 	export default Vue.extend({
-		name: 'Login',
 		data() {
 			return {
-				email: 'mandrake@odyssey.com.br',
-				password: 'abcd1234',
-				expiresIn: 84000
+				user: {
+					email: 'master3@odyssey.com.br',
+					password: 'Teste@123'
+				}
 			};
 		},
 
 		methods: {
-			doLogin() {
+			async doLogin() {
+				const { email, password } = this.user;
+
 				try {
-					this.$auth.loginWith('local', {
+					await this.$auth.loginWith('local', {
 						data: {
-							email: 'mandrake@odyssey.com.br',
-							password: 'abcd1234',
+							email,
+							password,
 							expiresIn: 84000
 						}
 					});
-				} catch (error) {}
+				} catch (error) {
+					// usar biblioteca do nuxt para alertas (ver com o matheus)
+				}
 			}
 		}
 	});

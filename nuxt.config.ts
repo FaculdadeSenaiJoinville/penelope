@@ -50,7 +50,7 @@ const config: NuxtConfig = {
 	},
 
 	router: {
-		middleware: ['auth']
+		middleware: ['base-auth']
 	},
 
 	server: {
@@ -65,18 +65,23 @@ const config: NuxtConfig = {
 					required: true,
 					type: 'Bearer'
 				},
-				autoFetchUser: false,
-				rewriteRedirects: true,
-				fullPathRedirect: true,
+
+				user: {
+					property: 'user',
+					autoFetch: true
+				},
+
 				endpoints: {
 					login: {
 						url: '/auth/login',
 						method: 'post'
 					},
+
 					logout: {
 						url: '/auth/logout',
 						method: 'delete'
 					},
+
 					user: {
 						url: '/auth/me',
 						method: 'get'

@@ -67,7 +67,7 @@ const config: NuxtConfig = {
 				},
 
 				user: {
-					property: 'user',
+					property: false,
 					autoFetch: true
 				},
 
@@ -88,7 +88,13 @@ const config: NuxtConfig = {
 					}
 				}
 			}
-		}
+		},
+		redirect: {
+			login: '/login',
+			logout: '/login',
+			home: '/'
+		},
+		watchLoggedIn: true
 	},
 
 	vuetify: {

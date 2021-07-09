@@ -18,7 +18,7 @@
 	export default Vue.extend({
 		methods: {
 			async doLogout() {
-				await this.$auth.logout();
+				await this.$axios.delete('http://localhost:3000/auth/logout');
 				this.$router.push('/login');
 			}
 		}

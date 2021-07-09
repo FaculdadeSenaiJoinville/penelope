@@ -8,15 +8,19 @@ const auth: Middleware = (context) => {
 
 	if (!user || !context.$auth.loggedIn) {
 		context.redirect('/login');
-	}
+	} else {
+		if (context.route.path === '/login') {
+			context.redirect('/');
+		}
 
-	if (
-		(user?.type === UserType.PROFESSOR &&
-			!professorRoutes.includes(context.route.path)) ||
-		(user?.type === UserType.STUDENT &&
-			!studentRoutes.includes(context.route.path))
-	) {
-		context.redirect('/');
+		if (
+			(user.type === UserType.PROFESSOR &&
+				!professorRoutes.includes(context.route.path)) ||
+			(user.type === UserType.STUDENT &&
+				!studentRoutes.includes(context.route.path))
+		) {
+			context.redirect('/');
+		}
 	}
 };
 

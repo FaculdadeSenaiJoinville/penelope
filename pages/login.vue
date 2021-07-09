@@ -29,8 +29,8 @@
 		data() {
 			return {
 				user: {
-					email: 'master3@odyssey.com.br',
-					password: 'Teste@123'
+					email: 'mandrake@odyssey.com.br',
+					password: 'abcd1234'
 				}
 			};
 		},

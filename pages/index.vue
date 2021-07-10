@@ -1,37 +1,29 @@
 <template>
 	<div class="container">
-		<div>
-			<Logo />
+		<div v-if="$auth.user.type === 'ADMIN'">Cara é um adiminho kkkkk</div>
 
-			<div class="links">
-				<a
-					href="https://nuxtjs.org/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="button--green"
-				>
-					Documentation
-				</a>
-				<a
-					href="https://github.com/nuxt/nuxt.js"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="button--grey"
-				>
-					GitHub
-				</a>
-			</div>
+		<div v-if="$auth.user.type === 'PROFESSOR'">Oh o professor na área</div>
+
+		<div v-if="$auth.user.type === 'STUDENT'">Estudantezin pah</div>
+
+		<div>
+			<button type="button" class="btn" @click="doLogout">Sair</button>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
-	import Logo from '~/components/Logo.vue';
 
 	export default Vue.extend({
-		components: {
-			Logo
+		methods: {
+			async doLogout() {
+				await this.$axios.delete('http://localhost:3000/auth/logout');
+
+				this.$axios.setToken(false);
+
+				this.$router.push('/login');
+			}
 		}
 	});
 </script>

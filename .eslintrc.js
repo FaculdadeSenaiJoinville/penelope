@@ -15,6 +15,12 @@ module.exports = {
 	plugins: ['prettier'],
 	ignorePatterns: [],
 	rules: {
+		camelcase: 'off',
+		quotes: [
+			'error',
+			'single',
+			{ allowTemplateLiterals: true, avoidEscape: true }
+		],
 		'vue/no-arrow-functions-in-watch': 'error',
 		'vue/no-dupe-keys': 'error',
 		'vue/no-dupe-v-else-if': 'error',
@@ -207,6 +213,7 @@ module.exports = {
 				next: '*'
 			}
 		],
+		'comma-dangle': ['error', 'never'],
 		'array-element-newline': ['error', 'consistent'],
 		'prettier/prettier': [
 			'error',

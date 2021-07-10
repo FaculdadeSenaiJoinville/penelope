@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors';
+import { NuxtConfig } from '@nuxt/types';
 
-export default {
+const config: NuxtConfig = {
 	head: {
 		titleTemplate: '%s - penelope',
 		title: 'penelope',
@@ -34,7 +35,7 @@ export default {
 		]
 	},
 
-	css: [],
+	css: ['~/assets/styles/global.css'],
 
 	plugins: [],
 
@@ -42,9 +43,59 @@ export default {
 
 	buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
 
-	modules: ['@nuxtjs/axios'],
+	modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 
-	axios: {},
+	axios: {
+		baseURL: 'http://localhost:3000'
+	},
+
+	router: {
+		middleware: ['base-auth']
+	},
+
+	server: {
+		port: 8080
+	},
+
+	auth: {
+		strategies: {
+			local: {
+				token: {
+					property: 'token',
+					required: true,
+					type: 'Bearer'
+				},
+
+				user: {
+					property: false,
+					autoFetch: true
+				},
+
+				endpoints: {
+					login: {
+						url: '/auth/login',
+						method: 'post'
+					},
+
+					logout: {
+						url: '/auth/logout',
+						method: 'delete'
+					},
+
+					user: {
+						url: '/auth/me',
+						method: 'get'
+					}
+				}
+			}
+		},
+		redirect: {
+			login: '/login',
+			logout: '/login',
+			home: '/'
+		},
+		watchLoggedIn: true
+	},
 
 	vuetify: {
 		customVariables: ['~/assets/variables.scss'],
@@ -66,3 +117,5 @@ export default {
 
 	build: {}
 };
+
+export default config;

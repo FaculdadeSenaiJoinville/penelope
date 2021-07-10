@@ -1,6 +1,6 @@
 <div align="center">
     <h1>
-      <img src="./static/logo-repository.svg" width="180" alt="Odyssey Logo" />
+      <img src="./static/repository-logo.svg" width="180" alt="Odyssey Logo" />
     </h1>
     <img src="https://img.shields.io/badge/node-14.17.3-green.svg">
 </div>

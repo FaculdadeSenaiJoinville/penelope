@@ -98,7 +98,7 @@ const config: NuxtConfig = {
 	},
 
 	vuetify: {
-		customVariables: ['~/assets/variables.scss'],
+		customVariables: ['~/assets/styles/variables.scss'],
 		theme: {
 			dark: true,
 			themes: {

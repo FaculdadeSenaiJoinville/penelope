@@ -21,6 +21,8 @@ const auth: Middleware = (context) => {
 		) {
 			context.redirect('/');
 		}
+
+		context.redirect('/');
 	}
 };
 

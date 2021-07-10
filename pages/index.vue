@@ -4,7 +4,7 @@
 
 		<div v-if="$auth.user.type === 'PROFESSOR'">Oh o professor na área</div>
 
-		<div v-if="$auth.user.type === 'STUDENT'">Estudante de cu é rola</div>
+		<div v-if="$auth.user.type === 'STUDENT'">Estudantezin pah</div>
 
 		<div>
 			<button type="button" class="btn" @click="doLogout">Sair</button>
@@ -19,6 +19,9 @@
 		methods: {
 			async doLogout() {
 				await this.$axios.delete('http://localhost:3000/auth/logout');
+
+				this.$axios.setToken(false);
+
 				this.$router.push('/login');
 			}
 		}

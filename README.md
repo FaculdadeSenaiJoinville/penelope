@@ -8,6 +8,8 @@
 ## Descrição
 Penelope é o frontend do projeto Odyssey, da Escola Sistêmica. Construído com [Nuxt](https://nuxtjs.org/).
 
+[Discord](https://discord.gg/vk9jFUFh)
+
 ```bash
 git clone https://github.com/FaculdadeSenaiJoinville/penelope.git
 ```

@@ -15,7 +15,9 @@
 			</template>
 
 			<NuxtLink to="/">
-				<button type="button" class="back-button">Voltar</button>
+				<button type="button" class="back-button">
+					Voltar
+				</button>
 			</NuxtLink>
 		</div>
 	</div>

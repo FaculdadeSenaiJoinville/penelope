@@ -26,7 +26,7 @@
 		data() {
 			return {
 				warnMessages: {
-					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para o componente OActionButton!'
+					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para o componente OButton!'
 				}
 			};
 		},
@@ -41,24 +41,24 @@
 					loading,
 					warnMessages
 				} = this;
-				const classes = ['o-btn', 'o-action-btn'];
+				const classes = ['btn', 'o-button'];
 
 				if (success) {
-					classes.push('o-btn-success');
+					classes.push('btn-success');
 				} else if (info) {
-					classes.push('o-btn-info');
+					classes.push('btn-info');
 				} else if (danger) {
-					classes.push('o-btn-danger');
+					classes.push('btn-danger');
 				} else {
 					console.warn(warnMessages.buttonTypeProps);
 				}
 
 				if (loading) {
-					classes.push('o-action-btn-loading');
+					classes.push('o-button-loading');
 				}
 
 				if (block) {
-					classes.push('o-action-btn-block');
+					classes.push('o-button-block');
 				}
 
 				return classes.join(' ');
@@ -70,12 +70,12 @@
 <style scoped>
 	@import url('assets/styles/button.css');
 
-	.o-action-btn {
+	.o-button {
 		height: 2.5rem;
 		padding: 1.1rem;
 	}
 
-	.o-action-btn-block {
+	.o-button-block {
 		width: 100%;
 	}
 </style>

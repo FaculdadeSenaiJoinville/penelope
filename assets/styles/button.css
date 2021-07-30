@@ -1,6 +1,13 @@
 .o-btn {
 	font-size: 1.25rem;
 	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	border-radius: 10px;
+	color: var(--white);
+	transition: background-color 0.2s;
 }
 
 .o-btn:disabled {

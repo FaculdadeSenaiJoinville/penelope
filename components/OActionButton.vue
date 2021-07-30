@@ -73,13 +73,6 @@
 	.o-action-btn {
 		height: 2.5rem;
 		padding: 1.1rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 0;
-		border-radius: 10px;
-		color: var(--white);
-		transition: background-color 0.2s;
 	}
 
 	.o-action-btn-block {

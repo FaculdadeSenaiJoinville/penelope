@@ -38,8 +38,8 @@
 					info,
 					danger,
 					block,
-					loading
-					// warnMessages
+					loading,
+					warnMessages
 				} = this;
 				const classes = ['o-btn', 'o-action-btn'];
 
@@ -50,7 +50,7 @@
 				} else if (danger) {
 					classes.push('o-btn-danger');
 				} else {
-					// console.warn(warnMessages.buttonTypeProps);0
+					console.warn(warnMessages.buttonTypeProps);
 				}
 
 				if (loading) {

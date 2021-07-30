@@ -1,0 +1,48 @@
+.o-btn {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.o-btn:disabled {
+	background: var(--gray);
+	color: var(--gray-dark);
+	cursor: not-allowed;
+}
+
+/* Cores de background */
+.o-btn-success {
+	background: var(--green);
+}
+
+.o-btn-info {
+	background: var(--blue);
+}
+
+.o-btn-danger {
+	background: var(--red);
+}
+
+/* Efeito hover e active */
+.o-btn-success:not(:disabled):hover {
+	background: var(--green-dark);
+}
+
+.o-btn-success:not(:disabled):active {
+	background: var(--green);
+}
+
+.o-btn-info:not(:disabled):hover {
+	background: var(--blue-dark);
+}
+
+.o-btn-info:not(:disabled):active {
+	background: var(--blue);
+}
+
+.o-btn-danger:not(:disabled):hover {
+	background: var(--red-dark);
+}
+
+.o-btn-danger:not(:disabled):active {
+	background: var(--red);
+}

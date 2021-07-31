@@ -70,11 +70,6 @@
 <style scoped>
 	@import url('assets/styles/button.css');
 
-	.o-button {
-		height: 2.5rem;
-		padding: 1.1rem;
-	}
-
 	.o-button-block {
 		width: 100%;
 	}

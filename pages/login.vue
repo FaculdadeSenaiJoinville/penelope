@@ -1,31 +1,71 @@
+/* eslint-disable vue/no-unregistered-components */
 <template>
-	<div class="container">
-		<div>
-			<div>
-				<label for="email">E-mail</label>
-				<input v-model="user.email" name="email" type="text" />
-			</div>
-
-			<div>
-				<label for="password">Senha</label>
-				<input v-model="user.password" name="password" type="text" />
-			</div>
-		</div>
-
-		<div>
-			<div>
-				<button type="button" class="btn" @click="doLogin">
-					Entrar
-				</button>
-			</div>
-		</div>
-	</div>
+	<VContainer class="fill-height">
+		<VRow align="center">
+			<VCol>
+				<VRow>
+					<VCol class="d-flex justify-center">
+						<img src="../static/illustrations/skate.svg" />
+					</VCol>
+				</VRow>
+			</VCol>
+			<VCol>
+				<VCard elevation="4" class="rounded-lg">
+					<VRow align="center" justify="center">
+						<VCol class="ma-12">
+							<VRow>
+								<VCol>
+									<VTextField
+										v-model="user.email"
+										label="E-mail"
+										filled
+									/>
+								</VCol>
+							</VRow>
+							<VRow>
+								<VCol>
+									<VTextField
+										v-model="user.password"
+										label="password"
+										type="password"
+										filled
+									/>
+								</VCol>
+							</VRow>
+							<VRow>
+								<VCol class="d-flex justify-center">
+									<VBtn @click="doLogin">Entrar</VBtn>
+								</VCol>
+							</VRow>
+						</VCol>
+					</VRow>
+				</VCard>
+			</VCol>
+		</VRow>
+	</VContainer>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
+	import {
+		VContainer,
+		VRow,
+		VCol,
+		VBtn,
+		VCard,
+		VTextField
+	} from 'vuetify/lib';
 
 	export default Vue.extend({
+		components: {
+			VContainer,
+			VRow,
+			VCol,
+			VBtn,
+			VCard,
+			VTextField
+		},
+
 		data() {
 			return {
 				user: {
@@ -43,8 +83,7 @@
 					await this.$auth.loginWith('local', {
 						data: {
 							email,
-							password,
-							expiresIn: 84000
+							password
 						}
 					});
 				} catch (error) {

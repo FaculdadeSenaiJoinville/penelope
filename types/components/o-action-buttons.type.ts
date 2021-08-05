@@ -5,4 +5,5 @@ export type ActionButtonConfig = {
 	success?: boolean;
 	info?: boolean;
 	danger?: boolean;
+	title: string;
 };

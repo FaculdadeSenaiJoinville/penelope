@@ -1,15 +1,15 @@
 <template>
-	<div>
+	<section>
 		<div v-for="(button, index) in buttons" :key="'o-action-button-' + index" class="o-action-buttons-container">
 			<button type="button" :class="buttonClasses(index)" @click="button.action">
 				<div v-if="button.text">
 					teste
 				</div>
 
-				<OIcon v-if="button.icon" :name="button.icon" no-border-radius />
+				<OIcon v-if="button.icon" :name="button.icon" />
 			</button>
 		</div>
-	</div>
+	</section>
 </template>
 
 <script lang="ts">
@@ -23,7 +23,8 @@
 		},
 
 		props: {
-			buttons: { type: Array as () => ActionButtonConfig[], required: true }
+			buttons: { type: Array as () => ActionButtonConfig[], required: true },
+			spaces: { type: Array as () => string[], default: () => [] }
 		},
 
 		data() {
@@ -36,7 +37,7 @@
 
 		methods: {
 			buttonClasses(currentButtonIndex: number) {
-				const { buttons, warnMessages } = this;
+				const { buttons, spaces, warnMessages } = this;
 				const classes = ['btn', 'o-action-buttons'];
 				const isFirstButton = currentButtonIndex === 0;
 				const isLastButton = currentButtonIndex === buttons.length - 1;
@@ -57,6 +58,12 @@
 					classes.push('o-action-buttons-no-border-left-radius');
 				} else {
 					classes.push('o-action-buttons-no-border-radius');
+				}
+
+				if (spaces) {
+					for (const space of spaces) {
+						classes.push(`o-action-buttons-space-${space}`);
+					}
 				}
 
 				return classes.join(' ');
@@ -88,5 +95,25 @@
 	.o-action-buttons-no-border-left-radius {
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
+	}
+
+	.o-action-buttons-space-right {
+		margin-right: 1rem;
+	}
+
+	.o-action-buttons-space-left {
+		margin-left: 1rem;
+	}
+
+	.o-action-buttons-space-top {
+		margin-top: 1rem;
+	}
+
+	.o-action-buttons-space-bottom {
+		margin-bottom: 1rem;
+	}
+
+	.o-action-buttons-space-all {
+		margin: 1rem;
 	}
 </style>

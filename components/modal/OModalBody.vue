@@ -12,8 +12,7 @@
 
 <style scoped>
 	.o-modal-body {
-		padding: 1rem;
-		margin: 0 2rem;
+		padding: 1rem 3rem;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;

@@ -10,13 +10,8 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import OIcon from '~/components/OIcon.vue';
 
 	export default Vue.extend({
-		components: {
-			OIcon
-		},
-
 		data() {
 			return {
 				user: {

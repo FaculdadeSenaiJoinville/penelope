@@ -10,7 +10,10 @@
 		"plugin:nuxt/recommended",
 		"@nuxtjs/eslint-config-typescript"
 	],
-	"ignorePatterns": [],
+	"ignorePatterns": [
+		"dist",
+		".nuxt"
+	],
 	"rules": {
 		"camelcase": "off",
 		"quotes": [
@@ -21,7 +24,7 @@
 		"no-console": [
 			"error",
 			{
-				"allow": ["warn", "error"]
+				"allow": ["warn", "error", "info"]
 			}
 		],
 		"semi": ["error", "always"],

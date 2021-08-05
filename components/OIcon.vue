@@ -13,7 +13,7 @@
 		data() {
 			return {
 				warnMessages: {
-					iconNameIsRequired: 'O nome do ícone precisa ser informado! Ex: <OIcon>mdi-teste</OIcon>'
+					iconNameIsRequired: 'O nome do ícone precisa ser informado! Ex: <OIcon>close-thick</OIcon>'
 				}
 			};
 		},
@@ -24,7 +24,7 @@
 					name,
 					warnMessages
 				} = this;
-				const classes = ['o-icon', 'mdi', name];
+				const classes = ['o-icon', 'mdi', `mdi-${name}`];
 
 				if (!name) {
 					console.warn(warnMessages.iconNameIsRequired);

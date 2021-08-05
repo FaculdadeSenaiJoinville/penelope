@@ -40,7 +40,7 @@ const config: NuxtConfig = {
 		'@mdi/font/css/materialdesignicons.min.css'
 	],
 
-	plugins: [],
+	plugins: ['@/plugins/globalMethods'],
 
 	components: false,
 

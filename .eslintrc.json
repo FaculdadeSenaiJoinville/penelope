@@ -83,6 +83,7 @@
 		"vue/v-on-style": ["error", "shorthand"],
 		"vue/v-bind-style": ["error", "shorthand"],
 		"vue/require-explicit-emits": "off",
+		"vue/require-slots-as-functions": "off",
 		"vue/attributes-order": [
 			"error",
 			{

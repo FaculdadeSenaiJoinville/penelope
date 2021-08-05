@@ -1,15 +1,52 @@
 <template>
 	<section>
 		<div v-for="(button, index) in buttons" :key="'o-action-button-' + index" class="o-action-buttons-container">
+			<NuxtLink v-if="renderNuxtLinkButton(button)" :to="button.to">
+				<button
+					type="button"
+					:title="button.title"
+					:class="buttonClasses(index)"
+					@click="buttonAction(button)"
+				>
+					<template v-if="button.text">
+						{{ button.text }}
+					</template>
+
+					<OIcon v-if="button.icon" :name="button.icon" />
+				</button>
+			</NuxtLink>
+
+			<a
+				v-else-if="renderExternalLinkButton(button)"
+				:href="button.to"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<button
+					type="button"
+					:title="button.title"
+					:class="buttonClasses(index)"
+					@click="buttonAction(button)"
+				>
+					<template v-if="button.text">
+						{{ button.text }}
+					</template>
+
+					<OIcon v-if="button.icon" :name="button.icon" />
+				</button>
+			</a>
+
 			<button
+				v-else
 				type="button"
+				:title="button.title"
 				:class="buttonClasses(index)"
 				:disabled="button.disabled"
-				@click="button.action"
+				@click="buttonAction(button)"
 			>
-				<div v-if="button.text">
-					teste
-				</div>
+				<template v-if="button.text">
+					{{ button.text }}
+				</template>
 
 				<OIcon v-if="button.icon" :name="button.icon" />
 			</button>
@@ -34,15 +71,17 @@
 
 		data() {
 			return {
-				warnMessages: {
-					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para um botão do componente OActionButtons!'
+				defaultFunction: () => null,
+				errorMessages: {
+					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para um botão do componente OActionButtons!',
+					requireTitle: 'Botões de ícone devem ter a prop "title" informada no componente OActionButtons!'
 				}
 			};
 		},
 
 		methods: {
-			buttonClasses(currentButtonIndex: number) {
-				const { buttons, spaces, warnMessages } = this;
+			buttonClasses(currentButtonIndex: number): string {
+				const { buttons, spaces, errorMessages } = this;
 				const classes = ['btn', 'o-action-buttons'];
 				const isFirstButton = currentButtonIndex === 0;
 				const isLastButton = currentButtonIndex === buttons.length - 1;
@@ -54,7 +93,7 @@
 				} else if (buttons[currentButtonIndex].danger) {
 					classes.push('btn-danger');
 				} else {
-					console.warn(warnMessages.buttonTypeProps);
+					console.error(errorMessages.buttonTypeProps);
 				}
 
 				if (isFirstButton) {
@@ -72,6 +111,26 @@
 				}
 
 				return classes.join(' ');
+			},
+
+			renderNuxtLinkButton(button: ActionButtonConfig): boolean {
+				return Boolean(button.to && !button.externalLink && !button.disabled);
+			},
+
+			renderExternalLinkButton(button: ActionButtonConfig): boolean {
+				return Boolean(button.to && button.externalLink && !button.disabled);
+			},
+
+			buttonAction(button: ActionButtonConfig) {
+				return button.action ? button.action() : this.defaultFunction();
+			}
+		},
+
+		mounted() {
+			for (const button of this.buttons) {
+				if (button.icon && !button.title) {
+					console.error(this.errorMessages.requireTitle);
+				}
 			}
 		}
 	});

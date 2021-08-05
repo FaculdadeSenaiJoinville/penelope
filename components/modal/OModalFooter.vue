@@ -28,7 +28,7 @@
 	.o-modal-footer {
 		padding: 1rem;
 		display: flex;
-		border-top: 1px solid var(--gray-dark);
+		border-top: 1px solid var(--gray-medium);
 	}
 
 	.o-modal-footer-align-right {

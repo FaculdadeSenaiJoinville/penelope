@@ -82,6 +82,7 @@
 		"vue/require-prop-types": "error",
 		"vue/v-on-style": ["error", "shorthand"],
 		"vue/v-bind-style": ["error", "shorthand"],
+		"vue/require-explicit-emits": "off",
 		"vue/attributes-order": [
 			"error",
 			{

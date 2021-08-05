@@ -28,7 +28,7 @@
 		props: {
 			module: { type: String, required: true },
 			action: { type: String, required: true },
-			title: { type: String, required: true }
+			title: { type: String, default: '' }
 		},
 
 		computed: {
@@ -47,7 +47,7 @@
 		padding: 1rem;
 		display: flex;
 		justify-content: space-between;
-		border-bottom: 1px solid var(--gray-dark);
+		border-bottom: 1px solid var(--gray-medium);
 	}
 
 	.o-modal-header-title-container {

@@ -1,7 +1,12 @@
 <template>
 	<section>
 		<div v-for="(button, index) in buttons" :key="'o-action-button-' + index" class="o-action-buttons-container">
-			<button type="button" :class="buttonClasses(index)" @click="button.action">
+			<button
+				type="button"
+				:class="buttonClasses(index)"
+				:disabled="button.disabled"
+				@click="button.action"
+			>
 				<div v-if="button.text">
 					teste
 				</div>

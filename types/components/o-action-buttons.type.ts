@@ -6,4 +6,5 @@ export type ActionButtonConfig = {
 	info?: boolean;
 	danger?: boolean;
 	title: string;
+	disabled?: boolean;
 };

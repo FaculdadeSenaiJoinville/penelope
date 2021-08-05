@@ -1,15 +1,55 @@
 <template>
-	<button
-		type="button"
-		:class="btnClasses"
-		:disabled="disabled"
-		:title="title"
-		@click="action"
-	>
-		<slot />
+	<section>
+		<NuxtLink v-if="renderNuxtLinkButton" :to="to">
+			<button
+				type="button"
+				:class="btnClasses"
+				:title="title"
+				@click="action"
+			>
+				<template v-if="text">
+					{{ text }}
+				</template>
 
-		<OIcon v-if="icon" :name="icon" />
-	</button>
+				<OIcon v-if="icon" :name="icon" />
+			</button>
+		</NuxtLink>
+
+		<a
+			v-else-if="renderExternalLinkButton"
+			:href="to"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			<button
+				type="button"
+				:class="btnClasses"
+				:title="title"
+				@click="action"
+			>
+				<template v-if="text">
+					{{ text }}
+				</template>
+
+				<OIcon v-if="icon" :name="icon" />
+			</button>
+		</a>
+
+		<button
+			v-else
+			type="button"
+			:class="btnClasses"
+			:disabled="disabled"
+			:title="title"
+			@click="action"
+		>
+			<template v-if="text">
+				{{ text }}
+			</template>
+
+			<OIcon v-if="icon" :name="icon" />
+		</button>
+	</section>
 </template>
 
 <script lang="ts">
@@ -22,8 +62,11 @@
 		},
 
 		props: {
-			title: { type: String, required: true },
-			action: { type: Function, required: true },
+			title: { type: String, default: '' },
+			to: { type: String, default: '' },
+			noUpperCase: { type: Boolean, default: false },
+			externalLink: { type: Boolean, default: false },
+			action: { type: Function, default: () => null },
 			success: { type: Boolean, default: false },
 			info: { type: Boolean, default: false },
 			danger: { type: Boolean, default: false },
@@ -36,14 +79,15 @@
 
 		data() {
 			return {
-				warnMessages: {
-					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para o componente OButton!'
+				errorMessages: {
+					buttonTypeProps: 'Nenhuma das props "success", "info" ou "danger" foram passadas para o componente OButton!',
+					requireTitle: 'Botões de ícone devem ter a prop "title" informada no componente OButton!'
 				}
 			};
 		},
 
 		computed: {
-			btnClasses() {
+			btnClasses(): string {
 				const {
 					success,
 					info,
@@ -52,7 +96,7 @@
 					loading,
 					icon,
 					spaces,
-					warnMessages
+					errorMessages
 				} = this;
 				const classes = ['btn', 'o-button'];
 
@@ -63,7 +107,7 @@
 				} else if (danger) {
 					classes.push('btn-danger');
 				} else {
-					console.warn(warnMessages.buttonTypeProps);
+					console.error(errorMessages.buttonTypeProps);
 				}
 
 				if (icon) {
@@ -85,6 +129,35 @@
 				}
 
 				return classes.join(' ');
+			},
+
+			renderNuxtLinkButton(): boolean {
+				return Boolean(this.to && !this.externalLink && !this.disabled);
+			},
+
+			renderExternalLinkButton(): boolean {
+				return Boolean(this.to && this.externalLink && !this.disabled);
+			},
+
+			text(): string {
+				const slotDefault = this.$slots.default && this.$slots.default[0];
+				const slotText = slotDefault?.text;
+
+				if (slotText) {
+					if (this.noUpperCase) {
+						return slotText;
+					} else {
+						return slotText.toUpperCase();
+					}
+				}
+
+				return '';
+			}
+		},
+
+		mounted() {
+			if (this.icon && !this.title) {
+				console.error(this.errorMessages.requireTitle);
 			}
 		}
 	});
@@ -92,6 +165,10 @@
 
 <style scoped>
 	@import url('assets/styles/button.css');
+
+	.o-button {
+		letter-spacing: 0.1rem;
+	}
 
 	.o-button-with-icon {
 		padding: 0.5rem;

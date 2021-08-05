@@ -1,5 +1,5 @@
 <template>
-	<i ref="iconSlot" :class="iconClasses" />
+	<i :class="iconClasses" />
 </template>
 
 <script lang="ts">

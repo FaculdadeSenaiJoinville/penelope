@@ -1,0 +1,57 @@
+.btn {
+	height: 2.5rem;
+	padding: 1.1rem;
+	font-size: 1.25rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	border-radius: 10px;
+	color: var(--white);
+	transition: background-color 0.2s;
+}
+
+.btn:disabled {
+	background: var(--gray);
+	color: var(--gray-dark);
+	cursor: not-allowed;
+}
+
+/* Cores de background */
+.btn-success {
+	background: var(--green);
+}
+
+.btn-info {
+	background: var(--blue);
+}
+
+.btn-danger {
+	background: var(--red);
+}
+
+/* Efeito hover e active */
+.btn-success:not(:disabled):hover {
+	background: var(--green-dark);
+}
+
+.btn-success:not(:disabled):active {
+	background: var(--green);
+}
+
+.btn-info:not(:disabled):hover {
+	background: var(--blue-dark);
+}
+
+.btn-info:not(:disabled):active {
+	background: var(--blue);
+}
+
+.btn-danger:not(:disabled):hover {
+	background: var(--red-dark);
+}
+
+.btn-danger:not(:disabled):active {
+	background: var(--red);
+}

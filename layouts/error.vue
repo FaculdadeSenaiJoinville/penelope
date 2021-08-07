@@ -14,29 +14,26 @@
 				<img :src="require('~/static/illustrations/bored.png')" />
 			</template>
 
-			<NuxtLink to="/">
-				<button type="button" class="back-button">Voltar</button>
-			</NuxtLink>
+			<OButton success to="/">
+				{{ Dictionary.misc.getLabel('go-back') }}
+			</OButton>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
+	import OButton from '~/components/buttons/OButton.vue';
 
 	export default Vue.extend({
 		layout: 'default',
-		props: {
-			error: {
-				type: Object,
-				default: null
-			}
+
+		components: {
+			OButton
 		},
 
-		methods: {
-			backToHome() {
-				alert('ok');
-			}
+		props: {
+			error: { type: Object, default: null }
 		}
 	});
 </script>

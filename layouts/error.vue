@@ -15,7 +15,7 @@
 			</template>
 
 			<OButton success to="/">
-				{{ Dictionary.misc.getLabel('go-back') }}
+				{{ Dictionary.misc.getLabel('go_back') }}
 			</OButton>
 		</div>
 	</div>

@@ -11,10 +11,6 @@
 	color: var(--gray-dark)
 }
 
-.input-spacing {
-	margin-bottom: 1rem;
-}
-
 .input-block {
 	width: 100%;
 }

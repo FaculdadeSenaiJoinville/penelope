@@ -8,7 +8,7 @@
 
 			<div>
 				<label for="password">Senha</label>
-				<input v-model="user.password" name="password" type="text" />
+				<input v-model="user.password" name="password" type="password" />
 			</div>
 		</div>
 

@@ -1,5 +1,5 @@
 <template>
-	<section :class="searchBarClasses">
+	<section class="o-search-bar">
 		<input
 			:type="inputType"
 			name="serachbar"
@@ -38,8 +38,7 @@
 			text: { type: Boolean, default: false },
 			number: { type: Boolean, default: false },
 			value: { type: String, default: '' },
-			action: { type: Function, default: () => null },
-			noSpacing: { type: Boolean, default: false }
+			action: { type: Function, default: () => null }
 		},
 
 		computed: {
@@ -55,16 +54,6 @@
 
 					return '';
 				}
-			},
-
-			searchBarClasses(): string {
-				const classes = ['o-search-bar'];
-
-				if (!this.noSpacing) {
-					classes.push('o-search-bar-spacing');
-				}
-
-				return classes.join(' ');
 			},
 
 			inputPlaceholder(): string {
@@ -95,12 +84,7 @@
 	}
 
 	.o-search-bar-button {
-		display: inline-block;
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
-	}
-
-	.o-search-bar-spacing {
-		margin-bottom: 1rem;
 	}
 </style>

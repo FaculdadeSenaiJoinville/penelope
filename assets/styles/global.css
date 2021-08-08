@@ -59,3 +59,23 @@ a {
 	line-break: auto;
 	word-break: break-word;
 }
+
+.space-right {
+	margin-right: 1rem;
+}
+
+.space-left {
+	margin-left: 1rem;
+}
+
+.space-top {
+	margin-top: 1rem;
+}
+
+.space-bottom {
+	margin-bottom: 1rem;
+}
+
+.space-all {
+	margin: 1rem;
+}

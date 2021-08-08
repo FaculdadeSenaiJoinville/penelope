@@ -1,8 +1,8 @@
-.btn {
-	height: 2.5rem;
+.button {
+	height: 2.2rem;
 	padding: 1.1rem;
-	font-size: 1.25rem;
-	font-weight: 600;
+	font-size: 1rem;
+	font-weight: 800;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -12,46 +12,50 @@
 	transition: background-color 0.2s;
 }
 
-.btn:disabled {
+.icon-button {
+	width: 2.2rem;
+}
+
+.button:disabled {
 	background: var(--gray);
 	color: var(--gray-dark);
 	cursor: not-allowed;
 }
 
 /* Cores de background */
-.btn-success {
+.button-success {
 	background: var(--green);
 }
 
-.btn-info {
+.button-info {
 	background: var(--blue);
 }
 
-.btn-danger {
+.button-danger {
 	background: var(--red);
 }
 
 /* Efeito hover e active */
-.btn-success:not(:disabled):hover {
+.button-success:not(:disabled):hover {
 	background: var(--green-dark);
 }
 
-.btn-success:not(:disabled):active {
+.button-success:not(:disabled):active {
 	background: var(--green);
 }
 
-.btn-info:not(:disabled):hover {
+.button-info:not(:disabled):hover {
 	background: var(--blue-dark);
 }
 
-.btn-info:not(:disabled):active {
+.button-info:not(:disabled):active {
 	background: var(--blue);
 }
 
-.btn-danger:not(:disabled):hover {
+.button-danger:not(:disabled):hover {
 	background: var(--red-dark);
 }
 
-.btn-danger:not(:disabled):active {
+.button-danger:not(:disabled):active {
 	background: var(--red);
 }

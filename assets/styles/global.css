@@ -53,3 +53,9 @@ a {
 	color: inherit;
 	text-decoration: none;
 }
+
+.container {
+	margin: 0 30px;
+	line-break: auto;
+	word-break: break-word;
+}

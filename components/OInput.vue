@@ -22,13 +22,8 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import SpacesMixin from '~/mixins/spaces.mixin';
 
 	export default Vue.extend({
-		mixins: [
-			SpacesMixin
-		],
-
 		props: {
 			label: { type: String, default: '' },
 			placeholder: { type: String, default: '' },

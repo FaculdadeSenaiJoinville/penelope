@@ -15,10 +15,6 @@
 			class="button button-info icon-button o-search-bar-button"
 			@click="action"
 		>
-			<template v-if="text">
-				{{ text }}
-			</template>
-
 			<OIcon name="magnify" />
 		</button>
 	</section>

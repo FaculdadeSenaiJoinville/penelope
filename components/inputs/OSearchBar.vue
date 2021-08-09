@@ -1,7 +1,7 @@
 <template>
 	<section class="o-search-bar">
 		<input
-			:type="inputType"
+			type="text"
 			name="serachbar"
 			:value="value"
 			class="input o-search-bar-input"
@@ -35,27 +35,11 @@
 
 		props: {
 			placeholder: { type: String, default: '' },
-			text: { type: Boolean, default: false },
-			number: { type: Boolean, default: false },
 			value: { type: String, default: '' },
 			action: { type: Function, default: () => null }
 		},
 
 		computed: {
-			inputType(): string {
-				const { text, number } = this;
-
-				if (text) {
-					return 'text';
-				} else if (number) {
-					return 'number';
-				} else {
-					console.warn('Nenhuma das props "text" ou "number" está sendo passada para o componente OInput!');
-
-					return '';
-				}
-			},
-
 			inputPlaceholder(): string {
 				if (!this.placeholder) {
 					return `Digite aqui...`;

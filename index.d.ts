@@ -1,6 +1,5 @@
 import { Auth as NuxtAuth } from '@nuxtjs/auth-next';
 import Vue from 'vue';
-import { ISpacesMixins } from './mixins/spaces.mixin';
 import { IGlobalMethods } from './plugins/global.mixin';
 import { User } from './types/entities';
 
@@ -26,6 +25,4 @@ declare module 'vue/types/vue' {
 	}
 
 	interface Vue extends IGlobalMethods {}
-
-	interface Vue extends ISpacesMixins {}
 }

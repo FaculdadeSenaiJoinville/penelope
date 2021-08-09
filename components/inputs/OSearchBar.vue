@@ -41,11 +41,7 @@
 
 		computed: {
 			inputPlaceholder(): string {
-				if (!this.placeholder) {
-					return `Digite aqui...`;
-				}
-
-				return this.placeholder;
+				return !this.placeholder ? `${this.Dictionary.misc.getLabel('write_here')}...` : this.placeholder;
 			}
 		}
 	});

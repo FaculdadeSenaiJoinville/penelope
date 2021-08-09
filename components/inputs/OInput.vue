@@ -64,11 +64,7 @@
 			inputPlaceholder(): string {
 				const { placeholder, required } = this;
 
-				if (!placeholder && required) {
-					return `Digite aqui...`;
-				}
-
-				return placeholder;
+				return !placeholder && required ? `${this.Dictionary.misc.getLabel('write_here')}...` : this.placeholder;
 			}
 		}
 	});

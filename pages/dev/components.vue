@@ -30,6 +30,19 @@
 		</OCard>
 
 		<OCard class="space-bottom">
+			<OSelectList
+				v-model="user.type"
+				item-key="key"
+				item-name="name"
+				:options="types"
+			/>
+
+			{{ user.type }}
+
+			&lt;OSearchBar v-model="teste" :action="logTeste" />
+		</OCard>
+
+		<OCard class="space-bottom">
 			<OButton success>
 				Botão Success
 			</OButton>
@@ -63,8 +76,9 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import OInput from '~/components/OInput.vue';
-	import OSearchBar from '~/components/OSearchBar.vue';
+	import OInput from '~/components/inputs/OInput.vue';
+	import OSearchBar from '~/components/inputs/OSearchBar.vue';
+	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OActionButton from '~/components/buttons/OActionButtons.vue';
 	import OCard from '~/components/OCard.vue';
@@ -73,6 +87,7 @@
 		components: {
 			OInput,
 			OSearchBar,
+			OSelectList,
 			OButton,
 			OActionButton,
 			OCard
@@ -83,8 +98,15 @@
 				teste: '',
 
 				user: {
-					name: ''
+					name: '',
+					type: ''
 				},
+
+				types: [
+					{ key: 'ADMIN', name: 'Administrador' },
+					{ key: 'PROFESSOR', name: 'Professor' },
+					{ key: 'STUDENT', name: 'Estudante' }
+				],
 
 				buttons: [
 					{ icon: 'magnify', title: 'Btn Success', action: '', success: true },
@@ -96,7 +118,7 @@
 
 		methods: {
 			logTeste() {
-				console.info(this.teste);
+				console.info('sdsdsd');
 			}
 		}
 	});

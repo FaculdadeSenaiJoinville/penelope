@@ -1,76 +1,70 @@
 <template>
-	<section>
-		<OCard class="space-bottom">
-			<OInput
-				v-model="user.name"
-				text
-				name="name"
-				label="Nome"
-				required
-			/>
+	<section class="coomponents-container">
+		<div class="component-row space-bottom">
+			<OCard>
+				<OInput
+					v-model="user.name"
+					text
+					name="name"
+					label="Nome"
+					required
+				/>
+			</OCard>
 
-			&lt;OInput v-model="user.name" label="Nome" required />
-		</OCard>
+			<OCard>
+				<OInput
+					v-model="user.age"
+					number
+					name="age"
+					label="Idade"
+				/>
+			</OCard>
 
-		<OCard class="space-bottom">
-			<OInput
-				v-model="user.age"
-				number
-				name="age"
-				label="Idade"
-			/>
+			<OCard>
+				<OSelectList
+					v-model="user.type"
+					item-key="key"
+					item-name="name"
+					:options="types"
+				/>
 
-			&lt;OInput label="Idade" />
-		</OCard>
+				{{ user.type }}
+			</OCard>
 
-		<OCard class="space-bottom">
-			<OSearchBar v-model="teste" :action="logTeste" />
+			<OCard>
+				<OSearchBar v-model="teste" :action="logTeste" />
+			</OCard>
+		</div>
 
-			&lt;OSearchBar v-model="teste" :action="logTeste" />
-		</OCard>
+		<div class="component-row space-bottom">
+			<OCard>
+				<OButton success>
+					Botão Success
+				</OButton>
+			</OCard>
 
-		<OCard class="space-bottom">
-			<OSelectList
-				v-model="user.type"
-				item-key="key"
-				item-name="name"
-				:options="types"
-			/>
+			<OCard>
+				<OButton info>
+					Botão Info
+				</OButton>
+			</OCard>
 
-			{{ user.type }}
+			<OCard>
+				<OButton danger>
+					Botão Danger
+				</OButton>
+			</OCard>
 
-			&lt;OSearchBar v-model="teste" :action="logTeste" />
-		</OCard>
+			<OCard>
+				<OActionButton :buttons="buttons" />
+			</OCard>
+		</div>
 
-		<OCard class="space-bottom">
-			<OButton success>
-				Botão Success
-			</OButton>
-
-			&lt;OButton success>Botão Success&lt;/OButton>
-		</OCard>
-
-		<OCard class="space-bottom">
-			<OButton info>
-				Botão Info
-			</OButton>
-
-			&lt;OButton info>Botão Info&lt;/OButton>
-		</OCard>
-
-		<OCard class="space-bottom">
-			<OButton danger>
-				Botão Danger
-			</OButton>
-
-			&lt;OButton danger>Botão Danger&lt;/OButton>
-		</OCard>
-
-		<OCard>
-			<OActionButton :buttons="buttons" />
-
-			&lt;OActionButton :buttons="buttons" />
-		</OCard>
+		<div class="component-row">
+			<OCard>
+				<OActionCard icon="account-plus" description="Cadastrar um novo usuário" :action="logTeste" />
+			</OCard>
+		</div>
 	</section>
 </template>
 
@@ -82,6 +76,7 @@
 	import OButton from '~/components/buttons/OButton.vue';
 	import OActionButton from '~/components/buttons/OActionButtons.vue';
 	import OCard from '~/components/OCard.vue';
+	import OActionCard from '~/components/buttons/OActionCard.vue';
 
 	export default Vue.extend({
 		components: {
@@ -90,7 +85,8 @@
 			OSelectList,
 			OButton,
 			OActionButton,
-			OCard
+			OCard,
+			OActionCard
 		},
 
 		data() {
@@ -123,3 +119,15 @@
 		}
 	});
 </script>
+
+<style scoped>
+	.coomponents-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.component-row {
+		display: flex;
+		justify-content: space-around;
+	}
+</style>

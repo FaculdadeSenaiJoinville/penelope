@@ -8,11 +8,7 @@
 					:class="buttonClasses(index)"
 					@click="buttonAction(button)"
 				>
-					<template v-if="button.text">
-						{{ button.text }}
-					</template>
-
-					<OIcon v-if="button.icon" :name="button.icon" />
+					<OIcon :name="button.icon" />
 				</button>
 			</NuxtLink>
 
@@ -28,11 +24,7 @@
 					:class="buttonClasses(index)"
 					@click="buttonAction(button)"
 				>
-					<template v-if="button.text">
-						{{ button.text }}
-					</template>
-
-					<OIcon v-if="button.icon" :name="button.icon" />
+					<OIcon :name="button.icon" />
 				</button>
 			</a>
 
@@ -44,11 +36,7 @@
 				:disabled="button.disabled"
 				@click="buttonAction(button)"
 			>
-				<template v-if="button.text">
-					{{ button.text }}
-				</template>
-
-				<OIcon v-if="button.icon" :name="button.icon" />
+				<OIcon :name="button.icon" />
 			</button>
 		</div>
 	</section>
@@ -65,8 +53,7 @@
 		},
 
 		props: {
-			buttons: { type: Array as () => ActionButtonConfig[], required: true },
-			spaces: { type: Array as () => string[], default: () => [] }
+			buttons: { type: Array as () => ActionButtonConfig[], required: true }
 		},
 
 		data() {
@@ -81,17 +68,17 @@
 
 		methods: {
 			buttonClasses(currentButtonIndex: number): string {
-				const { buttons, spaces, errorMessages } = this;
-				const classes = ['btn', 'o-action-buttons'];
+				const { buttons, errorMessages } = this;
+				const classes = ['button', 'icon-button'];
 				const isFirstButton = currentButtonIndex === 0;
 				const isLastButton = currentButtonIndex === buttons.length - 1;
 
 				if (buttons[currentButtonIndex].success) {
-					classes.push('btn-success');
+					classes.push('button-success');
 				} else if (buttons[currentButtonIndex].info) {
-					classes.push('btn-info');
+					classes.push('button-info');
 				} else if (buttons[currentButtonIndex].danger) {
-					classes.push('btn-danger');
+					classes.push('button-danger');
 				} else {
 					console.error(errorMessages.buttonTypeProps);
 				}
@@ -102,12 +89,6 @@
 					classes.push('o-action-buttons-no-border-left-radius');
 				} else {
 					classes.push('o-action-buttons-no-border-radius');
-				}
-
-				if (spaces) {
-					for (const space of spaces) {
-						classes.push(`o-action-buttons-space-${space}`);
-					}
 				}
 
 				return classes.join(' ');
@@ -139,10 +120,6 @@
 <style scoped>
 	@import url('assets/styles/button.css');
 
-	.o-action-buttons {
-		padding: 0.5rem;
-	}
-
 	.o-action-buttons-container {
 		display: inline-block;
 	}
@@ -159,25 +136,5 @@
 	.o-action-buttons-no-border-left-radius {
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
-	}
-
-	.o-action-buttons-space-right {
-		margin-right: 1rem;
-	}
-
-	.o-action-buttons-space-left {
-		margin-left: 1rem;
-	}
-
-	.o-action-buttons-space-top {
-		margin-top: 1rem;
-	}
-
-	.o-action-buttons-space-bottom {
-		margin-bottom: 1rem;
-	}
-
-	.o-action-buttons-space-all {
-		margin: 1rem;
 	}
 </style>

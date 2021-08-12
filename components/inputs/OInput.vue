@@ -1,6 +1,10 @@
 <template>
 	<section :class="inputClasses">
-		<label v-if="label" :for="name">{{ label }}</label>
+		<div class="o-input-label">
+			<label v-if="label" :for="name">{{ label }}</label>
+
+			<span v-if="label && required" class="o-input-required-symbol">*</span>
+		</div>
 
 		<input
 			:type="inputType"
@@ -8,6 +12,9 @@
 			:aria-label="label"
 			:value="value"
 			:disabled="disabled"
+			:placeholder="inputPlaceholder"
+			class="input"
+			:required="required"
 			@input="$emit('input', $event.target.value)"
 		/>
 	</section>
@@ -19,13 +26,14 @@
 	export default Vue.extend({
 		props: {
 			label: { type: String, default: '' },
+			placeholder: { type: String, default: '' },
+			required: { type: Boolean, default: false },
 			text: { type: Boolean, default: false },
 			number: { type: Boolean, default: false },
 			name: { type: String, required: true },
 			value: { type: String, default: '' },
 			block: { type: Boolean, default: false },
-			disabled: { type: Boolean, default: false },
-			noSpacing: { type: Boolean, default: false }
+			disabled: { type: Boolean, default: false }
 		},
 
 		computed: {
@@ -46,21 +54,25 @@
 			inputClasses(): string {
 				const classes = ['o-input'];
 
-				if (!this.noSpacing) {
-					classes.push('o-input-spacing');
-				}
-
 				if (this.block) {
-					classes.push('o-input-block');
+					classes.push('input-block');
 				}
 
 				return classes.join(' ');
+			},
+
+			inputPlaceholder(): string {
+				const { placeholder, required } = this;
+
+				return !placeholder && required ? `${this.Dictionary.misc.getLabel('write_here')}...` : this.placeholder;
 			}
 		}
 	});
 </script>
 
 <style scoped>
+	@import url('assets/styles/input.css');
+
 	.o-input {
 		display: flex;
 		flex-direction: column;
@@ -68,25 +80,12 @@
 		width: 220px;
 	}
 
-	.o-input label {
-		margin-bottom: 0.2rem;
+	.o-input-label {
+		margin-bottom: 0.3rem;
 		font-weight: 600;
 	}
 
-	.o-input input {
-		height: 35px;
-		width: 100%;
-		border: 2px solid var(--gray-medium);
-		background: var(--gray-light);
-		border-radius: 10px;
-		padding: 0.5rem;
-	}
-
-	.o-input-block {
-		width: 100%;
-	}
-
-	.o-input-spacing {
-		margin-bottom: 1rem;
+	.o-input-required-symbol {
+		color: var(--red);
 	}
 </style>

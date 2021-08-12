@@ -8,7 +8,7 @@
 			</button>
 		</header>
 
-		<main>
+		<main class="container">
 			<OModal v-if="showModal" />
 			<Nuxt />
 		</main>

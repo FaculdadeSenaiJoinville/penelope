@@ -73,8 +73,7 @@
 			block: { type: Boolean, default: false },
 			loading: { type: Boolean, default: false },
 			disabled: { type: Boolean, default: false },
-			icon: { type: String, default: '' },
-			spaces: { type: Array as () => string[], default: () => [] }
+			icon: { type: String, default: '' }
 		},
 
 		data() {
@@ -95,29 +94,22 @@
 					block,
 					loading,
 					icon,
-					spaces,
 					errorMessages
 				} = this;
-				const classes = ['btn', 'o-button'];
+				const classes = ['button', 'o-button'];
 
 				if (success) {
-					classes.push('btn-success');
+					classes.push('button-success');
 				} else if (info) {
-					classes.push('btn-info');
+					classes.push('button-info');
 				} else if (danger) {
-					classes.push('btn-danger');
+					classes.push('button-danger');
 				} else {
 					console.error(errorMessages.buttonTypeProps);
 				}
 
 				if (icon) {
-					classes.push('o-button-with-icon');
-				}
-
-				if (spaces) {
-					for (const space of spaces) {
-						classes.push(`o-button-space-${space}`);
-					}
+					classes.push('icon-button');
 				}
 
 				if (loading) {
@@ -168,30 +160,7 @@
 
 	.o-button {
 		letter-spacing: 0.1rem;
-	}
-
-	.o-button-with-icon {
-		padding: 0.5rem;
-	}
-
-	.o-button-space-right {
-		margin-right: 1rem;
-	}
-
-	.o-button-space-left {
-		margin-left: 1rem;
-	}
-
-	.o-button-space-top {
-		margin-top: 1rem;
-	}
-
-	.o-button-space-bottom {
-		margin-bottom: 1rem;
-	}
-
-	.o-button-space-all {
-		margin: 1rem;
+		box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	}
 
 	.o-button-block {

@@ -1,12 +1,11 @@
 export type ActionButtonConfig = {
-	icon?: string;
-	text?: string;
+	icon: string;
 	action?: Function;
 	to?: string;
 	externalLink?: boolean;
 	success?: boolean;
 	info?: boolean;
 	danger?: boolean;
-	title?: string;
+	title: string;
 	disabled?: boolean;
 };

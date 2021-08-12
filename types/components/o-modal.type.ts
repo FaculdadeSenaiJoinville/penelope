@@ -1,4 +1,4 @@
 export type ModalConfigObject = {
-	modal: string;
+	modal: string,
 	[key: string]: string;
-}
+};

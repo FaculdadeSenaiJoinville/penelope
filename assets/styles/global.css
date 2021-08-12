@@ -82,3 +82,10 @@ a {
 .space-all {
 	margin: 1rem;
 }
+
+.modal-form-row {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin: 1rem 0;
+}

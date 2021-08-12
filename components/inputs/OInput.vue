@@ -12,7 +12,7 @@
 			:aria-label="label"
 			:value="value"
 			:disabled="disabled"
-			:placeholder="inputPlaceholder"
+			:placeholder="placeholder"
 			class="input"
 			:required="required"
 			@input="$emit('input', $event.target.value)"
@@ -30,6 +30,8 @@
 			required: { type: Boolean, default: false },
 			text: { type: Boolean, default: false },
 			number: { type: Boolean, default: false },
+			password: { type: Boolean, default: false },
+			email: { type: Boolean, default: false },
 			name: { type: String, required: true },
 			value: { type: String, default: '' },
 			block: { type: Boolean, default: false },
@@ -38,12 +40,16 @@
 
 		computed: {
 			inputType(): string {
-				const { text, number } = this;
+				const { text, number, password, email } = this;
 
 				if (text) {
 					return 'text';
 				} else if (number) {
 					return 'number';
+				} else if (password) {
+					return 'password';
+				} else if (email) {
+					return 'email';
 				} else {
 					console.warn('Nenhuma das props "text" ou "number" está sendo passada para o componente OInput!');
 
@@ -59,12 +65,6 @@
 				}
 
 				return classes.join(' ');
-			},
-
-			inputPlaceholder(): string {
-				const { placeholder, required } = this;
-
-				return !placeholder && required ? `${this.Dictionary.misc.getLabel('write_here')}...` : this.placeholder;
 			}
 		}
 	});

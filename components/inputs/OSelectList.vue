@@ -127,6 +127,8 @@
 		display: flex;
 		flex-direction: column;
 		text-align: left;
+		margin-top: 4.8px;
+		height: 35.2px;
 		width: 220px;
 	}
 

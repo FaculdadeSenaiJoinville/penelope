@@ -49,7 +49,24 @@ const config: NuxtConfig = {
 		['@nuxtjs/vuetify', { iconfont: 'mdi' }]
 	],
 
-	modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
+	modules: [
+		'@nuxtjs/axios',
+		'@nuxtjs/auth-next',
+		'@nuxtjs/toast'
+	],
+
+	toast: {
+		position: 'top-center',
+		register: [
+			{
+				name: 'unexpected_error',
+				message: 'Algo deu errado...',
+				options: {
+					type: 'error'
+				}
+			}
+		]
+	},
 
 	axios: {
 		baseURL: 'http://localhost:3000'

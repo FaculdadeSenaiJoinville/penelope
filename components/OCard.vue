@@ -10,13 +10,12 @@
 	export default Vue.extend({
 		props: {
 			block: { type: Boolean, default: false },
-			padding: { type: String, default: '1' },
-			width: { type: String, default: '100' }
+			padding: { type: String, default: '1' }
 		},
 
 		computed: {
 			cardClasses() {
-				const { block, padding, width } = this;
+				const { block, padding } = this;
 				const classes = ['o-card'];
 
 				if (block) {
@@ -25,10 +24,6 @@
 
 				if (padding) {
 					classes.push(`o-card-padding-${padding}`);
-				}
-
-				if (width) {
-					classes.push(`o-card-width-${width}`);
 				}
 
 				return classes.join(' ');
@@ -51,27 +46,18 @@
 	}
 
 	.o-card-padding-1 {
-		padding: 10px;
+		padding: 1.5rem;
 	}
 
 	.o-card-padding-2 {
-		padding: 15px;
+		padding: 2rem;
 	}
 
 	.o-card-padding-3 {
-		padding: 20px;
+		padding: 2.5rem;
 	}
 
 	.o-card-padding-4 {
-		padding: 30px;
+		padding: 3rem;
 	}
-
-	.o-card-width-80 {
-		width: 80%;
-	}
-
-	.o-card-width-100 {
-		width: 100%;
-	}
-
 </style>

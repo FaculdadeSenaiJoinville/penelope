@@ -1,25 +1,28 @@
 /* eslint-disable vue/no-unregistered-components */
 <template>
-	<div class="o-container">
-		<div class="container">
+	<div class="login-container">
+		<div class="login-container-items">
 			<img src="../static/illustrations/skate.svg" />
 		</div>
-		<div class="container">
-			<OCard style="margin: 0 auto" width="80" padding="4" block>
+
+		<div class="login-container-items">
+			<OCard padding="4" block>
 				<OInput
 					v-model="user.email"
+					text
 					name="email"
 					class="padding-bottom-20"
-					label="E-mail"
 					block
+					:label="Dictionary.users.getFieldName('email')"
 				/>
 
 				<OInput
 					v-model="user.password"
+					password
 					name="password"
 					class="padding-bottom-20"
-					label="Senha"
 					block
+					:label="Dictionary.users.getFieldName('password')"
 				/>
 
 				<OButton
@@ -28,7 +31,7 @@
 					success
 					@click="doLogin"
 				>
-					ENTRAR
+					{{ Dictionary.misc.getLabel('enter') }}
 				</OButton>
 			</OCard>
 		</div>
@@ -79,13 +82,17 @@
 </script>
 
 <style scoped>
-
-	.o-container {
+	.login-container {
 		min-height: 100vh;
 		display: flex;
 		align-items: center;
+		justify-content: space-around;
+	}
+
+	.login-container-items {
+		display: flex;
 		justify-content: center;
-		text-align: center;
+		width: 35%;
 	}
 
 	.padding-top-20 {

@@ -46,7 +46,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border: 1px solid var(--green);
+		color: var(--gray-blue-dark);
+		border: 1px solid var(--white-blue-dark);
 		border-radius: 10px;
 		box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);
 		background: linear-gradient(329.54deg, var(--white) 20%, var(--white-blue) 120%);

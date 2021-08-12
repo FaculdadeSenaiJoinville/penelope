@@ -1,0 +1,61 @@
+.button {
+	height: 2.2rem;
+	padding: 1.1rem;
+	font-size: 1rem;
+	font-weight: 800;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	border-radius: 10px;
+	color: var(--white);
+	transition: background-color 0.2s;
+}
+
+.icon-button {
+	width: 2.2rem;
+}
+
+.button:disabled {
+	background: var(--gray);
+	color: var(--gray-dark);
+	cursor: not-allowed;
+}
+
+/* Cores de background */
+.button-success {
+	background: var(--green);
+}
+
+.button-info {
+	background: var(--blue);
+}
+
+.button-danger {
+	background: var(--red);
+}
+
+/* Efeito hover e active */
+.button-success:not(:disabled):hover {
+	background: var(--green-dark);
+}
+
+.button-success:not(:disabled):active {
+	background: var(--green);
+}
+
+.button-info:not(:disabled):hover {
+	background: var(--blue-dark);
+}
+
+.button-info:not(:disabled):active {
+	background: var(--blue);
+}
+
+.button-danger:not(:disabled):hover {
+	background: var(--red-dark);
+}
+
+.button-danger:not(:disabled):active {
+	background: var(--red);
+}

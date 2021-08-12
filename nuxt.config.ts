@@ -35,13 +35,19 @@ const config: NuxtConfig = {
 		]
 	},
 
-	css: ['~/assets/styles/global.css'],
+	css: [
+		'~/assets/styles/global.css',
+		'@mdi/font/css/materialdesignicons.min.css'
+	],
 
-	plugins: [],
+	plugins: ['@/plugins/global.mixin.ts'],
 
 	components: false,
 
-	buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
+	buildModules: [
+		'@nuxt/typescript-build',
+		['@nuxtjs/vuetify', { iconfont: 'mdi' }]
+	],
 
 	modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 

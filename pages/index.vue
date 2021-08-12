@@ -1,13 +1,15 @@
 <template>
 	<div class="container">
-		<div v-if="$auth.user.type === 'ADMIN'">Cara é um adiminho kkkkk</div>
+		<div v-if="$auth.user.type === 'ADMIN'">
+			Cara é um adiminho kkkkk
+		</div>
 
-		<div v-if="$auth.user.type === 'PROFESSOR'">Oh o professor na área</div>
+		<div v-if="$auth.user.type === 'PROFESSOR'">
+			Oh o professor na área
+		</div>
 
-		<div v-if="$auth.user.type === 'STUDENT'">Estudantezin pah</div>
-
-		<div>
-			<button type="button" class="btn" @click="doLogout">Sair</button>
+		<div v-if="$auth.user.type === 'STUDENT'">
+			Estudantezin pah
 		</div>
 	</div>
 </template>
@@ -15,17 +17,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 
-	export default Vue.extend({
-		methods: {
-			async doLogout() {
-				await this.$axios.delete('http://localhost:3000/auth/logout');
-
-				this.$axios.setToken(false);
-
-				this.$router.push('/login');
-			}
-		}
-	});
+	export default Vue.extend({});
 </script>
 
 <style scoped>

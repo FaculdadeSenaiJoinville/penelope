@@ -1,4 +1,3 @@
-/* eslint-disable vue/no-unregistered-components */
 <template>
 	<div class="login-container">
 		<div class="login-container-items">
@@ -56,8 +55,8 @@
 		data() {
 			return {
 				user: {
-					email: 'mandrake@odyssey.com.br',
-					password: 'abcd1234'
+					email: null,
+					password: null
 				}
 			};
 		},
@@ -70,7 +69,8 @@
 					await this.$auth.loginWith('local', {
 						data: {
 							email,
-							password
+							password,
+							expiresIn: 84000
 						}
 					});
 				} catch (error) {

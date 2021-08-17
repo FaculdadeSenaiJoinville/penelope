@@ -4,6 +4,26 @@ export enum UserType {
 	STUDENT = 'STUDENT'
 }
 
+export class NewUser {
+	public name: string;
+
+	public email: string;
+
+	public type: UserType;
+
+	public password: string;
+
+	public confirm_password: string;
+
+	constructor() {
+		this.name = '';
+		this.email = '';
+		this.type = '' as UserType;
+		this.password = '';
+		this.confirm_password = '';
+	}
+}
+
 export type User = {
 	id: string;
 

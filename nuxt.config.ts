@@ -56,16 +56,9 @@ const config: NuxtConfig = {
 	],
 
 	toast: {
-		position: 'top-center',
-		register: [
-			{
-				name: 'unexpected_error',
-				message: 'Algo deu errado...',
-				options: {
-					type: 'error'
-				}
-			}
-		]
+		theme: 'bubble',
+		duration: 3500,
+		position: 'top-center'
 	},
 
 	axios: {

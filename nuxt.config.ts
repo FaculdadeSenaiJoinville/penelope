@@ -49,7 +49,17 @@ const config: NuxtConfig = {
 		['@nuxtjs/vuetify', { iconfont: 'mdi' }]
 	],
 
-	modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
+	modules: [
+		'@nuxtjs/axios',
+		'@nuxtjs/auth-next',
+		'@nuxtjs/toast'
+	],
+
+	toast: {
+		theme: 'bubble',
+		duration: 3500,
+		position: 'top-center'
+	},
 
 	axios: {
 		baseURL: 'http://localhost:3000'

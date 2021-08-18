@@ -24,6 +24,7 @@
 		"types": [
 			"@nuxt/types",
 			"@nuxtjs/axios",
+			"@nuxtjs/toast",
 			"@types/node",
 			"@nuxtjs/auth-next",
 			"vuetify"

@@ -96,7 +96,7 @@
 					icon,
 					errorMessages
 				} = this;
-				const classes = ['button', 'o-button'];
+				const classes = ['button'];
 
 				if (success) {
 					classes.push('button-success');
@@ -109,7 +109,9 @@
 				}
 
 				if (icon) {
-					classes.push('icon-button');
+					classes.push('o-button-icon icon-button');
+				} else {
+					classes.push('o-button');
 				}
 
 				if (loading) {
@@ -161,6 +163,11 @@
 	.o-button {
 		letter-spacing: 0.1rem;
 		box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+	}
+
+	.o-button-icon {
+		width: 40px;
+		height: 40px;
 	}
 
 	.o-button-block {

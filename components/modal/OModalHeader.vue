@@ -27,14 +27,14 @@
 
 		props: {
 			module: { type: String, required: true },
-			action: { type: String, required: true },
+			type: { type: String, required: true },
 			title: { type: String, default: '' }
 		},
 
 		computed: {
 			modalName(): string {
 				const moduleName = this.Dictionary.misc.getModule(this.module);
-				const actionName = this.Dictionary.misc.getLabel(this.action);
+				const actionName = this.Dictionary.misc.getLabel(this.type);
 
 				return `${moduleName} > ${actionName} >`;
 			}

@@ -1,13 +1,20 @@
 <template>
 	<section class="o-select-list">
+		<div class="o-select-list-label">
+			<label v-if="label" :for="name">{{ label }}</label>
+
+			<span v-if="label && required" class="o-input-required-symbol">*</span>
+		</div>
+
 		<div class="o-select-list-field">
 			<input
 				v-model="inputValue"
 				v-click-outside="closeMenu"
 				type="text"
-				name="serachbar"
+				:name="name"
 				:class="inputClasses"
-				:placeholder="inputPlaceholder"
+				:placeholder="placeholder"
+				:required="required"
 				@input="actionOnInput"
 				@focus="openMenu"
 			/>
@@ -39,6 +46,8 @@
 		},
 
 		props: {
+			label: { type: String, default: '' },
+			name: { type: String, required: true },
 			placeholder: { type: String, default: '' },
 			value: { type: String, default: '' },
 			itemKey: { type: String, default: 'id' },
@@ -63,19 +72,18 @@
 			},
 
 			inputClasses(): string {
+				const { isDropdownActive, label } = this;
 				const classes = ['input'];
 
-				if (this.isDropdownActive) {
+				if (isDropdownActive) {
 					classes.push('no-border-bottom-radius');
 				}
 
+				if (!label) {
+					classes.push('o-select-list-no-label');
+				}
+
 				return classes.join(' ');
-			},
-
-			inputPlaceholder(): string {
-				const { placeholder, required } = this;
-
-				return !placeholder && required ? `${this.Dictionary.misc.getLabel('write_here')}...` : this.placeholder;
 			}
 		},
 
@@ -128,6 +136,16 @@
 		flex-direction: column;
 		text-align: left;
 		width: 220px;
+	}
+
+	.o-select-list-no-label {
+		margin-top: 4.8px;
+		height: 35.2px;
+	}
+
+	.o-select-list-label {
+		margin-bottom: 0.3rem;
+		font-weight: 600;
 	}
 
 	.o-select-list-field {

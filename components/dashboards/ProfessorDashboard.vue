@@ -11,6 +11,12 @@
 	export default Vue.extend({
 		components: {
 			OActionCard
+		},
+
+		methods: {
+			openNewUserModal() {
+				this.openModal({ modal: 'users/new' });
+			}
 		}
 	});
 </script>

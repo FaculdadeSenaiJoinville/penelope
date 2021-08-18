@@ -9,6 +9,7 @@ import modules from './config/modules.config';
 import plugins from './config/plugins.config';
 import router from './config/router.config';
 import server from './config/server.config';
+import toast from './config/toast.config';
 
 const config: NuxtConfig = {
 	auth,
@@ -31,7 +32,9 @@ const config: NuxtConfig = {
 
 	router,
 
-	server
+	server,
+
+	toast
 };
 
 export default config;

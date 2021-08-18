@@ -3,6 +3,8 @@
 
 :root {
 	--white: #FFFFFF;
+	--white-blue: #DBF8FF;
+	--white-blue-dark: #B3DAE2;
 	--background: #EBF2F5;
 	--text-highlight: #b3b9FF;
 	--black: #4D6F80;
@@ -10,6 +12,7 @@
 	--gray: #EAEEF0;
 	--gray-medium: #D3E2E5;
 	--gray-dark: #8FA7B2;
+	--gray-blue-dark: #5C8599;
 	--red: #FF7474;
 	--red-dark: #EC6161;
 	--green: #4ED1B3;
@@ -78,4 +81,11 @@ a {
 
 .space-all {
 	margin: 1rem;
+}
+
+.modal-form-row {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin: 1rem 0;
 }

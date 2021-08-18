@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OActionCard icon="account-plus" description="Cadastrar um novo usuário" :action="openNewUserModal" />
+		<OActionCard icon="account-plus" :description="Dictionary.users.getLabel('create_new_user')" :action="openNewUserModal" />
 	</section>
 </template>
 

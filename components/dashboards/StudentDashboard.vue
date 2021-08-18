@@ -1,6 +1,6 @@
 <template>
 	<section>
-		User
+		Student
 
 		{{ $auth.user.type }}
 	</section>

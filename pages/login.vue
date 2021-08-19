@@ -28,7 +28,7 @@
 					class="o-button-block padding-top-20"
 					block
 					success
-					:action="doLogin"
+					:action="login"
 				>
 					{{ Dictionary.misc.getLabel('enter') }}
 				</OButton>
@@ -62,7 +62,7 @@
 		},
 
 		methods: {
-			async doLogin() {
+			async login() {
 				const { email, password } = this.user;
 
 				try {

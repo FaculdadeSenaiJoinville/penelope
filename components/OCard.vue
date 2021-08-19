@@ -9,15 +9,21 @@
 
 	export default Vue.extend({
 		props: {
-			block: { type: Boolean, default: false }
+			block: { type: Boolean, default: false },
+			padding: { type: String, default: '1' }
 		},
 
 		computed: {
 			cardClasses() {
+				const { block, padding } = this;
 				const classes = ['o-card'];
 
-				if (this.block) {
+				if (block) {
 					classes.push('o-card-block');
+				}
+
+				if (padding) {
+					classes.push(`o-card-padding-${padding}`);
 				}
 
 				return classes.join(' ');
@@ -37,5 +43,21 @@
 
 	.o-card-block {
 		width: 100%;
+	}
+
+	.o-card-padding-1 {
+		padding: 1.5rem;
+	}
+
+	.o-card-padding-2 {
+		padding: 2rem;
+	}
+
+	.o-card-padding-3 {
+		padding: 2.5rem;
+	}
+
+	.o-card-padding-4 {
+		padding: 3rem;
 	}
 </style>

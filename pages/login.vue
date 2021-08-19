@@ -28,7 +28,7 @@
 					class="o-button-block padding-top-20"
 					block
 					success
-					@click="doLogin"
+					:action="doLogin"
 				>
 					{{ Dictionary.misc.getLabel('enter') }}
 				</OButton>

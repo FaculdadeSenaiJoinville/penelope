@@ -80,6 +80,10 @@
 		width: 220px;
 	}
 
+	.o-input input {
+		width: 100%;
+	}
+
 	.o-input-label {
 		margin-bottom: 0.3rem;
 		font-weight: 600;

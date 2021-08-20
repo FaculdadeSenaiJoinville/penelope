@@ -45,3 +45,11 @@ export type User = {
 
 	updated_by?: string;
 };
+
+export class UserStatus {
+	public active: boolean;
+
+	constructor(user?: User) {
+		this.active = user ? user.active : true;
+	}
+}

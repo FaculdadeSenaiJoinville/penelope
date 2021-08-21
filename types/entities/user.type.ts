@@ -24,6 +24,17 @@ export class NewUser {
 	}
 }
 
+export class EditPassword {
+	public password: string;
+
+	public confirm_password: string;
+
+	constructor() {
+		this.password = '';
+		this.confirm_password = '';
+	}
+}
+
 export type User = {
 	id: string;
 

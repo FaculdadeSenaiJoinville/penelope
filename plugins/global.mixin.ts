@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import { DefaultProps } from 'vue/types/options';
 import { Dictionary, OdysseyDictionary } from 'odyssey-dictionary';
-import { Messages, ModalConfigObject } from '../types/global.mixin.type';
+import { Api, AxiosConfigObject, Messages, ModalConfigObject } from '../types/global.mixin.type';
 
 export interface IGlobalMethods {
 	Dictionary: OdysseyDictionary;
 	Messages: Messages;
+	api: Api;
 	openModal: (config: ModalConfigObject) => void;
 	closeModal: () => void;
 }
@@ -36,6 +37,60 @@ const GlobalMixin: DefaultProps = {
 
 				error(message: string) {
 					toast.error(message);
+				}
+			};
+		},
+
+		api() {
+			const axios = this.$axios;
+
+			return {
+				get(endpoint: string, query?: Object): Promise<any> {
+					const config: AxiosConfigObject = {};
+
+					if (query) {
+						config.query = query;
+					}
+
+					return axios.$get(endpoint, { query });
+				},
+
+				post(endpoint: string, data: Object, query?: Object): Promise<any> {
+					const config: AxiosConfigObject = {};
+
+					if (query) {
+						config.query = query;
+					}
+
+					if (data) {
+						config.data = data;
+					}
+
+					return axios.$post(endpoint, data);
+				},
+
+				put(endpoint: string, data: Object, query?: Object): Promise<any> {
+					const config: AxiosConfigObject = {};
+
+					if (query) {
+						config.query = query;
+					}
+
+					if (data) {
+						config.data = data;
+					}
+
+					return axios.$put(endpoint, data);
+				},
+
+				delete(endpoint: string, query?: Object): Promise<any> {
+					const config: AxiosConfigObject = {};
+
+					if (query) {
+						config.query = query;
+					}
+
+					return axios.$delete(endpoint);
 				}
 			};
 		}

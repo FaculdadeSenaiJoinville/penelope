@@ -145,6 +145,7 @@
 
 	.o-select-list-label {
 		margin-bottom: 0.3rem;
+		color: var(--gray-dark-2);
 		font-weight: 600;
 	}
 
@@ -169,7 +170,7 @@
 		margin-top: 2.2rem;
 		position: absolute;
 		border: 2px solid var(--green);
-		background: var(--gray-light);
+		background: var(--gray-1);
 		border-top: none;
 		border-radius: 0 0 10px 10px;
 	}
@@ -181,7 +182,7 @@
 	}
 
 	.o-select-list-item:hover {
-		background: var(--gray-medium);
+		background: var(--gray-3);
 	}
 
 	.o-select-list-last-item:hover {

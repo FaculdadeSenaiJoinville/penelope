@@ -56,7 +56,7 @@
 			<OButton
 				success
 				icon="content-save-all"
-				class="space-right"
+				class="space-right-1"
 				:action="saveAndNew"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save_and_new')"

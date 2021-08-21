@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
+@import url('assets/styles/global/spaces');
 
 :root {
 	--white: #FFFFFF;
@@ -8,11 +9,11 @@
 	--background: #EBF2F5;
 	--text-highlight: #b3b9FF;
 	--black: #4D6F80;
-	--gray-light: #F5F8FA;
-	--gray: #EAEEF0;
-	--gray-medium: #D3E2E5;
-	--gray-dark: #8FA7B2;
-	--gray-blue-dark: #5C8599;
+	--gray-1: #F5F8FA;
+	--gray-2: #EAEEF0;
+	--gray-3: #D3E2E5;
+	--gray-dark-1: #8FA7B2;
+	--gray-dark-2: #5C8599;
 	--red: #FF7474;
 	--red-dark: #EC6161;
 	--green: #4ED1B3;
@@ -41,7 +42,7 @@
 
 body {
 	background: var(--background);
-	color: var(--gray-dark);
+	color: var(--gray-dark-1);
 }
 
 body, input, textarea, button {
@@ -61,26 +62,6 @@ a {
 	margin: 0 30px;
 	line-break: auto;
 	word-break: break-word;
-}
-
-.space-right {
-	margin-right: 1rem;
-}
-
-.space-left {
-	margin-left: 1rem;
-}
-
-.space-top {
-	margin-top: 1rem;
-}
-
-.space-bottom {
-	margin-bottom: 1rem;
-}
-
-.space-all {
-	margin: 1rem;
 }
 
 .modal-form-row {

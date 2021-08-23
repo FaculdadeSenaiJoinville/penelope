@@ -34,6 +34,8 @@ const config: NuxtConfig = {
 
 	server,
 
+	target: 'static',
+
 	toast
 };
 

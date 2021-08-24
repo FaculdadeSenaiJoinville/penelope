@@ -1,42 +1,139 @@
+import colors from 'vuetify/es5/util/colors';
 import { NuxtConfig } from '@nuxt/types';
-import auth from './config/auth.config';
-import axios from './config/axios.config';
-import buildModules from './config/build-modules.config';
-import build from './config/build.config';
-import css from './config/css.config';
-import head from './config/head.config';
-import modules from './config/modules.config';
-import plugins from './config/plugins.config';
-import router from './config/router.config';
-import server from './config/server.config';
-import toast from './config/toast.config';
 
 const config: NuxtConfig = {
-	auth,
+	head: {
+		titleTemplate: '%s - penelope',
+		title: 'penelope',
+		htmlAttrs: {
+			lang: 'pt-br'
+		},
+		meta: [
+			{
+				charset: 'utf-8'
+			},
+			{
+				name: 'viewport',
+				content: 'width=device-width, initial-scale=1'
+			},
+			{
+				hid: 'description',
+				name: 'description',
+				content: ''
+			},
+			{
+				name: 'format-detection',
+				content: 'telephone=no'
+			}
+		],
+		link: [
+			{
+				rel: 'icon',
+				type: 'image/x-icon',
+				href: '/favicon.ico'
+			}
+		]
+	},
 
-	axios,
+	css: [
+		'~/assets/styles/global.css',
+		'@mdi/font/css/materialdesignicons.min.css'
+	],
 
-	buildModules,
-
-	build,
+	plugins: ['@/plugins/global.mixin.ts'],
 
 	components: false,
 
-	css,
+	buildModules: [
+		'@nuxt/typescript-build',
+		['@nuxtjs/vuetify', { iconfont: 'mdi' }]
+	],
 
-	head,
+	modules: [
+		'@nuxtjs/axios',
+		'@nuxtjs/auth-next',
+		'@nuxtjs/toast'
+	],
 
-	modules,
+	toast: {
+		theme: 'bubble',
+		duration: 3500,
+		position: 'top-center'
+	},
 
-	plugins,
+	axios: {
+		baseURL: 'http://localhost:3000'
+	},
 
-	router,
+	router: {
+		middleware: ['base-auth']
+	},
 
-	server,
+	server: {
+		port: 8080
+	},
 
-	target: 'static',
+	auth: {
+		strategies: {
+			local: {
+				token: {
+					property: 'token',
+					required: true,
+					type: 'Bearer'
+				},
 
-	toast
+				user: {
+					property: false,
+					autoFetch: true
+				},
+
+				endpoints: {
+					login: {
+						url: '/auth/login',
+						method: 'post'
+					},
+
+					logout: {
+						url: '/auth/logout',
+						method: 'delete'
+					},
+
+					user: {
+						url: '/auth/me',
+						method: 'get'
+					}
+				}
+			}
+		},
+		redirect: {
+			login: '/login',
+			logout: '/login',
+			home: '/'
+		},
+		watchLoggedIn: true
+	},
+
+	vuetify: {
+		customVariables: ['~/assets/styles/variables.scss'],
+		theme: {
+			dark: false,
+			themes: {
+				dark: {
+					primary: colors.blue.darken2,
+					accent: colors.grey.darken3,
+					secondary: colors.amber.darken3,
+					info: colors.teal.lighten1,
+					warning: colors.amber.base,
+					error: colors.deepOrange.accent4,
+					success: colors.green.accent3
+				}
+			}
+		}
+	},
+
+	build: {
+		transpile: ['vuetify/lib']
+	}
 };
 
 export default config;

@@ -1,8 +1,8 @@
 import { NuxtOptionsHead } from '@nuxt/types/config/head';
 
 const head: NuxtOptionsHead = {
-	titleTemplate: '%s - penelope',
-	title: 'penelope',
+	titleTemplate: 'Odyssey',
+	title: 'Odyssey',
 	htmlAttrs: {
 		lang: 'pt-br'
 	},

@@ -1,82 +1,82 @@
 name: Vercel Deploy
 on: [pull_request]
 jobs:
-	code-analysis:
-		name: Analyze
-		runs-on: ubuntu-latest
-		permissions:
-		actions: read
-		contents: read
-		security-events: write
+  code-analysis:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+    actions: read
+    contents: read
+    security-events: write
 
-		strategy:
-		fail-fast: false
-		matrix:
-			language: [ 'javascript' ]
+    strategy:
+    fail-fast: false
+    matrix:
+      language: [ 'javascript' ]
 
-		steps:
-		- name: Checkout repository
-		uses: actions/checkout@v2
+    steps:
+    - name: Checkout repository
+    uses: actions/checkout@v2
 
-		- name: Initialize CodeQL
-		uses: github/codeql-action/init@v1
-		with:
-			languages: ${{ matrix.language }}
+    - name: Initialize CodeQL
+    uses: github/codeql-action/init@v1
+    with:
+      languages: ${{ matrix.language }}
 
-		- name: Autobuild
-		uses: github/codeql-action/autobuild@v1
+    - name: Autobuild
+    uses: github/codeql-action/autobuild@v1
 
-		- name: Perform CodeQL Analysis
-		uses: github/codeql-action/analyze@v1
+    - name: Perform CodeQL Analysis
+    uses: github/codeql-action/analyze@v1
 
-	ci:
-		name: CI
-		needs: code-analysis
-		runs-on: ${{ matrix.os }}
+  ci:
+    name: CI
+    needs: code-analysis
+    runs-on: ${{ matrix.os }}
 
-		strategy:
-		matrix:
-			os: [ubuntu-latest]
-			node: [14.17.3]
+    strategy:
+    matrix:
+      os: [ubuntu-latest]
+      node: [14.17.3]
 
-		steps:
-		- name: Checkout 🛎
-			uses: actions/checkout@master
+    steps:
+    - name: Checkout 🛎
+      uses: actions/checkout@master
 
-		- name: Setup node env 🏗
-			uses: actions/setup-node@v2.1.5
-			with:
-			node-version: ${{ matrix.node }}
-			check-latest: true
+    - name: Setup node env 🏗
+      uses: actions/setup-node@v2.1.5
+      with:
+      node-version: ${{ matrix.node }}
+      check-latest: true
 
-		- name: Get yarn cache directory path 🛠
-			id: yarn-cache-dir-path
-			run: echo "::set-output name=dir::$(yarn cache dir)"
+    - name: Get yarn cache directory path 🛠
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
 
-		- name: Cache node_modules 📦
-			uses: actions/cache@v2.1.4
-			id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-			with:
-			path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-			key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-			restore-keys: |
-				${{ runner.os }}-yarn-
+    - name: Cache node_modules 📦
+      uses: actions/cache@v2.1.4
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+      path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+      key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-yarn-
 
-		- name: Install dependencies 👨🏻‍💻
-			run: yarn
+    - name: Install dependencies 👨🏻‍💻
+      run: yarn
 
-		- name: Run linter 👀
-			run: yarn lint
+    - name: Run linter 👀
+      run: yarn lint
 
-	deploy:
-		name: Deploy
-		needs: ci
-		runs-on: ubuntu-latest
-		steps:
-		- uses: actions/checkout@v2
-		- uses: amondnet/vercel-action@v19
-			with:
-			vercel-token: ${{ secrets.VERCEL_TOKEN }}
-			github-token: ${{ secrets.GITHUB_TOKEN }}
-			vercel-args: '--prod'
-			working-directory: ./
+  deploy:
+    name: Deploy
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: amondnet/vercel-action@v19
+      with:
+      vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      vercel-args: '--prod'
+      working-directory: ./

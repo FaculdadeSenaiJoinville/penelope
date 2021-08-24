@@ -8,6 +8,7 @@ export interface IGlobalMethods {
 	Messages: Messages;
 	openModal: (config: ModalConfigObject) => void;
 	closeModal: () => void;
+	sameObject: (obj1: any, obj2: any) => boolean;
 }
 
 const GlobalMixin: DefaultProps = {
@@ -48,6 +49,10 @@ const GlobalMixin: DefaultProps = {
 
 		closeModal(): void {
 			this.$router.replace({ query: {} });
+		},
+
+		sameObject(obj1: any, obj2: any): boolean {
+			return JSON.stringify(obj1) === JSON.stringify(obj2);
 		}
 	}
 };

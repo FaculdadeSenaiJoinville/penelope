@@ -4,7 +4,7 @@
 
 		<OModalBody>
 			<div class="modal-form-row">
-				<h1>Deseja mesmo alterar o status do usuário para '{{ nextStatus }}'?</h1>
+				<h1>{{ Dictionary.users.getLabel('confirm_status_change', { next_status: nextStatus }) }}</h1>
 			</div>
 		</OModalBody>
 

@@ -5,14 +5,14 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
-    actions: read
-    contents: read
-    security-events: write
+      actions: read
+      contents: read
+      security-events: write
 
     strategy:
-    fail-fast: false
-    matrix:
-      language: [ 'javascript' ]
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
 
     steps:
       - name: Checkout repository
@@ -35,9 +35,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-    matrix:
-      os: [ubuntu-latest]
-      node: [14.17.3]
+      matrix:
+        os: [ubuntu-latest]
+        node: [14.17.3]
 
     steps:
       - name: Checkout 🛎

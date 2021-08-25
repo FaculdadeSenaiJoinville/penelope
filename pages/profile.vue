@@ -46,9 +46,9 @@
 
 			<button
 				type="button"
-				class="button button-success card-btn"
+				class="button button-success card-btn uppercase-text"
 			>
-				{{ Dictionary.users.getMessages('visualize_all_trails') }}
+				{{ Dictionary.users.getMessage('visualize_all_trails') }}
 			</button>
 		</div>
 	</section>
@@ -153,5 +153,9 @@
 		background-color: var(--gray-dark-1);
 		width: 100px;
 		height: 100px;
+	}
+
+	.uppercase-text {
+		text-transform: uppercase !important;
 	}
 </style>

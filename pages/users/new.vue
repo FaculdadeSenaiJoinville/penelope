@@ -30,8 +30,6 @@
 					required
 				/>
 
-				{{ userData.type }}
-
 				<OInput
 					v-model="userData.password"
 					password

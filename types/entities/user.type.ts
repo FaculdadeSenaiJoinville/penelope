@@ -4,6 +4,28 @@ export enum UserType {
 	STUDENT = 'STUDENT'
 }
 
+export type User = {
+	id: string;
+
+	name: string;
+
+	email: string;
+
+	password: string;
+
+	active: boolean;
+
+	type: UserType;
+
+	created_at: Date;
+
+	updated_at: Date;
+
+	created_by?: string;
+
+	updated_by?: string;
+};
+
 export class NewUser {
 	public name: string;
 
@@ -35,24 +57,24 @@ export class EditPassword {
 	}
 }
 
-export type User = {
-	id: string;
+export class EditUser {
+	public name: string;
 
-	name: string;
+	public email: string;
 
-	email: string;
+	public type: UserType;
 
-	password: string;
-
-	active: boolean;
-
-	type: UserType;
-
-	created_at: Date;
-
-	updated_at: Date;
-
-	created_by?: string;
-
-	updated_by?: string;
+	constructor(user?: User) {
+		this.name = user ? user.name : '';
+		this.email = user ? user.email : '';
+		this.type = (user ? user.type : '') as UserType;
+	}
 };
+
+export class UserStatus {
+	public active: boolean;
+
+	constructor(user?: User) {
+		this.active = user ? user.active : true;
+	}
+}

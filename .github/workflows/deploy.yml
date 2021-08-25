@@ -3,7 +3,6 @@ on: [pull_request]
 jobs:
   deploy:
     name: Deploy
-    needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,5 +12,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: '--prod'
           working-directory: ./

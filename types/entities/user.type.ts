@@ -58,4 +58,12 @@ export class EditUser {
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 	}
+};
+
+export class UserStatus {
+	public active: boolean;
+
+	constructor(user?: User) {
+		this.active = user ? user.active : true;
+	}
 }

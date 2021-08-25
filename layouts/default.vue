@@ -3,10 +3,26 @@
 		<header class="navbar">
 			<span @click="sendToHome">ODYSSEY</span>
 
-			<button type="button" class="btn" @click="doLogout">
-				Sair
+			<button v-click-outside="closeDropdown" type="button" @click="changeDropdownStatus">
+				{{ $auth.user.name }}
 			</button>
 		</header>
+
+		<div
+			v-if="showDropdown"
+			v-click-outside="closeDropdown"
+			class="dropdown"
+		>
+			<div class="dropdown-item" @click="changeDropdownStatus">
+				<NuxtLink to="/profile">
+					{{ Dictionary.misc.getLabel('profile') }}
+				</NuxtLink>
+			</div>
+
+			<div class="dropdown-item" @click="doLogout">
+				{{ Dictionary.misc.getLabel('exit') }}
+			</div>
+		</div>
 
 		<main class="container">
 			<OModal v-if="showModal" />
@@ -24,6 +40,12 @@
 			OModal
 		},
 
+		data() {
+			return {
+				showDropdown: false
+			};
+		},
+
 		computed: {
 			showModal() {
 				return Boolean(this.$route.query.modal);
@@ -31,9 +53,20 @@
 		},
 
 		methods: {
+			closeDropdown() {
+				if (this.showDropdown) {
+					this.showDropdown = false;
+				}
+			},
+
+			changeDropdownStatus() {
+				this.showDropdown = !this.showDropdown;
+			},
+
 			async doLogout() {
-				await this.$auth.logout();
-				await this.$auth.refreshTokens();
+				await this.$axios.delete('/auth/logout');
+
+				location.reload();
 			},
 
 			sendToHome() {
@@ -72,6 +105,22 @@
 		color: var(--green);
 		user-select: none;
 		cursor: pointer;
+	}
+
+	.dropdown {
+		position: absolute;
+		right: 0.5rem;
+		border: 1px solid var(--white-blue-dark);
+		background: var(--gray-1);
+		border-radius: 10px;
+		padding: 0.5rem;
+		min-width: 100px;
+		text-align: center;
+	}
+
+	.dropdown-item {
+		cursor: pointer;
+		margin: 1rem 0;
 	}
 
 	main {

@@ -74,7 +74,7 @@
 						}
 					});
 				} catch (error) {
-					// usar biblioteca do nuxt para alertas (ver com o matheus)
+					this.Messages.requestFailed(error);
 				}
 			}
 		}

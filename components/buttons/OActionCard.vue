@@ -46,7 +46,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: var(--gray-blue-dark);
+		color: var(--gray-dark-2);
 		border: 1px solid var(--white-blue-dark);
 		border-radius: 10px;
 		box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);

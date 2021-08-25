@@ -1,14 +1,14 @@
 .input {
 	height: 2.2rem;
 	width: 100%;
-	border: 2px solid var(--gray-medium);
-	background: var(--gray-light);
+	border: 2px solid var(--gray-3);
+	background: var(--gray-1);
 	border-radius: 10px;
 	padding: 0.5rem;
 }
 
 .input::placeholder {
-	color: var(--gray-dark)
+	color: var(--gray-dark-1)
 }
 
 .input-block {

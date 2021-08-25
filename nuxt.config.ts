@@ -3,8 +3,8 @@ import { NuxtConfig } from '@nuxt/types';
 
 const config: NuxtConfig = {
 	head: {
-		titleTemplate: '%s - penelope',
-		title: 'penelope',
+		titleTemplate: 'Odyssey',
+		title: 'Odyssey',
 		htmlAttrs: {
 			lang: 'pt-br'
 		},
@@ -36,7 +36,7 @@ const config: NuxtConfig = {
 	},
 
 	css: [
-		'~/assets/styles/global.css',
+		'~/assets/styles/global/global.css',
 		'@mdi/font/css/materialdesignicons.min.css'
 	],
 

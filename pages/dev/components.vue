@@ -1,6 +1,6 @@
 <template>
 	<section class="coomponents-container">
-		<div class="component-row space-bottom">
+		<div class="component-row space-bottom-1">
 			<OCard>
 				<OInput
 					v-model="user.name"
@@ -36,7 +36,7 @@
 			</OCard>
 		</div>
 
-		<div class="component-row space-bottom">
+		<div class="component-row space-bottom-1">
 			<OCard>
 				<OButton success>
 					Botão Success

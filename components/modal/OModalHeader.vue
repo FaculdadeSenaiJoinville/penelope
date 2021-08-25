@@ -47,7 +47,7 @@
 		padding: 1rem;
 		display: flex;
 		justify-content: space-between;
-		border-bottom: 1px solid var(--gray-medium);
+		border-bottom: 1px solid var(--gray-3);
 	}
 
 	.o-modal-header-title-container {

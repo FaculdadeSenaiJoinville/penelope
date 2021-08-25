@@ -41,14 +41,14 @@
 
 		<div class="card-container">
 			<div class="profile-card">
-				Tamo Trabalhando Nisso Ainda
+				Work in progress...
 			</div>
 
 			<button
 				type="button"
 				class="button button-success card-btn"
 			>
-				VISUALIZAR TODAS AS TRILHAS
+				{{ Dictionary.users.getMessages('visualize_all_trails') }}
 			</button>
 		</div>
 	</section>

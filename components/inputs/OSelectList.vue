@@ -88,7 +88,7 @@
 
 			noDataTextValue() {
 				if (!this.noDataText) {
-					return this.Dictionary.misc.getLabel('no_data_found');
+					return this.Dictionary.misc.getMessage('no_data_found');
 				}
 
 				return this.noDataText;

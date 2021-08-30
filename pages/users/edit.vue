@@ -3,13 +3,14 @@
 		<OModalHeader module="users" type="edit" />
 
 		<OModalBody>
-			<div class="modal-form-row">
+			<VForm ref="form" class="form">
 				<OInput
 					v-model="userData.name"
 					text
 					:label="Dictionary.users.getFieldName('name')"
 					name="name"
 					required
+					class="space-top-1"
 				/>
 
 				<OInput
@@ -18,18 +19,18 @@
 					:label="Dictionary.users.getFieldName('email')"
 					name="email"
 					required
+					class="space-top-1"
 				/>
-			</div>
 
-			<div class="modal-form-row">
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
 					:options="userTypes"
 					name="type"
 					required
+					class="space-top-bottom-1"
 				/>
-			</div>
+			</VForm>
 		</OModalBody>
 
 		<OModalFooter>
@@ -46,6 +47,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { VForm } from 'vuetify/lib';
 	import { EditUser, UserType } from '~/types/entities/user.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
@@ -59,6 +61,7 @@
 			OModalHeader,
 			OModalBody,
 			OModalFooter,
+			VForm,
 			OInput,
 			OSelectList,
 			OButton

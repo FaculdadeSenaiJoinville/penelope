@@ -1,7 +1,7 @@
 <template>
 	<div class="login-container">
 		<div class="login-container-items">
-			<img src="../static/illustrations/skate.svg" />
+			<img src="../../static/illustrations/skate.svg" />
 		</div>
 
 		<div class="login-container-items">

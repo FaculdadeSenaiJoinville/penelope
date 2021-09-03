@@ -34,7 +34,9 @@ const config: NuxtConfig = {
 
 	server,
 
-	toast
+	toast,
+
+	target: 'static'
 };
 
 export default config;

@@ -86,6 +86,7 @@
 
 	.o-input-label {
 		margin-bottom: 0.3rem;
+		color: var(--gray-dark-2);
 		font-weight: 600;
 	}
 

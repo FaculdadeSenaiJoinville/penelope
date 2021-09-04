@@ -1,143 +1,43 @@
-import colors from 'vuetify/es5/util/colors';
 import { NuxtConfig } from '@nuxt/types';
+import auth from './config/auth.config';
+import axios from './config/axios.config';
+import buildModules from './config/build-modules.config';
+import build from './config/build.config';
+import css from './config/css.config';
+import head from './config/head.config';
+import modules from './config/modules.config';
+import plugins from './config/plugins.config';
+import router from './config/router.config';
+import server from './config/server.config';
+import toast from './config/toast.config';
 
 const config: NuxtConfig = {
 	ssr: false,
 	target: 'static',
 
-	head: {
-		titleTemplate: 'Odyssey',
-		title: 'Odyssey',
-		htmlAttrs: {
-			lang: 'pt-br'
-		},
-		meta: [
-			{
-				charset: 'utf-8'
-			},
-			{
-				name: 'viewport',
-				content: 'width=device-width, initial-scale=1'
-			},
-			{
-				hid: 'description',
-				name: 'description',
-				content: ''
-			},
-			{
-				name: 'format-detection',
-				content: 'telephone=no'
-			}
-		],
-		link: [
-			{
-				rel: 'icon',
-				type: 'image/x-icon',
-				href: '/favicon.ico'
-			}
-		]
-	},
+	auth,
 
-	css: [
-		'~/assets/styles/global/global.css',
-		'@mdi/font/css/materialdesignicons.min.css'
-	],
+	axios,
 
-	plugins: ['@/plugins/global.mixin.ts'],
+	buildModules,
+
+	build,
 
 	components: false,
 
-	buildModules: [
-		'@nuxt/typescript-build',
-		['@nuxtjs/vuetify', { iconfont: 'mdi' }]
-	],
+	css,
 
-	modules: [
-		'@nuxtjs/axios',
-		'@nuxtjs/auth-next',
-		'@nuxtjs/toast'
-	],
+	head,
 
-	toast: {
-		theme: 'bubble',
-		duration: 3500,
-		position: 'top-center'
-	},
+	modules,
 
-	axios: {
-		baseURL: 'http://localhost:3000'
-	},
+	plugins,
 
-	router: {
-		middleware: ['base-auth']
-	},
+	router,
 
-	server: {
-		port: 8080
-	},
+	server,
 
-	auth: {
-		strategies: {
-			local: {
-				token: {
-					property: 'token',
-					required: true,
-					type: 'Bearer'
-				},
-
-				user: {
-					property: false,
-					autoFetch: true
-				},
-
-				endpoints: {
-					login: {
-						url: '/auth/login',
-						method: 'post'
-					},
-
-					logout: {
-						url: '/auth/logout',
-						method: 'delete'
-					},
-
-					user: {
-						url: '/auth/me',
-						method: 'get'
-					}
-				}
-			}
-		},
-		redirect: {
-			login: '/login',
-			logout: '/login',
-			home: '/'
-		},
-		watchLoggedIn: true
-	},
-
-	vuetify: {
-		customVariables: ['~/assets/styles/variables.scss'],
-		theme: {
-			dark: false,
-			themes: {
-				dark: {
-					primary: colors.blue.darken2,
-					accent: colors.grey.darken3,
-					secondary: colors.amber.darken3,
-					info: colors.teal.lighten1,
-					warning: colors.amber.base,
-					error: colors.deepOrange.accent4,
-					success: colors.green.accent3
-				}
-			}
-		}
-	},
-
-	build: {
-		transpile: ['vuetify/lib'],
-		analyze: false,
-	}
+	toast
 };
 
 export default config;

@@ -33,8 +33,8 @@ const auth: RecursivePartial<ModuleOptions> = {
 		}
 	},
 	redirect: {
-		login: '/login',
-		logout: '/login',
+		login: '/auth/login',
+		logout: '/auth/login',
 		home: '/'
 	},
 	watchLoggedIn: true

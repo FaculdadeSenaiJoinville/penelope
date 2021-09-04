@@ -58,6 +58,10 @@ a {
 	text-decoration: none;
 }
 
+.uppercase-text {
+	text-transform: uppercase !important;
+}
+
 .container {
 	margin: 0 30px;
 	line-break: auto;

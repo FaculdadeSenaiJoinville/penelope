@@ -31,7 +31,7 @@
 
 			<button
 				type="button"
-				class="button button-success card-btn"
+				class="button button-success card-btn uppercase-text"
 				:disabled="disableSaveButton"
 				@click="updatePassword"
 			>
@@ -153,9 +153,5 @@
 		background-color: var(--gray-dark-1);
 		width: 100px;
 		height: 100px;
-	}
-
-	.uppercase-text {
-		text-transform: uppercase !important;
 	}
 </style>

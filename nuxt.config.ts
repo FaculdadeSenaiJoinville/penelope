@@ -2,6 +2,9 @@ import colors from 'vuetify/es5/util/colors';
 import { NuxtConfig } from '@nuxt/types';
 
 const config: NuxtConfig = {
+	ssr: false,
+	target: 'static',
+
 	head: {
 		titleTemplate: 'Odyssey',
 		title: 'Odyssey',
@@ -132,7 +135,8 @@ const config: NuxtConfig = {
 	},
 
 	build: {
-		transpile: ['vuetify/lib']
+		transpile: ['vuetify/lib'],
+		analyze: false,
 	}
 };
 

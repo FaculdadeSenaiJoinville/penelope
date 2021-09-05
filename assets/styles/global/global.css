@@ -58,15 +58,19 @@ a {
 	text-decoration: none;
 }
 
+.uppercase-text {
+	text-transform: uppercase !important;
+}
+
 .container {
 	margin: 0 30px;
 	line-break: auto;
 	word-break: break-word;
 }
 
-.modal-form-row {
+.form {
 	display: flex;
-	justify-content: space-between;
 	width: 100%;
-	margin: 1rem 0;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }

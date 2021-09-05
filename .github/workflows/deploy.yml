@@ -1,5 +1,9 @@
 name: Vercel Deploy
-on: [pull_request]
+on:
+  [pull_request]
+  release:
+    types:
+      - created
 jobs:
   deploy:
     name: Deploy

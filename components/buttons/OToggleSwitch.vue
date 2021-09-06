@@ -38,23 +38,23 @@
 		},
 
 		watch: {
-			defaultState: function defaultState() {
-				this.currentState = Boolean(this.defaultState);
+			defaultState(value: boolean): void {
+				this.currentState = value;
 			}
 		},
 
 		computed: {
 
-			isActive() {
+			isActive(): boolean {
 				return this.currentState;
 			},
 
 			checkedValue: {
-				get() {
+				get(): boolean {
 					return this.currentState;
 				},
 
-				set(newValue) {
+				set(newValue: boolean): void {
 					this.currentState = newValue;
 				}
 			}

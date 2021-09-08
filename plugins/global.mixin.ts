@@ -10,6 +10,7 @@ export interface IGlobalMethods {
 	openModal: (config: ModalConfigObject) => void;
 	closeModal: () => void;
 	sameObject: (obj1: any, obj2: any) => boolean;
+	resetVuetifyForm: () => void;
 }
 
 const GlobalMixin: DefaultProps = {
@@ -108,6 +109,12 @@ const GlobalMixin: DefaultProps = {
 
 		sameObject(obj1: any, obj2: any): boolean {
 			return JSON.stringify(obj1) === JSON.stringify(obj2);
+		},
+
+		resetVuetifyForm(): void {
+			const form = this.$refs.form as Vue;
+
+			form.reset();
 		}
 	}
 };

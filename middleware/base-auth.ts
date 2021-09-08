@@ -7,9 +7,9 @@ const auth: Middleware = (context) => {
 	const studentRoutes = ['/student'];
 
 	if (!user || !context.$auth.loggedIn) {
-		context.redirect('/login');
+		context.redirect('/auth/login');
 	} else {
-		if (context.route.path === '/login') {
+		if (context.route.path === '/auth/login') {
 			context.redirect('/');
 		}
 

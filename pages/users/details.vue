@@ -56,14 +56,12 @@
 		},
 
 		computed: {
-
 			id() {
 				return this.$route.query.id;
 			}
 		},
 
 		methods: {
-
 			getUserDetails() {
 				this.$axios.$get(`users/details/${this.id}`).then((response) => {
 					this.userData = new UserDetails(response);

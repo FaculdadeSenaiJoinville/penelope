@@ -3,126 +3,95 @@
 		<div class="o-select-list-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span v-if="label && required" class="o-input-required-symbol">*</span>
+			<span v-if="label && required" class="o-select-list-required-symbol">*</span>
 		</div>
 
-		<div class="o-select-list-field">
-			<input
-				v-model="inputValue"
-				v-click-outside="closeMenu"
-				type="text"
-				:name="name"
-				:class="inputClasses"
-				:placeholder="placeholder"
-				:required="required"
-				@input="actionOnInput"
-				@focus="openMenu"
-			/>
+		<VAutocomplete
+			v-if="autocomplete"
+			id="o-select-list-input"
+			v-model="value"
+			:name="name"
+			:placeholder="placeholder"
+			:required="required"
+			:items="items"
+			:item-text="itemName"
+			:item-value="itemKey"
+			:return-object="returnObject"
+			:multiple="multiple"
+			:no-data-text="noDataText"
+			hide-details
+			attach
+			@input="$emit('input', value)"
+		/>
 
-			<OIcon :name="icon" class="o-select-list-icon" />
-		</div>
-
-		<div v-if="isDropdownActive" class="o-select-list-menu">
-			<span
-				v-for="(option, index) in listOptions"
-				:key="'o-select-list-item-' + index"
-				:class="`o-select-list-item ${listOptions.length - 1 == index ? 'o-select-list-last-item' : ''}`"
-				@click="() => setSelectedItem(option[itemKey], option[itemName])"
-			>
-				{{ option[itemName] }}
-			</span>
-		</div>
+		<VSelect
+			v-else
+			v-model="value"
+			:name="name"
+			:placeholder="placeholder"
+			:required="required"
+			:items="items"
+			:item-text="itemName"
+			:item-value="itemKey"
+			:return-object="returnObject"
+			:multiple="multiple"
+			:no-data-text="noDataTextValue"
+			hide-details
+			attach
+			@input="$emit('input', value)"
+		/>
 	</section>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
-	import OIcon from '~/components/OIcon.vue';
+	import { VAutocomplete, VSelect } from 'vuetify/lib';
 	import { ListOption } from '~/types/components/o-select-list.type';
 
 	export default Vue.extend({
 		components: {
-			OIcon
+			VAutocomplete,
+			VSelect
 		},
 
 		props: {
 			label: { type: String, default: '' },
 			name: { type: String, required: true },
 			placeholder: { type: String, default: '' },
-			value: { type: String, default: '' },
 			itemKey: { type: String, default: 'id' },
 			itemName: { type: String, default: 'name' },
-			options: { type: Array as () => ListOption[], required: true },
-			action: { type: Function, default: () => null },
-			required: { type: Boolean, default: false }
+			items: { type: Array as () => ListOption[], required: true },
+			multiple: { type: Boolean, default: false },
+			returnObject: { type: Boolean, default: false },
+			required: { type: Boolean, default: false },
+			autocomplete: { type: Boolean, default: false },
+			noDataText: { type: String, default: '' }
 		},
 
 		data() {
 			return {
-				inputValue: this.value,
-				selectedKey: '',
-				isDropdownActive: false,
-				listOptions: this.options
+				value: ''
 			};
 		},
 
 		computed: {
-			icon(): string {
-				return this.isDropdownActive ? 'menu-up' : 'menu-down';
-			},
-
 			inputClasses(): string {
-				const { isDropdownActive, label } = this;
-				const classes = ['input'];
-
-				if (isDropdownActive) {
-					classes.push('no-border-bottom-radius');
-				}
+				const { label } = this;
+				const classes = ['input', 'o-select-list-input'];
 
 				if (!label) {
 					classes.push('o-select-list-no-label');
 				}
 
 				return classes.join(' ');
-			}
-		},
+			},
 
-		methods: {
-			openMenu(): void {
-				if (!this.isDropdownActive) {
-					this.isDropdownActive = true;
+			noDataTextValue() {
+				if (!this.noDataText) {
+					return this.Dictionary.misc.getMessage('no_data_found');
 				}
-			},
 
-			closeMenu(): void {
-				if (this.isDropdownActive) {
-					this.isDropdownActive = false;
-				}
-			},
-
-			async actionOnInput() {
-				await this.action();
-				this.setListOptions();
-			},
-
-			filteredOptions(): ListOption[] {
-				const { options, itemName, inputValue } = this;
-
-				return options.filter(option => option[itemName].includes(inputValue));
-			},
-
-			setListOptions(): void {
-				const { options, inputValue } = this;
-				const filteredOptions = this.filteredOptions();
-
-				this.listOptions = inputValue ? filteredOptions : options;
-			},
-
-			setSelectedItem(option_key: string, option_name: string): void {
-				this.inputValue = option_name;
-				this.selectedKey = option_key;
-				this.$emit('input', this.selectedKey);
-				this.closeMenu();
+				return this.noDataText;
 			}
 		}
 	});
@@ -149,44 +118,36 @@
 		font-weight: 600;
 	}
 
-	.o-select-list-field {
-		display: flex;
+	.o-select-list-required-symbol {
+		color: var(--red);
 	}
 
-	.no-border-bottom-radius {
-		border-bottom: none !important;
-		border-bottom-left-radius: 0 !important;
-		border-bottom-right-radius: 0 !important;
-	}
-
-	.o-select-list-icon {
-		position: absolute;
-		margin-top: 2px;
-		margin-left: 190px;
-	}
-
-	.o-select-list-menu {
-		width: 220px;
-		margin-top: 2.2rem;
-		position: absolute;
-		border: 2px solid var(--green);
+	.o-select-list .v-text-field {
+		padding-top: 0;
+		margin-top: 0;
+		height: 2.2rem;
+		border: 2px solid var(--gray-3);
 		background: var(--gray-1);
-		border-top: none;
-		border-radius: 0 0 10px 10px;
+		border-radius: 10px;
+	}
+</style>
+
+<style>
+	#o-select-list-input {
+		padding-left: 0.5rem !important;
 	}
 
-	.o-select-list-item {
-		display: block;
-		padding: 0.5rem;
-		cursor: pointer;
+	.theme--light.v-text-field > .v-input__control > .v-input__slot:before,
+	.theme--light.v-text-field > .v-input__control > .v-input__slot:after  {
+		border-style: none !important;
+		border: none !important;
 	}
 
-	.o-select-list-item:hover {
-		background: var(--gray-3);
+	.v-select__selections {
+		padding-left: 0.5rem !important;
 	}
 
-	.o-select-list-last-item:hover {
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
+	.v-list {
+		border-radius: 10px !important;
 	}
 </style>

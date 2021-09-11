@@ -77,4 +77,21 @@ export class UserStatus {
 	constructor(user?: User) {
 		this.active = user ? user.active : true;
 	}
+};
+
+export class UserDetails {
+	public name: string;
+
+	public email: string;
+
+	public type: UserType;
+
+	public active: boolean;
+
+	constructor(user?: User) {
+		this.name = user ? user.name : '';
+		this.email = user ? user.email : '';
+		this.type = (user ? user.type : '') as UserType;
+		this.active = user ? user.active : true;
+	}
 }

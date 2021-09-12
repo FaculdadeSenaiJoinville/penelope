@@ -3,7 +3,7 @@
 		<OModalHeader module="users" type="update_status" />
 
 		<OModalBody>
-			<div class="modal-form-row">
+			<div class="form-row">
 				<h1>{{ Dictionary.users.getMessage('confirm_status_change', { next_status: nextStatus }) }}</h1>
 			</div>
 		</OModalBody>
@@ -12,7 +12,7 @@
 			<OButton
 				danger
 				icon="close-thick"
-				class="space-right"
+				class="space-right-1"
 				:action="closeModal"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('cancel')"

@@ -12,9 +12,6 @@ import server from './config/server.config';
 import toast from './config/toast.config';
 
 const config: NuxtConfig = {
-	ssr: false,
-	target: 'static',
-
 	auth,
 
 	axios,
@@ -37,7 +34,9 @@ const config: NuxtConfig = {
 
 	server,
 
-	toast
+	toast,
+
+	target: 'static'
 };
 
 export default config;

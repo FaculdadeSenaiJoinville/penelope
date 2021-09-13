@@ -1,24 +1,25 @@
 import { Middleware } from '@nuxt/types';
 import { UserType } from '~/types/entities';
 
+const professorRoutes = ['/professor'];
+const studentRoutes = ['/student'];
+
 const auth: Middleware = (context) => {
 	const user = context.$auth.user;
-	const professorRoutes = ['/professor'];
-	const studentRoutes = ['/student'];
+	const currentPath = context.route.path;
+	const isStudentAndCannotAccessCurrentPath = user && user.type === UserType.STUDENT && !studentRoutes.includes(currentPath);
+	const isProfessorAndCannotAccessCurrentPath = user && user.type === UserType.PROFESSOR && !professorRoutes.includes(currentPath);
 
-	if (!user || !context.$auth.loggedIn) {
+	if (!user && currentPath !== '/auth/login') {
 		context.redirect('/auth/login');
-	} else {
-		if (context.route.path === '/auth/login') {
+	}
+
+	if (user) {
+		if (currentPath === '/auth/login') {
 			context.redirect('/');
 		}
 
-		if (
-			(user.type === UserType.PROFESSOR &&
-				!professorRoutes.includes(context.route.path)) ||
-			(user.type === UserType.STUDENT &&
-				!studentRoutes.includes(context.route.path))
-		) {
+		if (isStudentAndCannotAccessCurrentPath || isProfessorAndCannotAccessCurrentPath) {
 			context.redirect('/');
 		}
 	}

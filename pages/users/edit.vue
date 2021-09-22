@@ -3,7 +3,7 @@
 		<OModalHeader module="users" type="edit" />
 
 		<OModalBody>
-			<VForm ref="form" class="form">
+			<VForm v-if="!loading" ref="form" class="form">
 				<OInput
 					v-model="userData.name"
 					text
@@ -31,6 +31,10 @@
 					class="space-top-bottom-1"
 				/>
 			</VForm>
+
+			<div v-else class="loading">
+				<OLoader />
+			</div>
 		</OModalBody>
 
 		<OModalFooter>
@@ -55,6 +59,7 @@
 	import OInput from '~/components/inputs/OInput.vue';
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
+	import OLoader from '~/components/OLoader.vue';
 
 	export default Vue.extend({
 		components: {
@@ -64,7 +69,8 @@
 			VForm,
 			OInput,
 			OSelectList,
-			OButton
+			OButton,
+			OLoader
 		},
 
 		data() {
@@ -104,7 +110,7 @@
 
 		methods: {
 			update() {
-				return this.$axios.$put(`users/update/${this.id}`, this.userData).then((response) => {
+				return this.api.put(`users/update/${this.id}`, this.userData).then((response) => {
 					this.Messages.requestSuccess(response);
 
 					this.closeModal();
@@ -112,11 +118,18 @@
 					.catch(this.Messages.requestFailed);
 			},
 
-			getUserDetails() {
-				this.$axios.$get(`users/details/${this.id}`).then((response) => {
+			async getUserDetails() {
+				this.loading = true;
+				await this.api.get(`users/details/${this.id}`).then((response) => {
 					this.userData = new EditUser(response);
 					this.notChangedUserData = new EditUser(response);
-				});
+				})
+					.catch((error) => {
+						this.$toast.error(error?.response?.data?.message);
+						this.closeModal();
+					});
+
+				this.loading = false;
 			}
 		},
 
@@ -125,3 +138,9 @@
 		}
 	});
 </script>
+
+<style scoped>
+	.loading {
+		margin: 50px auto;
+	}
+</style>

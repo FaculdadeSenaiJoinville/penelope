@@ -12,7 +12,7 @@ export type ModalConfigObject = {
 
 export type AxiosConfigObject = {
 	data?: Object;
-	query?: Object;
+	params?: Object;
 };
 
 export type Api = {

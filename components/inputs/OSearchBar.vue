@@ -50,7 +50,7 @@
 	.o-search-bar {
 		display: flex;
 		text-align: left;
-		width: 220px;
+		max-width: 350px;
 	}
 
 	.o-search-bar-input {

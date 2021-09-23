@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<v-app>
 		<header class="navbar">
 			<span @click="sendToHome">ODYSSEY</span>
 
@@ -28,7 +28,7 @@
 			<OModal v-if="showModal" />
 			<Nuxt />
 		</main>
-	</div>
+	</v-app>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="users" type="edit" />
+		<OModalHeader module="users" type="edit" :title="userData.name" />
 
 		<OModalBody>
 			<VForm v-if="!loading" ref="form" class="form">

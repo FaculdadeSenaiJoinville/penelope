@@ -50,7 +50,7 @@ const GlobalMixin: DefaultProps = {
 				get(endpoint: string, query?: Object): Promise<any> {
 					const config: AxiosConfigObject = { };
 					
-					config.params = query
+					config.params = query;
 
 					return axios.$get(endpoint, config);
 				},

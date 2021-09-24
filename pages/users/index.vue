@@ -2,7 +2,7 @@
 	<section>
 		<div class="o-filters-container space-bottom-1">
 			<OButton success title="novo" :action="openNewUserModal">
-				{{ Dictionary.misc.getLabel('new')}}
+				{{ Dictionary.misc.getLabel('new') }}
 			</OButton>
 
 			<OFilterButtons v-model="statusSelected" :options="filterableStatus" />
@@ -12,44 +12,45 @@
 		</div>
 
 		<div>
-			<v-data-table
+			<VDataTable
 				hide-default-footer
 				:headers="headers"
 				:items="users"
 				:loading="loading"
 				no-data-text="Nada encontrado"
 				loading-text="Carregando..."
-				class="elevation-2 space-bottom-1">
+				class="elevation-2 space-bottom-1"
 			>
+				>
 
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
 						<td>{{ item.email }}</td>
 						<td>{{ Dictionary.users.getEnum(item.type) }}</td>
-						
+
 						<td class="text-right">
 							<OActionButtons :buttons="actionButtons(item.id)" />
 						</td>
 					</tr>
 				</template>
-			</v-data-table>
+			</VDataTable>
 
-			<v-pagination
-              v-model="page"
-              :length="totalPages"
-            />
+			<VPagination
+				v-model="page"
+				:length="totalPages"
+			/>
 		</div>
 	</section>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { VDataTable, VPagination } from 'vuetify/lib';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OFilterButtons from '~/components/buttons/OFilterButtons.vue';
-	import OActionButtons from '~/components/buttons/OActionButtons.vue'
+	import OActionButtons from '~/components/buttons/OActionButtons.vue';
 	import OSearchBar from '~/components/inputs/OSearchBar.vue';
-	import { VDataTable, VPagination } from 'vuetify/lib';
 
 	export default Vue.extend({
 		components: {
@@ -65,29 +66,31 @@
 			return {
 				filterableStatus: [
 					{
-						title: "Ativos",
+						title: 'Ativos',
 						value: true
 					},
 					{
-						title: "Inativos",
+						title: 'Inativos',
 						value: false
 					}
 				],
+
 				statusSelected: null,
 				filterableTypes: [
 					{
-						title: "Coordenador",
-						value: "ADMIN"
+						title: 'Coordenador',
+						value: 'ADMIN'
 					},
 					{
-						title: "Professor",
-						value: "PROFESSOR"
+						title: 'Professor',
+						value: 'PROFESSOR'
 					},
 					{
-						title: "Estudante",
-						value: "STUDENT"
+						title: 'Estudante',
+						value: 'STUDENT'
 					}
 				],
+
 				typeSelected: null,
 				searchText: '',
 				headers: [
@@ -115,6 +118,7 @@
 						align: 'right'
 					}
 				],
+
 				users: [],
 				loading: false,
 				page: 1,
@@ -122,40 +126,54 @@
 			};
 		},
 
+		watch: {
+			page(newValue, oldValue) {
+				if (newValue !== oldValue) {
+					this.findUsers();
+				}
+			},
+
+			typeSelected(newValue, oldValue) {
+				if (newValue !== oldValue) {
+					this.findUsers();
+				}
+			},
+
+			statusSelected(newValue, oldValue) {
+				if (newValue !== oldValue) {
+					this.findUsers();
+				}
+			}
+		},
+
 		methods: {
 			async findUsers() {
-
 				this.loading = true;
 
 				try {
 					const query = {
 						page: this.page,
-						active: (this.statusSelected != null) ? this.statusSelected : null,
+						active: (this.statusSelected !== null) ? this.statusSelected : null,
 						type: (this.typeSelected) ? this.typeSelected : null,
 						like: (this.searchText) ? { name: this.searchText } : null
-					}
+					};
 
 					const [users, count] = await this.api.get('/users/list', query);
 
 					this.users = users;
 					this.totalPages = Math.ceil(parseInt(count) / 10);
 				} catch (error) {
-
 					this.Messages.requestFailed(error);
-				}
-				finally {
-
+				} finally {
 					this.loading = false;
 				}
 			},
 
 			openNewUserModal() {
-
 				this.openModal({ modal: 'users/new' });
 			},
 
 			actionButtons(id: string) {
-
 				return [
 					{
 						icon: 'eye',
@@ -165,44 +183,22 @@
 					},
 					{
 						icon: 'pen',
-						title: this.Dictionary.misc.getLabel('edit'), 
+						title: this.Dictionary.misc.getLabel('edit'),
 						success: true,
 						action: () => this.openModal({ modal: 'users/edit', id })
 					},
 					{
 						icon: 'trash-can',
-						title: this.Dictionary.misc.getLabel('update_status'), 
+						title: this.Dictionary.misc.getLabel('update_status'),
 						danger: true,
 						action: () => this.openModal({ modal: 'users/update-status', id })
 					}
-				]
+				];
 			}
 		},
 
 		mounted() {
-
 			this.findUsers();
-		},
-
-		watch: {
-			page(newValue, oldValue) {
-
-				if (newValue != oldValue) {
-					this.findUsers();
-				}
-			},
-			typeSelected(newValue, oldValue)  {
-
-				if (newValue != oldValue) {
-					this.findUsers();
-				}
-			},
-			statusSelected(newValue, oldValue)  {
-
-				if (newValue != oldValue) {
-					this.findUsers();
-				}
-			}
 		}
 	});
 </script>

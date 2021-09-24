@@ -1,59 +1,61 @@
 <template>
 	<section class="o-filter-container">
-        <div
-            v-for="(option, index) in options"
-            :key="option.title + index"
-            class="o-filter-option"
-            :class="{'selected': selected == index}"
-            @click="selectOption(option, index)"
-        >
-            {{option.title}}
-        </div>
+		<div
+			v-for="(option, index) in options"
+			:key="option.title + index"
+			class="o-filter-option"
+			:class="{'selected': isSelected(index)}"
+			@click="selectOption(option, index)"
+		>
+			{{ option.title }}
+		</div>
 	</section>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
-    import { FilterButtonsConfig } from '~/types/components/o-filter-buttons.type';
+	import { FilterButtonsConfig } from '~/types/components/o-filter-buttons.type';
 
 	export default Vue.extend({
 		props: {
-            options: { type: Array as () => FilterButtonsConfig[], required: true },
-            value: {}
+			options: { type: Array as () => FilterButtonsConfig[], required: true }
 		},
 
 		data() {
 			return {
-                selected: null,
+				selected: null,
 				errorMessages: {
-                    minimumOptions: 'OFilterButtons deve receber no mínimo duas opções na prop "options"',
-                    maximumOptions: 'OFilterButtons deve receber no máximo cinco opções na prop "options"'
+					minimumOptions: 'OFilterButtons deve receber no mínimo duas opções na prop "options"',
+					maximumOptions: 'OFilterButtons deve receber no máximo cinco opções na prop "options"'
 				}
 			};
 		},
 
-        mounted() {
-            if (this.options?.length < 2) {
-                console.error(this.errorMessages.minimumOptions);
-            }
+		methods: {
+			selectOption(option: any, index: any) {
+				if (index === this.selected) {
+					this.$emit('input', null);
+					this.selected = null;
+				} else {
+					this.$emit('input', option.value);
+					this.selected = index;
+				}
+			},
 
-            if (this.options?.length > 5) {
-                console.error(this.errorMessages.maximumOptions);
-            }
+			isSelected(index: Number) {
+				return (this.selected === index);
+			}
 		},
 
-        methods: {
-            selectOption(option: any, index: any) {
-                if (index == this.selected) {
-                    this.$emit('input', null);
-                    this.selected = null;
-                }
-                else {
-                    this.$emit('input', option.value);
-                    this.selected = index;
-                }
-            }
-        }
+		mounted() {
+			if (this.options?.length < 2) {
+				console.error(this.errorMessages.minimumOptions);
+			}
+
+			if (this.options?.length > 5) {
+				console.error(this.errorMessages.maximumOptions);
+			}
+		}
 	});
 </script>
 

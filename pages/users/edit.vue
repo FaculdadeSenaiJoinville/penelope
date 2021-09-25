@@ -25,11 +25,21 @@
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
-					:options="userTypes"
+					:items="userTypes"
 					name="type"
 					required
 					class="space-top-bottom-1"
 				/>
+
+				<OToggleSwitch
+					v-model="userData.active"
+					:value="userData.active"
+					:label="Dictionary.users.getFieldName('active')"
+					name="active"
+					required
+					class="space-top-bottom-1"
+				/>
+				{{ userData.active }}
 			</VForm>
 
 			<div v-else class="loading">
@@ -60,6 +70,7 @@
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 
 	export default Vue.extend({
 		components: {
@@ -70,7 +81,8 @@
 			OInput,
 			OSelectList,
 			OButton,
-			OLoader
+			OLoader,
+			OToggleSwitch
 		},
 
 		data() {

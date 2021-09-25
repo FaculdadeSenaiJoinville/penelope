@@ -64,10 +64,13 @@ export class EditUser {
 
 	public type: UserType;
 
+	public active: boolean;
+
 	constructor(user?: User) {
 		this.name = user ? user.name : '';
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
+		this.active = user ? user.active : true;
 	}
 };
 

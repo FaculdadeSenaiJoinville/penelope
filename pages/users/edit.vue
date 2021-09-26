@@ -33,13 +33,11 @@
 
 				<OToggleSwitch
 					v-model="userData.active"
-					:value="userData.active"
 					:label="Dictionary.users.getFieldName('active')"
 					name="active"
 					required
 					class="space-top-bottom-1"
 				/>
-				{{ userData.active }}
 			</VForm>
 
 			<div v-else class="loading">

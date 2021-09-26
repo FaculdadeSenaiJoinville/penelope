@@ -16,7 +16,7 @@
 				:disabled="disabled"
 				:required="required"
 				class="input"
-				@click="$emit('input', $event.target.checked)"
+				@click="$emit('input', !value);"
 			/>
 
 			<span class="toggle__switch" />

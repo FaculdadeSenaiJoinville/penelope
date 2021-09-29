@@ -1,14 +1,14 @@
 <template>
 	<section>
 		<div class="o-filters-container space-bottom-1">
-			<OButton success title="novo" :action="openNewUserModal">
+			<OButton success :title="Dictionary.misc.getLabel('new')" :action="openNewUserModal">
 				{{ Dictionary.misc.getLabel('new') }}
 			</OButton>
 
 			<OFilterButtons v-model="statusSelected" :options="filterableStatus" />
 			<OFilterButtons v-model="typeSelected" :options="filterableTypes" />
 
-			<OSearchBar v-model="searchText" :action="findUsers" placeholder="Buscar por nome" />
+			<OSearchBar v-model="searchText" :action="findUsers" :placeholder="Dictionary.misc.getLabel('search_by_name')" />
 		</div>
 
 		<div>
@@ -17,12 +17,10 @@
 				:headers="headers"
 				:items="users"
 				:loading="loading"
-				no-data-text="Nada encontrado"
-				loading-text="Carregando..."
+				:no-data-text="Dictionary.misc.getMessage('no_data_found')"
+				:loading-text="Dictionary.misc.getMessage('loading')"
 				class="elevation-2 space-bottom-1"
 			>
-				>
-
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
@@ -30,7 +28,7 @@
 						<td>{{ Dictionary.users.getEnum(item.type) }}</td>
 
 						<td class="text-right">
-							<OActionButtons :buttons="actionButtons(item.id)" />
+							<OActionButtons :buttons="item.actionButtons" />
 						</td>
 					</tr>
 				</template>
@@ -52,6 +50,8 @@
 	import OActionButtons from '~/components/buttons/OActionButtons.vue';
 	import OSearchBar from '~/components/inputs/OSearchBar.vue';
 
+	import { UserWithActions } from '~/types/entities';
+
 	export default Vue.extend({
 		components: {
 			OButton,
@@ -64,33 +64,7 @@
 
 		data() {
 			return {
-				filterableStatus: [
-					{
-						title: 'Ativos',
-						value: true
-					},
-					{
-						title: 'Inativos',
-						value: false
-					}
-				],
-
 				statusSelected: null,
-				filterableTypes: [
-					{
-						title: 'Coordenador',
-						value: 'ADMIN'
-					},
-					{
-						title: 'Professor',
-						value: 'PROFESSOR'
-					},
-					{
-						title: 'Estudante',
-						value: 'STUDENT'
-					}
-				],
-
 				typeSelected: null,
 				searchText: '',
 				headers: [
@@ -119,7 +93,7 @@
 					}
 				],
 
-				users: [],
+				users: [] as UserWithActions[],
 				loading: false,
 				page: 1,
 				totalPages: 1
@@ -146,54 +120,85 @@
 			}
 		},
 
+		computed: {
+			filterableTypes() {
+				return [
+					{
+						title: this.Dictionary.users.getEnum('ADMIN'),
+						value: 'ADMIN'
+					},
+					{
+						title: this.Dictionary.users.getEnum('PROFESSOR'),
+						value: 'PROFESSOR'
+					},
+					{
+						title: this.Dictionary.users.getEnum('STUDENT'),
+						value: 'STUDENT'
+					}
+				];
+			},
+
+			filterableStatus() {
+				return [
+					{
+						title: this.Dictionary.users.getLabel('active'),
+						value: true
+					},
+					{
+						title: this.Dictionary.users.getLabel('inactive'),
+						value: false
+					}
+				];
+			}
+		},
+
 		methods: {
-			async findUsers() {
+			findUsers() {
 				this.loading = true;
 
-				try {
-					const query = {
-						page: this.page,
-						active: (this.statusSelected !== null) ? this.statusSelected : null,
-						type: (this.typeSelected) ? this.typeSelected : null,
-						like: (this.searchText) ? { name: this.searchText } : null
-					};
+				const query = {
+					page: this.page,
+					active: (this.statusSelected !== null) ? this.statusSelected : null,
+					type: (this.typeSelected) ? this.typeSelected : null,
+					like: (this.searchText) ? { name: this.searchText } : null
+				};
 
-					const [users, count] = await this.api.get('/users/list', query);
+				this.api.get('/users/list', query)
+					.then((response) => {
+						const [users, count] = response;
 
-					this.users = users;
-					this.totalPages = Math.ceil(parseInt(count) / 10);
-				} catch (error) {
-					this.Messages.requestFailed(error);
-				} finally {
-					this.loading = false;
-				}
+						this.users = users.map((user: UserWithActions) => {
+							user.actionButtons = [
+								{
+									icon: 'eye',
+									title: this.Dictionary.misc.getLabel('details'),
+									info: true,
+									action: () => this.openModal({ modal: 'users/details', id: user.id })
+								},
+								{
+									icon: 'pen',
+									title: this.Dictionary.misc.getLabel('edit'),
+									success: true,
+									action: () => this.openModal({ modal: 'users/edit', id: user.id })
+								}
+							];
+
+							return user;
+						});
+
+						this.totalPages = Math.ceil(parseInt(count) / 10);
+						this.users = users;
+					})
+					.catch((error) => {
+						this.Messages.requestFailed(error);
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			},
 
 			openNewUserModal() {
 				this.openModal({ modal: 'users/new' });
-			},
-
-			actionButtons(id: string) {
-				return [
-					{
-						icon: 'eye',
-						title: this.Dictionary.misc.getLabel('details'),
-						info: true,
-						action: () => this.openModal({ modal: 'users/details', id })
-					},
-					{
-						icon: 'pen',
-						title: this.Dictionary.misc.getLabel('edit'),
-						success: true,
-						action: () => this.openModal({ modal: 'users/edit', id })
-					},
-					{
-						icon: 'trash-can',
-						title: this.Dictionary.misc.getLabel('update_status'),
-						danger: true,
-						action: () => this.openModal({ modal: 'users/update-status', id })
-					}
-				];
 			}
 		},
 
@@ -204,7 +209,6 @@
 </script>
 
 <style scoped>
-
 	.o-filters-container {
 		display: flex;
 		justify-content: space-between;

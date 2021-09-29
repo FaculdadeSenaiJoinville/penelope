@@ -1,3 +1,5 @@
+import { ActionButtonConfig } from '../components/o-action-buttons.type';
+
 export enum UserType {
 	ADMIN = 'ADMIN',
 	PROFESSOR = 'PROFESSOR',
@@ -24,6 +26,10 @@ export type User = {
 	created_by?: string;
 
 	updated_by?: string;
+};
+
+export type UserWithActions = User & {
+	actionButtons?: ActionButtonConfig[];
 };
 
 export class NewUser {

@@ -51,45 +51,45 @@ const GlobalMixin: DefaultProps = {
 					const config: AxiosConfigObject = {};
 
 					if (query) {
-						config.query = query;
+						config.params = query;
 					}
 
-					return axios.$get(endpoint, { query });
+					return axios.$get(endpoint, config);
 				},
 
 				post(endpoint: string, data: Object, query?: Object): Promise<any> {
 					const config: AxiosConfigObject = {};
 
 					if (query) {
-						config.query = query;
+						config.params = query;
 					}
 
 					if (data) {
 						config.data = data;
 					}
 
-					return axios.$post(endpoint, data);
+					return axios.$post(endpoint, config);
 				},
 
 				put(endpoint: string, data: Object, query?: Object): Promise<any> {
 					const config: AxiosConfigObject = {};
 
 					if (query) {
-						config.query = query;
+						config.params = query;
 					}
 
 					if (data) {
 						config.data = data;
 					}
 
-					return axios.$put(endpoint, data);
+					return axios.$put(endpoint, config);
 				},
 
 				delete(endpoint: string, query?: Object): Promise<any> {
 					const config: AxiosConfigObject = {};
 
 					if (query) {
-						config.query = query;
+						config.params = query;
 					}
 
 					return axios.$delete(endpoint);

@@ -1,14 +1,27 @@
 <template>
-	<label :for="id + '_button'" :class="{'active': isActive}" class="o-switch-button">
-		<input
-			:id="id + '_button'"
-			v-model="checkedValue"
-			type="checkbox"
-			:disabled="disabled"
-		/>
+	<section :class="inputClasses">
+		<div class="o-input-label">
+			<label v-if="label" :for="name">{{ label }}</label>
 
-		<span class="toggle__switch" />
-	</label>
+			<span v-if="label && required" class="o-input-required-symbol">*</span>
+		</div>
+
+		<label :class="{'active': value}" class="o-switch-button">
+			<input
+				id="switch_toggle"
+				:value="value"
+				:name="name"
+				:aria-label="label"
+				type="checkbox"
+				:disabled="disabled"
+				:required="required"
+				class="input"
+				@click="$emit('input', !value);"
+			/>
+
+			<span class="toggle__switch" />
+		</label>
+	</section>
 </template>
 
 <script lang="ts">
@@ -16,47 +29,18 @@
 
 	export default Vue.extend({
 		props: {
-			disabled: {
-				type: Boolean,
-				default: false
-			},
-
-			id: {
-				type: String,
-				default: 'primary'
-			},
-
-			defaultState: {
-				type: Boolean,
-				default: false
-			}
-		},
-
-		data() {
-			return {
-				currentState: this.defaultState
-			};
-		},
-
-		watch: {
-			defaultState(value: boolean): void {
-				this.currentState = value;
-			}
+			disabled: { type: Boolean, default: false },
+			value: { type: Boolean, default: false },
+			name: { type: String, required: true },
+			label: { type: String, default: '' },
+			required: { type: Boolean, default: false }
 		},
 
 		computed: {
-			isActive(): boolean {
-				return this.currentState;
-			},
+			inputClasses(): string {
+				const classes = ['o-input'];
 
-			checkedValue: {
-				get(): boolean {
-					return this.currentState;
-				},
-
-				set(newValue: boolean): void {
-					this.currentState = newValue;
-				}
+				return classes.join(' ');
 			}
 		}
 	});
@@ -123,5 +107,26 @@
 	.active .toggle__switch::after {
 		left: 28px;
 		background: var(--white);
+	}
+
+	.o-input-label {
+		margin-bottom: 0.3rem;
+		color: var(--gray-dark-2);
+		font-weight: 600;
+	}
+
+	.o-input {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		width: 220px !important;
+	}
+
+	.o-input input {
+		width: 100%;
+	}
+
+	.o-input-required-symbol {
+		color: var(--red);
 	}
 </style>

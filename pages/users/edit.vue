@@ -1,9 +1,9 @@
 <template>
 	<section>
-		<OModalHeader module="users" type="edit" />
+		<OModalHeader module="users" type="edit" :title="userData.name" />
 
 		<OModalBody>
-			<VForm ref="form" class="form">
+			<VForm v-if="!loading" ref="form" class="form">
 				<OInput
 					v-model="userData.name"
 					text
@@ -25,12 +25,24 @@
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
-					:options="userTypes"
+					:items="userTypes"
 					name="type"
 					required
 					class="space-top-bottom-1"
 				/>
+
+				<OToggleSwitch
+					v-model="userData.active"
+					:label="Dictionary.users.getFieldName('active')"
+					name="active"
+					required
+					class="space-top-bottom-1"
+				/>
 			</VForm>
+
+			<div v-else class="loading">
+				<OLoader />
+			</div>
 		</OModalBody>
 
 		<OModalFooter>
@@ -55,6 +67,8 @@
 	import OInput from '~/components/inputs/OInput.vue';
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
+	import OLoader from '~/components/OLoader.vue';
+	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 
 	export default Vue.extend({
 		components: {
@@ -64,7 +78,9 @@
 			VForm,
 			OInput,
 			OSelectList,
-			OButton
+			OButton,
+			OLoader,
+			OToggleSwitch
 		},
 
 		data() {
@@ -104,19 +120,29 @@
 
 		methods: {
 			update() {
-				return this.$axios.$put(`users/update/${this.id}`, this.userData).then((response) => {
-					this.Messages.requestSuccess(response);
-
-					this.closeModal();
-				})
+				return this.api.put(`users/update/${this.id}`, this.userData)
+					.then((response) => {
+						this.Messages.requestSuccess(response);
+						this.closeModal();
+					})
 					.catch(this.Messages.requestFailed);
 			},
 
-			getUserDetails() {
-				this.$axios.$get(`users/details/${this.id}`).then((response) => {
-					this.userData = new EditUser(response);
-					this.notChangedUserData = new EditUser(response);
-				});
+			async getUserDetails() {
+				this.loading = true;
+
+				await this.api.get(`users/details/${this.id}`)
+					.then((response) => {
+						this.userData = new EditUser(response);
+						this.notChangedUserData = new EditUser(response);
+					})
+					.catch((error) => {
+						this.$toast.error(error?.response?.data?.message);
+						this.closeModal();
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			}
 		},
 
@@ -125,3 +151,9 @@
 		}
 	});
 </script>
+
+<style scoped>
+	.loading {
+		margin: 50px auto;
+	}
+</style>

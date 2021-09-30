@@ -25,8 +25,16 @@
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
-					:options="userTypes"
+					:items="userTypes"
 					name="type"
+					required
+					class="space-top-bottom-1"
+				/>
+
+				<OToggleSwitch
+					v-model="userData.active"
+					:label="Dictionary.users.getFieldName('active')"
+					name="active"
 					required
 					class="space-top-bottom-1"
 				/>
@@ -60,6 +68,7 @@
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 
 	export default Vue.extend({
 		components: {
@@ -70,7 +79,8 @@
 			OInput,
 			OSelectList,
 			OButton,
-			OLoader
+			OLoader,
+			OToggleSwitch
 		},
 
 		data() {
@@ -110,26 +120,29 @@
 
 		methods: {
 			update() {
-				return this.api.put(`users/update/${this.id}`, this.userData).then((response) => {
-					this.Messages.requestSuccess(response);
-
-					this.closeModal();
-				})
+				return this.api.put(`users/update/${this.id}`, this.userData)
+					.then((response) => {
+						this.Messages.requestSuccess(response);
+						this.closeModal();
+					})
 					.catch(this.Messages.requestFailed);
 			},
 
 			async getUserDetails() {
 				this.loading = true;
-				await this.api.get(`users/details/${this.id}`).then((response) => {
-					this.userData = new EditUser(response);
-					this.notChangedUserData = new EditUser(response);
-				})
+
+				await this.api.get(`users/details/${this.id}`)
+					.then((response) => {
+						this.userData = new EditUser(response);
+						this.notChangedUserData = new EditUser(response);
+					})
 					.catch((error) => {
 						this.$toast.error(error?.response?.data?.message);
 						this.closeModal();
+					})
+					.finally(() => {
+						this.loading = false;
 					});
-
-				this.loading = false;
 			}
 		},
 

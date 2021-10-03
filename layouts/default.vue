@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<VApp>
 		<header class="navbar">
 			<span @click="sendToHome">ODYSSEY</span>
 
@@ -28,15 +28,17 @@
 			<OModal v-if="showModal" />
 			<Nuxt />
 		</main>
-	</div>
+	</VApp>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { VApp } from 'vuetify/lib';
 	import OModal from '~/components/modal/OModal.vue';
 
 	export default Vue.extend({
 		components: {
+			VApp,
 			OModal
 		},
 

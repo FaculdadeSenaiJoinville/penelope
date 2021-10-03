@@ -1,7 +1,7 @@
 <template>
 	<section class="o-field">
 		<div class="o-field-label">
-			<label v-if="label" :for="name">{{ label }}</label>
+			<label v-if="label">{{ label }}</label>
 		</div>
 
 		<span>{{ text }}</span>

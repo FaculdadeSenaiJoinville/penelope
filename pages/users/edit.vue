@@ -40,9 +40,7 @@
 				/>
 			</VForm>
 
-			<div v-else class="loading">
-				<OLoader />
-			</div>
+			<OLoader v-else />
 		</OModalBody>
 
 		<OModalFooter>
@@ -151,9 +149,3 @@
 		}
 	});
 </script>
-
-<style scoped>
-	.loading {
-		margin: 50px auto;
-	}
-</style>

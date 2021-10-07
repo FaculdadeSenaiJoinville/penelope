@@ -173,13 +173,13 @@
 									icon: 'eye',
 									title: this.Dictionary.misc.getLabel('details'),
 									info: true,
-									action: () => this.openModal({ modal: 'users/details', id: user.id })
+									action: () => this.openModal({ modal: 'users/details', id: user.id as string })
 								},
 								{
 									icon: 'pen',
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
-									action: () => this.openModal({ modal: 'users/edit', id: user.id })
+									action: () => this.openModal({ modal: 'users/edit', id: user.id as string })
 								}
 							];
 

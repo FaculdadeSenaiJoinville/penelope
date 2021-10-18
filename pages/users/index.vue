@@ -163,7 +163,7 @@
 					like: (this.searchText) ? { name: this.searchText } : null
 				};
 
-				this.api.get('/users/list', query)
+				this.Api.get('/users/list', query)
 					.then((response) => {
 						const [users, count] = response;
 
@@ -188,9 +188,6 @@
 
 						this.totalPages = Math.ceil(parseInt(count) / 10);
 						this.users = users;
-					})
-					.catch((error) => {
-						this.Messages.requestFailed(error);
 					})
 					.finally(() => {
 						this.loading = false;

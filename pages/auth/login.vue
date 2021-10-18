@@ -73,9 +73,7 @@
 							expiresIn: 84000
 						}
 					});
-				} catch (error) {
-					this.Messages.requestFailed(error);
-				}
+				} catch (error) {}
 			}
 		}
 	});

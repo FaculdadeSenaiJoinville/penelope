@@ -118,24 +118,21 @@
 
 		methods: {
 			update() {
-				return this.api.put(`users/update/${this.id}`, this.userData)
-					.then((response) => {
-						this.Messages.requestSuccess(response);
+				return this.Api.put(`users/update/${this.id}`, this.userData)
+					.then(() => {
 						this.closeModal();
-					})
-					.catch(this.Messages.requestFailed);
+					});
 			},
 
 			async getUserDetails() {
 				this.loading = true;
 
-				await this.api.get(`users/details/${this.id}`)
+				await this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new EditUser(response);
 						this.notChangedUserData = new EditUser(response);
 					})
-					.catch((error) => {
-						this.$toast.error(error?.response?.data?.message);
+					.catch(() => {
 						this.closeModal();
 					})
 					.finally(() => {

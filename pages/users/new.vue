@@ -122,29 +122,21 @@
 
 		methods: {
 			saveAndNew(): Promise<void> {
-				return this.saveUserData()
-					.then((response) => {
-						this.Messages.requestSuccess(response);
+				return this.saveUserData().then(() => {
+					this.userData = new NewUser();
 
-						this.userData = new NewUser();
-
-						this.resetVuetifyForm();
-					})
-					.catch(this.Messages.requestFailed);
+					this.resetVuetifyForm();
+				});
 			},
 
 			save(): Promise<void> {
-				return this.saveUserData()
-					.then((response) => {
-						this.Messages.requestSuccess(response);
-
-						this.closeModal();
-					})
-					.catch(this.Messages.requestFailed);
+				return this.saveUserData().then(() => {
+					this.closeModal();
+				});
 			},
 
 			saveUserData() {
-				return this.$axios.$post('users/create', this.userData);
+				return this.Api.post('users/create', this.userData);
 			}
 		}
 	});

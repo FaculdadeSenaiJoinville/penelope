@@ -48,7 +48,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VDataTable } from 'vuetify/lib';
-	import { CardButton } from '../types/components/o-card.type';
+	import { CardButton } from '../../types/components/o-card.type';
 	import { EditPassword, Profile } from '~/types/entities';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OCard from '~/components/OCard.vue';
@@ -110,24 +110,20 @@
 			getProfileData() {
 				this.loading = true;
 
-				this.api.get('/users/profile')
+				this.Api.get('/users/profile')
 					.then((response) => {
 						this.user = new Profile(response);
 					})
-					.catch(this.Messages.requestFailed)
 					.finally(() => {
 						this.loading = false;
 					});
 			},
 
 			updatePassword() {
-				this.api.put(`/users/update-password/${this.$auth.user.id}`, this.newPassword)
-					.then((response) => {
-						this.Messages.requestSuccess(response);
-
+				this.Api.put(`/users/update-password/${this.$auth.user.id}`, this.newPassword)
+					.then(() => {
 						this.newPassword = new EditPassword();
-					})
-					.catch(this.Messages.requestFailed);
+					});
 			}
 		},
 

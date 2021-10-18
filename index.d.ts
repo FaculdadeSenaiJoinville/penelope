@@ -1,6 +1,7 @@
 import { Auth as NuxtAuth } from '@nuxtjs/auth-next';
 import Vue from 'vue';
-import { IGlobalMethods } from './plugins/global.mixin';
+import { IGlobalLibs } from './plugins/mixins/global-libs.mixin';
+import { IGlobalMethods } from './plugins/mixins/global-methods.mixin';
 import { User } from './types/entities';
 
 declare module '@nuxt/types' {
@@ -29,6 +30,8 @@ declare module 'vue/types/vue' {
 	interface Auth extends NuxtAuth {
 		user: User & typeof NuxtAuth.prototype.user;
 	}
+
+	interface Vue extends IGlobalLibs {}
 
 	interface Vue extends IGlobalMethods {}
 

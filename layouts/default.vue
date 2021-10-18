@@ -14,7 +14,7 @@
 			class="dropdown"
 		>
 			<div class="dropdown-item" @click="changeDropdownStatus">
-				<NuxtLink to="/profile">
+				<NuxtLink to="/users/profile">
 					{{ Dictionary.misc.getLabel('profile') }}
 				</NuxtLink>
 			</div>

@@ -3,54 +3,50 @@
 		<OModalHeader module="users" type="details" :title="userData.name" />
 
 		<OModalBody>
-			<div class="modal-form-row">
-				<div class="o-form-grid">
-					<span>{{ Dictionary.users.getFieldName('name') }}</span>
-					<span class="o-text-value">{{ userData.name }}</span>
-				</div>
+			<VForm v-if="!loading" class="form">
+				<OField :label="Dictionary.users.getFieldName('name')" :text="userData.name" class="space-top-1" />
 
-				<div class="o-form-grid">
-					<span>{{ Dictionary.users.getFieldName('email') }}</span>
-					<span class="o-text-value">{{ userData.email }}</span>
-				</div>
-			</div>
+				<OField :label="Dictionary.users.getFieldName('email')" :text="userData.email" class="space-top-1" />
 
-			<div class="modal-form-row">
-				<div class="o-form-grid">
-					<span>{{ Dictionary.users.getFieldName('type') }}</span>
-					<span class="o-text-value">{{ userData.type }}</span>
-				</div>
+				<OField :label="Dictionary.users.getFieldName('type')" :text="Dictionary.users.getEnum(userData.type)" class="space-top-bottom-1" />
 
-				<div class="o-form-grid">
-					<span>{{ Dictionary.users.getFieldName('active') }}</span>
-					<OToggleSwitch
-						id="switch"
-						class="o-text-value"
-						:default-state="userData.active"
-						disabled
-					/>
-				</div>
-			</div>
+				<OToggleSwitch
+					:label="Dictionary.users.getFieldName('active')"
+					:value="userData.active"
+					name="active"
+					disabled
+					class="o-text-value space-top-bottom-1"
+				/>
+			</VForm>
+
+			<OLoader v-else />
 		</OModalBody>
 	</section>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { VForm } from 'vuetify/lib';
 	import { UserDetails } from '~/types/entities/user.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
+	import OField from '~/components/OField.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
+	import OLoader from '~/components/OLoader.vue';
 
 	export default Vue.extend({
 		components: {
+			VForm,
 			OModalHeader,
 			OModalBody,
-			OToggleSwitch
+			OToggleSwitch,
+			OField,
+			OLoader
 		},
 
 		data() {
 			return {
+				loading: false,
 				userData: new UserDetails()
 			};
 		},
@@ -63,9 +59,19 @@
 
 		methods: {
 			getUserDetails() {
-				this.$axios.$get(`users/details/${this.id}`).then((response) => {
-					this.userData = new UserDetails(response);
-				});
+				this.loading = true;
+
+				this.api.get(`users/details/${this.id}`)
+					.then((response) => {
+						this.userData = new UserDetails(response);
+					})
+					.catch((error) => {
+						this.Messages.requestFailed(error);
+						this.closeModal();
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			}
 		},
 
@@ -74,17 +80,3 @@
 		}
 	});
 </script>
-
-<style>
-	.o-text-value {
-		margin-top: 0.3rem;
-		color: var(--gray-dark-2);
-		font-weight: 600;
-	}
-
-	.o-form-grid {
-		width: 50%;
-		display: grid;
-		justify-items: start !important;
-	}
-</style>

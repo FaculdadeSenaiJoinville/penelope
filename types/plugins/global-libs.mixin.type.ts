@@ -1,21 +1,21 @@
+import { GenericObject } from '../global.type';
+
 export type Messages = {
-	requestFailed: (error: any) => void;
-	requestSuccess: (response: any) => void;
 	success: (message: string) => void;
 	error: (message: string) => void;
 }
 
 export type AxiosConfigObject = {
-	data?: Object;
-	params?: Object;
+	data?: GenericObject;
+	params?: GenericObject;
 }
 
 export type Api = {
-	get: (endpoint: string, query?: Object) => Promise<any>;
+	get: (endpoint: string, query?: GenericObject) => Promise<any>;
 
-	post: (endpoint: string, data: Object, query?: Object) => Promise<any>;
+	post: (endpoint: string, data: GenericObject, query?: GenericObject) => Promise<any>;
 
-	put: (endpoint: string, data: Object, query?: Object) => Promise<any>;
+	put: (endpoint: string, data: GenericObject, query?: GenericObject) => Promise<any>;
 
-	delete: (endpoint: string, query?: Object) => Promise<any>;
+	delete: (endpoint: string, query?: GenericObject) => Promise<any>;
 }

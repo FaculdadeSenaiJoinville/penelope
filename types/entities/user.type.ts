@@ -1,4 +1,5 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
+import { Group } from './group.type';
 
 export enum UserType {
 	ADMIN = 'ADMIN',
@@ -6,26 +7,35 @@ export enum UserType {
 	STUDENT = 'STUDENT'
 }
 
-export type User = {
-	id: string;
+export class User {
+	id?: string;
 
 	name: string;
 
 	email: string;
 
-	password: string;
+	password?: string;
 
 	active: boolean;
 
 	type: UserType;
 
-	created_at: Date;
+	created_at?: Date;
 
-	updated_at: Date;
+	updated_at?: Date;
 
 	created_by?: string;
 
 	updated_by?: string;
+
+	groups?: Group[];
+
+	constructor() {
+		this.name = '';
+		this.email = '';
+		this.type = '' as UserType;
+		this.active = true;
+	}
 };
 
 export type UserWithActions = User & {
@@ -102,5 +112,28 @@ export class UserDetails {
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 		this.active = user ? user.active : true;
+	}
+}
+
+export type ProfileGroup = {
+	name: string;
+
+	description: string;
+}
+
+export class Profile {
+	name?: string;
+
+	email?: string;
+
+	type?: UserType;
+
+	groups?: ProfileGroup[]
+
+	constructor(user?: User) {
+		this.name = user?.name;
+		this.email = user?.email;
+		this.type = user?.type;
+		this.groups = user?.groups as ProfileGroup[];
 	}
 }

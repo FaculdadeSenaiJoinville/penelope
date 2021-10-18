@@ -122,19 +122,17 @@
 
 		methods: {
 			saveAndNew(): Promise<void> {
-				return this.saveUserData()
-					.then(() => {
-						this.userData = new NewUser();
+				return this.saveUserData().then(() => {
+					this.userData = new NewUser();
 
-						this.resetVuetifyForm();
-					});
+					this.resetVuetifyForm();
+				});
 			},
 
 			save(): Promise<void> {
-				return this.saveUserData()
-					.then(() => {
-						this.closeModal();
-					});
+				return this.saveUserData().then(() => {
+					this.closeModal();
+				});
 			},
 
 			saveUserData() {

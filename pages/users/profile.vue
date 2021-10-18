@@ -120,10 +120,9 @@
 			},
 
 			updatePassword() {
-				this.Api.put(`/users/update-password/${this.$auth.user.id}`, this.newPassword)
-					.then(() => {
-						this.newPassword = new EditPassword();
-					});
+				this.Api.put(`/users/update-password/${this.$auth.user.id}`, this.newPassword).then(() => {
+					this.newPassword = new EditPassword();
+				});
 			}
 		},
 

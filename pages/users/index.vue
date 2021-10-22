@@ -5,10 +5,25 @@
 				{{ Dictionary.misc.getLabel('new') }}
 			</OButton>
 
-			<OFilterButtons v-model="statusSelected" :options="filterableStatus" />
-			<OFilterButtons v-model="typeSelected" :options="filterableTypes" />
+			<div class="d-flex">
+				<OFilterButtons
+					v-model="statusSelected"
+					:options="filterableStatus"
+					class="space-right-1"
+				/>
 
-			<OSearchBar v-model="searchText" :action="findUsers" :placeholder="Dictionary.misc.getLabel('search_by_name')" />
+				<OFilterButtons
+					v-model="typeSelected"
+					:options="filterableTypes"
+					class="space-right-1"
+				/>
+
+				<OSearchBar
+					v-model="searchText"
+					:action="findUsers"
+					:placeholder="Dictionary.misc.getLabel('search_by_name')"
+				/>
+			</div>
 		</div>
 
 		<div>

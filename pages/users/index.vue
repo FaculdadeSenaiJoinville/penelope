@@ -216,6 +216,7 @@
 
 		mounted() {
 			this.findUsers();
+			this.$root.$on('update-list', this.findUsers);
 		}
 	});
 </script>

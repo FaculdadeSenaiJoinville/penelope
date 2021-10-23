@@ -1,11 +1,15 @@
 <template>
 	<div class="login-container">
-		<div class="login-container-items">
+		<div class="image-container">
 			<img src="../../static/illustrations/skate.svg" />
 		</div>
 
-		<div class="login-container-items">
+		<div class="form-container">
 			<OCard padding="4" block>
+				<div class="logo space-bottom-1">
+					ODYSSEY
+				</div>
+
 				<OInput
 					v-model="user.email"
 					text
@@ -87,10 +91,26 @@
 		justify-content: space-around;
 	}
 
-	.login-container-items {
-		display: flex;
-		justify-content: center;
-		width: 35%;
+	.image-container {
+		text-align: center;
+		width: 30rem;
+	}
+
+	.image-container img {
+		width: 80%;
+	}
+
+	.form-container {
+		width: 35rem;
+	}
+
+	.logo {
+		font: 3rem 'Rowdies', sans-serif;
+		font-weight: 600;
+		letter-spacing: 0.1rem;
+		color: var(--green);
+		user-select: none;
+		text-align: center;
 	}
 
 	.padding-top-20 {

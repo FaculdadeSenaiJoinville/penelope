@@ -3,7 +3,11 @@
 		<div class="o-input-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span v-if="label && required" class="o-input-required-symbol">*</span>
+			<span
+				v-if="label && required"
+				class="o-input-required-symbol"
+				:title="Dictionary.misc.getLabel('required')"
+			>*</span>
 		</div>
 
 		<input

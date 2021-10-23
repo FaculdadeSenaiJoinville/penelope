@@ -3,7 +3,11 @@
 		<div class="o-select-list-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span v-if="label && required" class="o-select-list-required-symbol">*</span>
+			<span
+				v-if="label && required"
+				class="o-select-list-required-symbol"
+				:title="Dictionary.misc.getLabel('required')"
+			>*</span>
 		</div>
 
 		<VAutocomplete

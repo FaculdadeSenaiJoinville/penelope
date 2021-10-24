@@ -3,11 +3,7 @@
 		<div class="o-select-list-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span
-				v-if="label && required"
-				class="o-select-list-required-symbol"
-				:title="Dictionary.misc.getLabel('required')"
-			>*</span>
+			<ORequiredSymbol v-if="label && required" />
 		</div>
 
 		<VAutocomplete
@@ -51,11 +47,13 @@
 	import Vue from 'vue';
 	import { VAutocomplete, VSelect } from 'vuetify/lib';
 	import { ListOption } from '~/types/components/o-select-list.type';
+	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 	export default Vue.extend({
 		components: {
 			VAutocomplete,
-			VSelect
+			VSelect,
+			ORequiredSymbol
 		},
 
 		props: {

@@ -3,11 +3,7 @@
 		<div class="o-input-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span
-				v-if="label && required"
-				class="o-input-required-symbol"
-				:title="Dictionary.misc.getLabel('required')"
-			>*</span>
+			<ORequiredSymbol v-if="label && required" />
 		</div>
 
 		<label :class="{'active': value}" class="o-switch-button">
@@ -30,8 +26,13 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 	export default Vue.extend({
+		components: {
+			ORequiredSymbol
+		},
+
 		props: {
 			disabled: { type: Boolean, default: false },
 			value: { type: Boolean, default: false },

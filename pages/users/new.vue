@@ -132,6 +132,7 @@
 			save(): Promise<void> {
 				return this.saveUserData().then(() => {
 					this.closeModal();
+					this.$root.$emit('update-list');
 				});
 			},
 

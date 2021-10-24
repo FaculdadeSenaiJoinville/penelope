@@ -40,8 +40,6 @@
 			attach
 			@change="handleTypeSelect"
 		/>
-
-		{{ value }}
 	</section>
 </template>
 

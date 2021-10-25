@@ -91,7 +91,6 @@
 		},
 
 		methods: {
-
 			handleTypeSelect(value: any) {
 				this.$emit('input', value);
 			}

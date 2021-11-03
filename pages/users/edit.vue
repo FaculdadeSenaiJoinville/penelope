@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="users" type="edit" :title="userData.name" />
+		<OModalHeader module="users" type="edit" :title="notChangedUserData.name" />
 
 		<OModalBody>
 			<VForm v-if="!loading" ref="form" class="form">
@@ -25,6 +25,7 @@
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
+					autocomplete
 					:items="userTypes"
 					name="type"
 					required
@@ -46,11 +47,12 @@
 		<OModalFooter>
 			<OButton
 				success
-				icon="content-save"
 				:action="update"
 				:disabled="loading || notChanged"
 				:title="Dictionary.misc.getLabel('save')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 		</OModalFooter>
 	</section>
 </template>

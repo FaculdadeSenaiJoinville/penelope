@@ -54,20 +54,23 @@
 		<OModalFooter>
 			<OButton
 				success
-				icon="content-save-all"
+				icon="plus-box-multiple"
 				class="space-right-1"
 				:action="saveAndNew"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save_and_new')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 
 			<OButton
 				success
-				icon="content-save"
 				:action="save"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 		</OModalFooter>
 	</section>
 </template>

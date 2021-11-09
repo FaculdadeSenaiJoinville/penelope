@@ -5,10 +5,25 @@
 				{{ Dictionary.misc.getLabel('new') }}
 			</OButton>
 
-			<OFilterButtons v-model="statusSelected" :options="filterableStatus" />
-			<OFilterButtons v-model="typeSelected" :options="filterableTypes" />
+			<div class="d-flex">
+				<OFilterButtons
+					v-model="statusSelected"
+					:options="filterableStatus"
+					class="space-right-1"
+				/>
 
-			<OSearchBar v-model="searchText" :action="findUsers" :placeholder="Dictionary.misc.getLabel('search_by_name')" />
+				<OFilterButtons
+					v-model="typeSelected"
+					:options="filterableTypes"
+					class="space-right-1"
+				/>
+
+				<OSearchBar
+					v-model="searchText"
+					:action="findUsers"
+					:placeholder="Dictionary.misc.getLabel('search_by_name')"
+				/>
+			</div>
 		</div>
 
 		<div>
@@ -163,7 +178,7 @@
 					like: (this.searchText) ? { name: this.searchText } : null
 				};
 
-				this.api.get('/users/list', query)
+				this.Api.get('/users/list', query)
 					.then((response) => {
 						const [users, count] = response;
 
@@ -173,13 +188,13 @@
 									icon: 'eye',
 									title: this.Dictionary.misc.getLabel('details'),
 									info: true,
-									action: () => this.openModal({ modal: 'users/details', id: user.id })
+									action: () => this.openModal({ modal: 'users/details', id: user.id as string })
 								},
 								{
 									icon: 'pen',
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
-									action: () => this.openModal({ modal: 'users/edit', id: user.id })
+									action: () => this.openModal({ modal: 'users/edit', id: user.id as string })
 								}
 							];
 
@@ -188,9 +203,6 @@
 
 						this.totalPages = Math.ceil(parseInt(count) / 10);
 						this.users = users;
-					})
-					.catch((error) => {
-						this.Messages.requestFailed(error);
 					})
 					.finally(() => {
 						this.loading = false;
@@ -204,6 +216,7 @@
 
 		mounted() {
 			this.findUsers();
+			this.$root.$on('update-list', this.findUsers);
 		}
 	});
 </script>

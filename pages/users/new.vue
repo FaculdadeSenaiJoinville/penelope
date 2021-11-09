@@ -54,20 +54,23 @@
 		<OModalFooter>
 			<OButton
 				success
-				icon="content-save-all"
+				icon="plus-box-multiple"
 				class="space-right-1"
 				:action="saveAndNew"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save_and_new')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 
 			<OButton
 				success
-				icon="content-save"
 				:action="save"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 		</OModalFooter>
 	</section>
 </template>
@@ -122,29 +125,22 @@
 
 		methods: {
 			saveAndNew(): Promise<void> {
-				return this.saveUserData()
-					.then((response) => {
-						this.Messages.requestSuccess(response);
+				return this.saveUserData().then(() => {
+					this.userData = new NewUser();
 
-						this.userData = new NewUser();
-
-						this.resetVuetifyForm();
-					})
-					.catch(this.Messages.requestFailed);
+					this.resetVuetifyForm();
+				});
 			},
 
 			save(): Promise<void> {
-				return this.saveUserData()
-					.then((response) => {
-						this.Messages.requestSuccess(response);
-
-						this.closeModal();
-					})
-					.catch(this.Messages.requestFailed);
+				return this.saveUserData().then(() => {
+					this.closeModal();
+					this.$root.$emit('update-list');
+				});
 			},
 
 			saveUserData() {
-				return this.$axios.$post('users/create', this.userData);
+				return this.Api.post('users/create', this.userData);
 			}
 		}
 	});

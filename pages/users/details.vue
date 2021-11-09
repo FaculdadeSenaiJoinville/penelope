@@ -61,12 +61,11 @@
 			getUserDetails() {
 				this.loading = true;
 
-				this.api.get(`users/details/${this.id}`)
+				this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new UserDetails(response);
 					})
-					.catch((error) => {
-						this.Messages.requestFailed(error);
+					.catch(() => {
 						this.closeModal();
 					})
 					.finally(() => {

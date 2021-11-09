@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OActionCard icon="account-plus" :description="Dictionary.users.getLabel('create_new_user')" :action="openNewUserModal" />
+		<OActionCard icon="account-plus" description="Listagem de usuarios do sistema." :action="openNewUserModal" />
 	</section>
 </template>
 
@@ -15,7 +15,7 @@
 
 		methods: {
 			openNewUserModal() {
-				this.openModal({ modal: 'users/new' });
+				this.$router.push('/users');
 			}
 		}
 	});

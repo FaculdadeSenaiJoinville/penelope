@@ -43,11 +43,11 @@
 			:title="title"
 			@click="action"
 		>
+			<OIcon v-if="icon" :name="icon" />
+
 			<template v-if="text">
 				{{ text }}
 			</template>
-
-			<OIcon v-if="icon" :name="icon" />
 		</button>
 	</section>
 </template>
@@ -109,7 +109,11 @@
 				}
 
 				if (icon) {
-					classes.push('o-button-icon icon-button');
+					if (this.text) {
+						classes.push('o-button o-button-icon-text');
+					} else {
+						classes.push('o-button-icon icon-button');
+					}
 				} else {
 					classes.push('o-button');
 				}
@@ -163,11 +167,16 @@
 	.o-button {
 		letter-spacing: 0.1rem;
 		box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+		height: 40px;
 	}
 
 	.o-button-icon {
 		width: 40px;
 		height: 40px;
+	}
+
+	.o-button-icon-text i {
+		margin-right: 10px;
 	}
 
 	.o-button-block {

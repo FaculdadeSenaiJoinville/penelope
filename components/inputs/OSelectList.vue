@@ -3,13 +3,13 @@
 		<div class="o-select-list-label">
 			<label v-if="label" :for="name">{{ label }}</label>
 
-			<span v-if="label && required" class="o-select-list-required-symbol">*</span>
+			<ORequiredSymbol v-if="label && required" />
 		</div>
 
 		<VAutocomplete
 			v-if="autocomplete"
 			id="o-select-list-input"
-			v-model="value"
+			:value="value"
 			:name="name"
 			:placeholder="placeholder"
 			:required="required"
@@ -21,14 +21,14 @@
 			:no-data-text="noDataText"
 			hide-details
 			attach
-			@input="$emit('input', value)"
+			@change="handleTypeSelect"
 		/>
 
 		<VSelect
 			v-else
-			v-model="value"
-			:name="name"
+			:value="value"
 			:placeholder="placeholder"
+			:name="name"
 			:required="required"
 			:items="items"
 			:item-text="itemName"
@@ -38,7 +38,7 @@
 			:no-data-text="noDataTextValue"
 			hide-details
 			attach
-			@input="$emit('input', value)"
+			@change="handleTypeSelect"
 		/>
 	</section>
 </template>
@@ -47,11 +47,13 @@
 	import Vue from 'vue';
 	import { VAutocomplete, VSelect } from 'vuetify/lib';
 	import { ListOption } from '~/types/components/o-select-list.type';
+	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 	export default Vue.extend({
 		components: {
 			VAutocomplete,
-			VSelect
+			VSelect,
+			ORequiredSymbol
 		},
 
 		props: {
@@ -65,13 +67,8 @@
 			returnObject: { type: Boolean, default: false },
 			required: { type: Boolean, default: false },
 			autocomplete: { type: Boolean, default: false },
-			noDataText: { type: String, default: '' }
-		},
-
-		data() {
-			return {
-				value: ''
-			};
+			noDataText: { type: String, default: '' },
+			value: { type: String, required: true }
 		},
 
 		computed: {
@@ -92,6 +89,12 @@
 				}
 
 				return this.noDataText;
+			}
+		},
+
+		methods: {
+			handleTypeSelect(value: any) {
+				this.$emit('input', value);
 			}
 		}
 	});

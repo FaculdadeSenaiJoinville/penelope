@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="users" type="edit" :title="userData.name" />
+		<OModalHeader module="users" type="edit" :title="notChangedUserData.name" />
 
 		<OModalBody>
 			<VForm v-if="!loading" ref="form" class="form">
@@ -25,6 +25,7 @@
 				<OSelectList
 					v-model="userData.type"
 					:label="Dictionary.users.getFieldName('type')"
+					autocomplete
 					:items="userTypes"
 					name="type"
 					required
@@ -46,11 +47,12 @@
 		<OModalFooter>
 			<OButton
 				success
-				icon="content-save"
 				:action="update"
 				:disabled="loading || notChanged"
 				:title="Dictionary.misc.getLabel('save')"
-			/>
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 		</OModalFooter>
 	</section>
 </template>
@@ -118,24 +120,21 @@
 
 		methods: {
 			update() {
-				return this.api.put(`users/update/${this.id}`, this.userData)
-					.then((response) => {
-						this.Messages.requestSuccess(response);
+				return this.Api.put(`users/update/${this.id}`, this.userData)
+					.then(() => {
 						this.closeModal();
-					})
-					.catch(this.Messages.requestFailed);
+					});
 			},
 
 			async getUserDetails() {
 				this.loading = true;
 
-				await this.api.get(`users/details/${this.id}`)
+				await this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new EditUser(response);
 						this.notChangedUserData = new EditUser(response);
 					})
-					.catch((error) => {
-						this.$toast.error(error?.response?.data?.message);
+					.catch(() => {
 						this.closeModal();
 					})
 					.finally(() => {

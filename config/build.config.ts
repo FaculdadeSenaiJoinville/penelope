@@ -1,7 +1,9 @@
 import { NuxtOptionsBuild } from '@nuxt/types/config/build';
+const { VuetifyLoaderPlugin } = require('vuetify-loader');
 
 const build: NuxtOptionsBuild = {
-	transpile: ['vuetify/lib'],
+	transpile: ['vuetify'],
+	plugins: [new VuetifyLoaderPlugin()],
 	analyze: false
 };
 

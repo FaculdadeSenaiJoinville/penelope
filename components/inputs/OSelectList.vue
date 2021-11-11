@@ -125,7 +125,7 @@
 	.o-select-list .v-text-field {
 		padding-top: 0;
 		margin-top: 0;
-		height: 2.2rem;
+		min-height: 2.2rem;
 		border: 2px solid var(--gray-3);
 		background: var(--gray-1);
 		border-radius: 10px;

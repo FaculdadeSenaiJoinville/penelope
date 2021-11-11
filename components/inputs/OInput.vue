@@ -7,6 +7,7 @@
 		</div>
 
 		<input
+			v-if="!textarea"
 			:type="inputType"
 			:name="name"
 			:aria-label="label"
@@ -14,6 +15,18 @@
 			:disabled="disabled"
 			:placeholder="placeholder"
 			class="input"
+			:required="required"
+			@input="$emit('input', $event.target.value)"
+		/>
+
+		<textarea
+			v-if="textarea"
+			:name="name"
+			:aria-label="label"
+			:value="value"
+			:disabled="disabled"
+			:placeholder="placeholder"
+			class="input o-input-textarea"
 			:required="required"
 			@input="$emit('input', $event.target.value)"
 		/>
@@ -35,7 +48,8 @@
 			name: { type: String, required: true },
 			value: { type: String, default: '' },
 			block: { type: Boolean, default: false },
-			disabled: { type: Boolean, default: false }
+			disabled: { type: Boolean, default: false },
+			textarea: { type: Boolean, default: false }
 		},
 
 		computed: {
@@ -58,7 +72,11 @@
 			},
 
 			inputClasses(): string {
-				const classes = ['o-input'];
+				const classes = [];
+
+				if (!this.textarea) {
+					classes.push('o-input');
+				}
 
 				if (this.block) {
 					classes.push('input-block');
@@ -92,5 +110,10 @@
 
 	.o-input-required-symbol {
 		color: var(--red);
+	}
+
+	.o-input-textarea {
+		height: 100px;
+		width: 100%;
 	}
 </style>

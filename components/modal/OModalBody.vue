@@ -16,5 +16,7 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		max-height: 25rem;
+		overflow-y: scroll;
 	}
 </style>

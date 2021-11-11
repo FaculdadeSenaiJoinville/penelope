@@ -1,6 +1,13 @@
 <template>
-	<section>
-		<OActionCard icon="account-plus" description="Listagem de usuarios do sistema." :action="openNewUserModal" />
+	<section class="d-flex">
+		<OActionCard icon="account" description="Listagem de usuarios do sistema." :action="openUserList" />
+
+		<OActionCard
+			icon="account-group"
+			description="Listagem de grupos do sistema."
+			:action="openGroupList"
+			class="ml-6"
+		/>
 	</section>
 </template>
 
@@ -14,8 +21,12 @@
 		},
 
 		methods: {
-			openNewUserModal() {
+			openUserList() {
 				this.$router.push('/users');
+			},
+
+			openGroupList() {
+				this.$router.push('/groups');
 			}
 		}
 	});

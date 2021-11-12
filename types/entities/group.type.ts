@@ -1,3 +1,4 @@
+import { ActionButtonConfig } from '../components/o-action-buttons.type';
 import { User } from '.';
 
 export type Group = {
@@ -16,6 +17,10 @@ export type Group = {
 	created_by?: string;
 
 	updated_by?: string;
+};
+
+export type GroupWithActions = Group & {
+	actionButtons?: ActionButtonConfig[];
 };
 
 export class GroupDetails {

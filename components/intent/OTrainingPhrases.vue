@@ -29,18 +29,15 @@
 </template>
 
 <script lang="ts">
-	import { type } from 'os';
-	import Vue, { PropType } from 'vue';
-	import { VBtn, VChip, VCard } from 'vuetify/lib';
+
+	import Vue from 'vue';
+	import { VChip } from 'vuetify/lib';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import { DataObject } from '~/types/components/o-training-phrases.type';
 
 	export default Vue.extend({
 		components: {
-			VBtn,
 			VChip,
-			VCard,
 			OInput,
 			OButton
 		},
@@ -59,15 +56,12 @@
 			};
 		},
 
-		computed: {
-
-		},
-
 		methods: {
 			addPhrase():void {
 				if (this.currentPhrase.trim()) {
 					this.phrases.push(this.currentPhrase as never);
 					this.currentPhrase = '';
+					this.$emit('input', this.phrases);
 				}
 			},
 

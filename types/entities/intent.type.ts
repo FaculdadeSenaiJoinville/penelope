@@ -40,9 +40,9 @@ export type IntentWithActions = BotContent & {
 export class NewIntent {
 	public name: string;
 
-	public dialogflow_id: string;
-
 	public training_phrases: string[];
+
+	public message: string;
 
 	public priority: number;
 
@@ -52,8 +52,8 @@ export class NewIntent {
 
 	constructor() {
 		this.name = '';
-		this.dialogflow_id = '';
 		this.training_phrases = [];
+		this.message = '';
 		this.priority = 0;
 		this.end_interaction = false;
 		this.contents = [];
@@ -73,13 +73,13 @@ export class EditIntent {
 
 	public contents?: BotContent[];
 
-	constructor() {
-		this.name = '';
-		this.dialogflow_id = '';
-		this.training_phrases = [];
-		this.priority = 0;
-		this.end_interaction = false;
-		this.contents = [];
+	constructor(intent?: BotIntent) {
+		this.name = intent ? intent.name : '';
+		this.dialogflow_id = intent ? intent.dialogflow_id : '';
+		this.training_phrases = intent ? intent.training_phrases : [];
+		this.priority = intent ? intent.priority : 0;
+		this.end_interaction = intent ? intent.end_interaction : false;
+		this.contents = intent ? intent.contents : [];
 	}
 };
 

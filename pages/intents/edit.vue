@@ -1,11 +1,11 @@
 <template>
 	<section>
-		<OModalHeader module="intents" type="new" />
+		<OModalHeader module="intents" type="edit" />
 
 		<OModalBody>
 			<VForm ref="form" class="form">
 				<OInput
-					v-model="intentData.name"
+					v-model="userData.name"
 					text
 					:label="Dictionary.intents.getFieldName('name')"
 					name="name"
@@ -14,26 +14,25 @@
 				/>
 
 				<OSelectList
-					v-model="intentData.contents"
+					v-model="userData.type"
 					label="Conteúdos"
 					name="type"
 					required
-					:items="contents"
+					:items="userTypes"
 					class="space-top-1"
 					autocomplete
 					multiple
 				/>
 
 				<OInput
-					v-model="intentData.message"
 					textarea
 					label="Mensagem"
-					name="message"
+					name="mensage"
 					required
 					class="space-top-1 label-left space-full-w"
 				/>
 
-				<OTrainingPhrases v-model="intentData.training_phrases" />
+				<OTrainingPhrases />
 			</VForm>
 		</OModalBody>
 
@@ -68,7 +67,7 @@
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OTrainingPhrases from '~/components/intent/OTrainingPhrases.vue';
-	import { NewIntent } from '~/types/entities';
+	import { EditIntent } from '~/types/entities';
 
 	export default Vue.extend({
 		components: {
@@ -85,29 +84,42 @@
 		data() {
 			return {
 				loading: false,
-				intentData: new NewIntent(),
+				intentData: new EditIntent(),
+				notChangedIntentData: new EditIntent(),
 				contents: []
 			};
 		},
 
+		computed: {
+
+			id() {
+				return this.$route.query.id;
+			}
+		},
+
 		methods: {
-			saveAndNew(): Promise<void> {
-				return this.saveIntentData().then(() => {
-					this.intentData = new NewIntent();
 
-					this.resetVuetifyForm();
-				});
+			update() {
+				return this.Api.put(`intent/update/${this.id}`, this.intentData)
+					.then(() => {
+						this.closeModal();
+					});
 			},
 
-			save(): Promise<void> {
-				return this.saveIntentData().then(() => {
-					this.closeModal();
-					this.$root.$emit('update-list');
-				});
-			},
+			async getUserDetails() {
+				this.loading = true;
 
-			saveIntentData() {
-				return this.Api.post('chatbot/intent/create', this.intentData);
+				await this.Api.get(`intent/details/${this.id}`)
+					.then((response) => {
+						this.intentData = new EditIntent(response);
+						this.notChangedIntentData = new EditIntent(response);
+					})
+					.catch(() => {
+						this.closeModal();
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			},
 
 			getContents() {

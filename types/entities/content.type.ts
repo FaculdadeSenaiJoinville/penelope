@@ -38,13 +38,10 @@ export class NewContent {
 
 	public explanation: string;
 
-	public intents?: BotIntent[];
-
 	constructor() {
 		this.name = '';
 		this.link = '';
 		this.explanation = '';
-		this.intents = [];
 	}
 }
 
@@ -57,11 +54,10 @@ export class EditContent {
 
 	public intents?: BotIntent[];
 
-	constructor() {
-		this.name = '';
-		this.link = '';
-		this.explanation = '';
-		this.intents = [];
+	constructor(content?: BotContent) {
+		this.name = content ? content.name : '';
+		this.link = content ? content.link : '';
+		this.explanation = (content ? content.explanation : '');
 	}
 };
 
@@ -72,12 +68,9 @@ export class ContentDetails {
 
 	public explanation: string;
 
-	public intents?: BotIntent[];
-
 	constructor(content?: BotContent) {
 		this.name = content ? content.name : '';
 		this.link = content ? content.link : '';
 		this.explanation = (content ? content.explanation : '');
-		this.intents = content ? content.intents : [];
 	}
 }

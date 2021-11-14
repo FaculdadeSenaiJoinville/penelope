@@ -1,9 +1,9 @@
 <template>
 	<section>
-		<OModalHeader module="contents" type="new" />
+		<OModalHeader module="contents" type="edit" :title="notChangedContentData.name" />
 
 		<OModalBody>
-			<VForm ref="form" class="form">
+			<VForm v-if="!loading" ref="form" class="form">
 				<OInput
 					v-model="contentData.name"
 					text
@@ -24,7 +24,6 @@
 				<div class="textarea-full-width">
 					<OInput
 						v-model="contentData.explanation"
-						password
 						:label="Dictionary.contents.getFieldName('explanation')"
 						name="explanation"
 						required
@@ -33,23 +32,16 @@
 					/>
 				</div>
 			</VForm>
+
+			<OLoader v-else />
 		</OModalBody>
 
 		<OModalFooter>
 			<OButton
 				success
-				:action="saveAndNew"
-				:disabled="loading || !valid"
-				icon="content-save-all"
-				class="mr-4"
-			>
-				{{ Dictionary.misc.getLabel('save') }}
-			</OButton>
-
-			<OButton
-				success
-				:action="save"
-				:disabled="loading || !valid"
+				:action="update"
+				:disabled="loading || notChanged"
+				:title="Dictionary.misc.getLabel('save')"
 			>
 				{{ Dictionary.misc.getLabel('save') }}
 			</OButton>
@@ -60,12 +52,13 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { EditContent } from '~/types/entities/content.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import { NewContent } from '~/types/entities';
+	import OLoader from '~/components/OLoader.vue';
 
 	export default Vue.extend({
 		components: {
@@ -74,42 +67,56 @@
 			OModalFooter,
 			VForm,
 			OInput,
-			OButton
+			OButton,
+			OLoader
 		},
 
 		data() {
 			return {
 				loading: false,
-				contentData: new NewContent()
+				contentData: new EditContent(),
+				notChangedContentData: new EditContent()
 			};
 		},
 
 		computed: {
-			valid(): Boolean {
-				return this.contentData.name.trim() !== '' &&
-					(this.contentData.link.trim() !== '' || this.contentData.explanation.trim() !== '');
+			id() {
+				return this.$route.query.id;
+			},
+
+			notChanged(): boolean {
+				return this.sameObject(this.contentData, this.notChangedContentData);
 			}
 		},
 
 		methods: {
-			saveAndNew(): Promise<void> {
-				return this.saveContentData().then(() => {
-					this.contentData = new NewContent();
-
-					this.resetVuetifyForm();
-				});
+			update() {
+				return this.Api.put(`chatbot/content/update/${this.id}`, this.contentData)
+					.then(() => {
+						this.closeModal();
+						this.$root.$emit('update-list');
+					});
 			},
 
-			save(): Promise<void> {
-				return this.saveContentData().then(() => {
-					this.closeModal();
-					this.$root.$emit('update-list');
-				});
-			},
+			async getContentDetails() {
+				this.loading = true;
 
-			saveContentData() {
-				return this.Api.post('chatbot/content/create', this.contentData);
+				await this.Api.get(`chatbot/content/details/${this.id}`)
+					.then((response) => {
+						this.contentData = new EditContent(response);
+						this.notChangedContentData = new EditContent(response);
+					})
+					.catch(() => {
+						this.closeModal();
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			}
+		},
+
+		mounted() {
+			this.getContentDetails();
 		}
 	});
 </script>

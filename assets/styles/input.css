@@ -1,5 +1,5 @@
 .input {
-	height: 2.2rem;
+	min-height: 2.2rem;
 	width: 100%;
 	border: 2px solid var(--gray-3);
 	background: var(--gray-1);

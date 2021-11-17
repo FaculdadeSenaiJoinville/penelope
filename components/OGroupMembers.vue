@@ -6,28 +6,33 @@
 
 		<VDataTable
 			:items="members"
-			:search="search"
 			:headers="headers"
 			:no-data-text="Dictionary.misc.getMessage('no_data_found')"
-			items-per-page="3"
+			:items-per-page="3"
 			:footer-props="{
 				'items-per-page-text': Dictionary.groups.getMessage('users_per_page'),
-				'items-per-page-options': ['3', '5']
+				'items-per-page-options': [3, 5]
 			}"
 			class="elevation-0 space-bottom-1 o-table-border space-top-1"
 		>
-			<template #top>
-				<VRow>
-					<VCol class="d-flex justify-end">
-						<OInput
-							v-model="search"
-							placeholder="Buscar por nome"
-							name="search-members"
-							class="pa-2"
-							text
-						/>
-					</VCol>
-				</VRow>
+			<template v-if="!details" #top>
+				<div class="o-search-input">
+					<VAutocomplete
+						id="o-select-list-input"
+						v-model="selectedUsers"
+						v-model:search-input="searchText"
+						:items="users"
+						item-text="name"
+						name="type"
+						required
+						multiple
+						autocomplete="off"
+						hide-details
+						attach
+						dense
+						class="space-top-bottom-1 o-select-list-input input"
+					/>
+				</div>
 			</template>
 			<template #item="{ item }">
 				<tr :key="item.id">
@@ -49,8 +54,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { VDataTable, VRow, VCol } from 'vuetify/lib';
-	import OInput from '~/components/inputs/OInput.vue';
+	import { VDataTable, VRow, VCol, VAutocomplete } from 'vuetify/lib';
 	import OIcon from '~/components/OIcon.vue';
 
 	export default Vue.extend({
@@ -58,7 +62,7 @@
 			VDataTable,
 			VRow,
 			VCol,
-			OInput,
+			VAutocomplete,
 			OIcon
 		},
 
@@ -70,18 +74,57 @@
 
 		data() {
 			return {
-				search: '',
+				searchText: '',
 				headers: [
 					{ text: 'Nome', value: 'name', width: '40%' },
 					{ text: 'Tipo', value: 'type', width: '40%' },
 					{ text: '', value: 'actions', filterable: false, width: '10%' }
-				]
+				],
+
+				users: [],
+				selectedUsers: [],
+				timeout: {} as NodeJS.Timeout
 			};
+		},
+
+		watch: {
+			searchText(text: string) {
+				if (this.timeout) {
+					clearTimeout(this.timeout);
+				}
+
+				this.timeout = setTimeout(async() => {
+					await this.findUsers(text);
+				}, 500);
+			}
+		},
+
+		methods: {
+			findUsers(text: string) {
+				const query = {
+					like: (text) ? { name: text } : null
+				};
+
+				this.Api.get('/users/list', query)
+					.then((response) => {
+						const [users] = response;
+						this.users = users;
+					})
+					.catch((error) => {
+						this.Messages.error(error);
+					});
+			}
+		},
+
+		mounted() {
+			this.findUsers('');
 		}
 	});
 </script>
 
 <style scoped>
+	@import url('assets/styles/input.css');
+
 	.o-field {
 		display: flex;
 		flex-direction: column;
@@ -108,5 +151,30 @@
 	.o-members-remove {
 		color: #8FA7B2;
 		cursor: pointer
+	}
+
+	.o-search-input {
+		margin: 10px 10px 0 auto;
+		width: 50%;
+	}
+</style>
+
+<style>
+	#o-select-list-input {
+		padding-left: 0.5rem !important;
+	}
+
+	.theme--light.v-text-field > .v-input__control > .v-input__slot:before,
+	.theme--light.v-text-field > .v-input__control > .v-input__slot:after  {
+		border-style: none !important;
+		border: none !important;
+	}
+
+	.v-select__selections {
+		padding-left: 0.5rem !important;
+	}
+
+	.v-list {
+		border-radius: 10px !important;
 	}
 </style>

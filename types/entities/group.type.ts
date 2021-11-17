@@ -18,6 +18,17 @@ export type Group = {
 	updated_by?: string;
 };
 
+export type GroupUpdate = {
+
+	name: string;
+
+	description: string;
+
+	members: string[];
+
+	members_to_remove: string[];
+}
+
 export class GroupDetails {
 	public name: string;
 
@@ -25,9 +36,26 @@ export class GroupDetails {
 
 	public members: User[];
 
-	constructor(user?: Group) {
-		this.name = user ? user.name : '';
-		this.description = user ? user.description : '';
-		this.members = user ? user.members : [];
+	constructor(group?: Group) {
+		this.name = group ? group.name : '';
+		this.description = group ? group.description : '';
+		this.members = group ? group.members : [];
 	}
 }
+
+export class EditGroup {
+	public name: string;
+
+	public description: string;
+
+	public members: string[];
+
+	public members_to_remove: string[];
+
+	constructor(group?: GroupUpdate) {
+		this.name = group ? group.name : '';
+		this.description = group ? group.description : '';
+		this.members = group ? group.members : [];
+		this.members_to_remove = group ? group.members_to_remove : [];
+	}
+};

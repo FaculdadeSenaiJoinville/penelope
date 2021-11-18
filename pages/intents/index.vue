@@ -26,7 +26,6 @@
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
 						<td>{{ item.email }}</td>
-						<td>{{ Dictionary.intents.getEnum(item.type) }}</td>
 
 						<td class="text-right">
 							<OActionButtons :buttons="item.actionButtons" />
@@ -64,37 +63,6 @@
 		data() {
 			return {
 				searchText: '',
-				headers: [
-					{
-						text: 'Nome',
-						value: 'name',
-						align: 'left',
-						width: '30%'
-					},
-					{
-						text: 'Conteúdo',
-						value: 'content_name',
-						align: 'left',
-						width: '30%'
-					},
-					{
-						text: 'Criado por',
-						value: 'created_by',
-						align: 'left',
-						width: '20%'
-					},
-					{
-						text: 'Criado em',
-						value: 'created_at',
-						align: 'left',
-						width: '20%'
-					},
-					{
-						sortable: false,
-						align: 'right'
-					}
-				],
-
 				intents: [] as IntentWithActions[],
 				loading: false,
 				page: 1,
@@ -107,6 +75,41 @@
 				if (newValue !== oldValue) {
 					this.findIntents();
 				}
+			}
+		},
+
+		computed: {
+			headers() {
+				return [
+					{
+						text: this.Dictionary.chatbot.getFieldName('name'),
+						value: 'name',
+						align: 'left',
+						width: '30%'
+					},
+					{
+						text: this.Dictionary.chatbot.getFieldName('contents'),
+						value: 'content_name',
+						align: 'left',
+						width: '30%'
+					},
+					{
+						text: this.Dictionary.chatbot.getFieldName('created_by'),
+						value: 'created_by',
+						align: 'left',
+						width: '20%'
+					},
+					{
+						text: this.Dictionary.chatbot.getFieldName('created_at'),
+						value: 'created_at',
+						align: 'left',
+						width: '20%'
+					},
+					{
+						sortable: false,
+						align: 'right'
+					}
+				];
 			}
 		},
 

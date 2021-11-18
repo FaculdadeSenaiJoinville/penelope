@@ -7,7 +7,7 @@
 				<OInput
 					v-model="contentData.name"
 					text
-					:label="Dictionary.contents.getFieldName('name')"
+					:label="Dictionary.chatbot.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
@@ -15,7 +15,7 @@
 
 				<OInput
 					v-model="contentData.link"
-					:label="Dictionary.contents.getFieldName('link')"
+					:label="Dictionary.chatbot.getFieldName('link')"
 					name="link"
 					required
 					class="space-top-1"
@@ -25,7 +25,7 @@
 					<OInput
 						v-model="contentData.explanation"
 						password
-						:label="Dictionary.contents.getFieldName('explanation')"
+						:label="Dictionary.chatbot.getFieldName('explanation')"
 						name="explanation"
 						required
 						textarea

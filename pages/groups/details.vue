@@ -58,12 +58,12 @@
 			getGroupDetails() {
 				this.loading = true;
 
-				this.api.get(`groups/details/${this.id}`)
+				this.Api.get(`groups/details/${this.id}`)
 					.then((response) => {
 						this.groupData = new GroupDetails(response);
 					})
 					.catch((error) => {
-						this.Messages.requestFailed(error);
+						this.Messages.error(error);
 						this.closeModal();
 					})
 					.finally(() => {

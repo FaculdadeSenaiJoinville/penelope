@@ -1,13 +1,13 @@
 <template>
 	<section>
-		<OModalHeader module="intents" type="new" />
+		<OModalHeader module="bot_intents" type="new" />
 
 		<OModalBody>
 			<VForm ref="form" class="form">
 				<OInput
 					v-model="intentData.name"
 					text
-					:label="Dictionary.intents.getFieldName('name')"
+					:label="Dictionary.chatbot.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
@@ -15,7 +15,7 @@
 
 				<OSelectList
 					v-model="intentData.contents"
-					label="Conteúdos"
+					:label="Dictionary.chatbot.getFieldName('contents')"
 					name="type"
 					required
 					:items="contents"
@@ -26,8 +26,8 @@
 
 				<OInput
 					v-model="intentData.message"
+					:label="Dictionary.chatbot.getFieldName('message')"
 					textarea
-					label="Mensagem"
 					name="message"
 					required
 					class="space-top-1 label-left space-full-w"

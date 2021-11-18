@@ -9,19 +9,19 @@
 		<OModalBody>
 			<VForm v-if="!loading" class="form">
 				<OField
-					:label="Dictionary.contents.getFieldName('name')"
+					:label="Dictionary.chatbot.getFieldName('name')"
 					:text="contentData.name"
 					class="space-top-1"
 				/>
 
 				<OField
-					:label="Dictionary.contents.getFieldName('link')"
+					:label="Dictionary.chatbot.getFieldName('link')"
 					:text="contentData.link"
 					class="space-top-1"
 				/>
 
 				<OField
-					:label="Dictionary.contents.getFieldName('explanation')"
+					:label="Dictionary.chatbot.getFieldName('explanation')"
 					:text="contentData.explanation"
 					class="space-top-bottom-1 textarea-full-width"
 				/>

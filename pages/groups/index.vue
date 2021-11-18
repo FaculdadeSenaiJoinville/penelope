@@ -65,26 +65,6 @@
 		data() {
 			return {
 				searchText: '',
-				headers: [
-					{
-						text: 'Nome',
-						value: 'name',
-						align: 'left',
-						width: '30%'
-					},
-					{
-						text: 'Descrição',
-						value: 'description',
-						align: 'left',
-						width: '30%'
-					},
-					{
-						text: '',
-						sortable: false,
-						align: 'right'
-					}
-				],
-
 				groups: [] as GroupWithActions[],
 				loading: false,
 				page: 1,
@@ -97,6 +77,30 @@
 				if (newValue !== oldValue) {
 					this.findGroups();
 				}
+			}
+		},
+
+		computed: {
+			headers() {
+				return [
+					{
+						text: this.Dictionary.groups.getFieldName('name'),
+						value: 'name',
+						align: 'left',
+						width: '30%'
+					},
+					{
+						text: this.Dictionary.groups.getFieldName('description'),
+						value: 'description',
+						align: 'left',
+						width: '30%'
+					},
+					{
+						text: '',
+						sortable: false,
+						align: 'right'
+					}
+				];
 			}
 		},
 

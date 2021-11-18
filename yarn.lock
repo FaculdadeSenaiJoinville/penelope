@@ -6284,10 +6284,8 @@ object.values@^1.1.0, object.values@^1.1.4:
     define-properties "^1.1.3"
     es-abstract "^1.18.2"
 
-odyssey-dictionary@2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/odyssey-dictionary/-/odyssey-dictionary-2.19.0.tgz#4a4877984dacbb878734a817640bd75e61386e0a"
-  integrity sha512-y4tG/+S9pbzCWa92A9lM5eZYU4dXkcgfgvrGGjIF3HI22rHnEGbMQTc+pPPlbJZkw9GY1UKgwoW8KCihzYTdKw==
+odyssey-dictionary@../odyssey-dictionary/dist:
+  version "0.0.0"
 
 on-finished@^2.3.0, on-finished@~2.3.0:
   version "2.3.0"

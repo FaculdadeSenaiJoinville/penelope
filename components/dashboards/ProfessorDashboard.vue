@@ -1,10 +1,14 @@
 <template>
 	<section class="d-flex">
-		<OActionCard icon="account" description="Listagem de usuarios do sistema." :action="openUserList" />
+		<OActionCard
+			icon="account"
+			:description="Dictionary.users.getLabel('list_page_description')"
+			:action="openUserList"
+		/>
 
 		<OActionCard
 			icon="account-group"
-			description="Listagem de grupos do sistema."
+			:description="Dictionary.groups.getLabel('list_page_description')"
 			:action="openGroupList"
 			class="ml-6"
 		/>

@@ -51,7 +51,9 @@
 		data() {
 			return {
 				loading: false,
-				groupData: new GroupDetails()
+				groupData: new GroupDetails(),
+				membersToRemove: [] as string[],
+				membersToAdd: [] as string[]
 			};
 		},
 

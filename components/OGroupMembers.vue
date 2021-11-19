@@ -31,7 +31,12 @@
 						attach
 						dense
 						class="space-top-bottom-1 o-select-list-input input"
-					/>
+						@change="searchText = ''"
+					>
+						<template #item="data">
+							{{ data.item.name }}
+						</template>
+					</VAutocomplete>
 				</div>
 			</template>
 			<template #item="{ item }">
@@ -44,24 +49,33 @@
 					</td>
 
 					<td class="text-right">
-						<OIcon v-if="!details" name="close" class="o-members-remove" />
+						<VBtn
+							v-if="!details"
+							icon
+							@click="removing(item.id)"
+						>
+							<OIcon
+								name="close"
+								class="o-members-remove"
+							/>
+						</VBtn>
 					</td>
 				</tr>
 			</template>
 		</VDataTable>
+		{{ users }}
 	</section>
 </template>
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { VDataTable, VRow, VCol, VAutocomplete } from 'vuetify/lib';
+	import { VDataTable, VBtn, VAutocomplete } from 'vuetify/lib';
 	import OIcon from '~/components/OIcon.vue';
 
 	export default Vue.extend({
 		components: {
 			VDataTable,
-			VRow,
-			VCol,
+			VBtn,
 			VAutocomplete,
 			OIcon
 		},
@@ -113,6 +127,13 @@
 					.catch((error) => {
 						this.Messages.error(error);
 					});
+			},
+
+			removing(id: string) {
+				if (!this.toRemove.includes(id)) {
+					this.toRemove.push(id);
+					this.$emit('removeMember', id);
+				}
 			}
 		},
 

@@ -1,13 +1,13 @@
 <template>
 	<section>
-		<OModalHeader module="contents" type="new" />
+		<OModalHeader module="bot_contents" type="new" />
 
 		<OModalBody>
 			<VForm ref="form" class="form">
 				<OInput
 					v-model="contentData.name"
 					text
-					:label="Dictionary.chatbot.getFieldName('name')"
+					:label="Dictionary.bot_content.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
@@ -15,9 +15,8 @@
 
 				<OInput
 					v-model="contentData.link"
-					:label="Dictionary.chatbot.getFieldName('link')"
+					:label="Dictionary.bot_content.getFieldName('link')"
 					name="link"
-					required
 					class="space-top-1"
 				/>
 
@@ -25,9 +24,8 @@
 					<OInput
 						v-model="contentData.explanation"
 						password
-						:label="Dictionary.chatbot.getFieldName('explanation')"
+						:label="Dictionary.bot_content.getFieldName('explanation')"
 						name="explanation"
-						required
 						textarea
 						class="space-top-1"
 					/>

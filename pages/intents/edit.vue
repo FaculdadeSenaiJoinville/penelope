@@ -7,7 +7,7 @@
 				<OInput
 					v-model="userData.name"
 					text
-					:label="Dictionary.chatbot.getFieldName('name')"
+					:label="Dictionary.bot_intent.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
@@ -15,7 +15,7 @@
 
 				<OSelectList
 					v-model="userData.type"
-					:label="Dictionary.chatbot.getFieldName('contents')"
+					:label="Dictionary.bot_intent.getFieldName('contents')"
 					name="type"
 					required
 					:items="userTypes"
@@ -26,7 +26,7 @@
 
 				<OInput
 					textarea
-					:label="Dictionary.chatbot.getFieldName('message')"
+					:label="Dictionary.bot_intent.getFieldName('message')"
 					name="message"
 					required
 					class="space-top-1 label-left space-full-w"

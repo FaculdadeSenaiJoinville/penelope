@@ -63,26 +63,6 @@
 		data() {
 			return {
 				searchText: '',
-				headers: [
-					{
-						text: 'Nome',
-						value: 'name',
-						align: 'left',
-						width: '50%'
-					},
-					{
-						text: 'Link',
-						value: 'link',
-						align: 'left',
-						width: '40%'
-					},
-					{
-						text: '',
-						sortable: false,
-						align: 'right'
-					}
-				],
-
 				contents: [] as ContentWithActions[],
 				loading: false,
 				page: 1,
@@ -95,6 +75,30 @@
 				if (newValue !== oldValue) {
 					this.findContents();
 				}
+			}
+		},
+
+		computed: {
+			headers() {
+				return [
+					{
+						text: this.Dictionary.bot_content.getFieldName('name'),
+						value: 'name',
+						align: 'left',
+						width: '50%'
+					},
+					{
+						text: this.Dictionary.bot_content.getFieldName('link'),
+						value: 'link',
+						align: 'left',
+						width: '40%'
+					},
+					{
+						text: '',
+						sortable: false,
+						align: 'right'
+					}
+				];
 			}
 		},
 

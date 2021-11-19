@@ -82,25 +82,25 @@
 			headers() {
 				return [
 					{
-						text: this.Dictionary.chatbot.getFieldName('name'),
+						text: this.Dictionary.bot_intent.getFieldName('name'),
 						value: 'name',
 						align: 'left',
 						width: '30%'
 					},
 					{
-						text: this.Dictionary.chatbot.getFieldName('contents'),
+						text: this.Dictionary.bot_intent.getFieldName('contents'),
 						value: 'content_name',
 						align: 'left',
 						width: '30%'
 					},
 					{
-						text: this.Dictionary.chatbot.getFieldName('created_by'),
+						text: this.Dictionary.bot_intent.getFieldName('created_by'),
 						value: 'created_by',
 						align: 'left',
 						width: '20%'
 					},
 					{
-						text: this.Dictionary.chatbot.getFieldName('created_at'),
+						text: this.Dictionary.bot_intent.getFieldName('created_at'),
 						value: 'created_at',
 						align: 'left',
 						width: '20%'

@@ -5,7 +5,7 @@
 		<OModalBody>
 			<div>
 				<span class="o-modal-text">
-					{{ Dictionary.groups.getMessages('confirm_delete', { group_name: groupData.name }) }}
+					{{ Dictionary.groups.getMessage('confirm_delete', { group_name: groupData.name }) }}
 				</span>
 			</div>
 		</OModalBody>

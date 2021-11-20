@@ -130,6 +130,12 @@
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
 									action: () => this.openModal({ modal: 'groups/edit', id: group.id as string })
+								},
+								{
+									icon: 'delete',
+									title: this.Dictionary.misc.getLabel('delete'),
+									danger: true,
+									action: () => this.openModal({ modal: 'groups/delete', id: group.id as string })
 								}
 							];
 

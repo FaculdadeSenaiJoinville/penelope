@@ -15,13 +15,13 @@
 
 		<OActionCard
 			icon="robot-confused"
-			description="Intents do Chatbot"
+			:description="Dictionary.bot_intent.getLabel('list_page_description')"
 			to="/intents"
 		/>
 
 		<OActionCard
 			icon="book-open"
-			description="Conteúdos do Chatbot"
+			:description="Dictionary.bot_content.getLabel('list_page_description')"
 			to="/contents"
 		/>
 	</section>

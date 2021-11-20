@@ -134,6 +134,12 @@
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
 									action: () => this.openModal({ modal: 'intents/edit', id: intent.id as string })
+								},
+								{
+									icon: 'delete',
+									title: this.Dictionary.misc.getLabel('delete'),
+									danger: true,
+									action: () => this.openModal({ modal: 'intents/delete', id: intent.id as string })
 								}
 							];
 

@@ -38,7 +38,7 @@
 			<OButton
 				success
 				:action="update"
-				:disabled="loading || notChanged"
+				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
 			>
 				{{ Dictionary.misc.getLabel('save') }}
@@ -80,19 +80,19 @@
 		computed: {
 			id() {
 				return this.$route.query.id;
-			},
-
-			notChanged(): boolean {
-				return this.sameObject(this.contentData, this.notChangedContentData);
 			}
 		},
 
 		methods: {
 			update() {
+				this.loading = true;
 				return this.Api.put(`chatbot/content/update/${this.id}`, this.contentData)
 					.then(() => {
 						this.closeModal();
-						this.$root.$emit('update-list');
+						this.$emit('update-list');
+					})
+					.finally(() => {
+						this.loading = false;
 					});
 			},
 

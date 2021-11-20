@@ -25,7 +25,8 @@
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
-						<td>{{ item.email }}</td>
+						<td>{{ item.creator.name }}</td>
+						<td>{{ item.created_at }}</td>
 
 						<td class="text-right">
 							<OActionButtons :buttons="item.actionButtons" />
@@ -84,12 +85,6 @@
 					{
 						text: this.Dictionary.bot_intent.getFieldName('name'),
 						value: 'name',
-						align: 'left',
-						width: '30%'
-					},
-					{
-						text: this.Dictionary.bot_intent.getFieldName('contents'),
-						value: 'content_name',
 						align: 'left',
 						width: '30%'
 					},

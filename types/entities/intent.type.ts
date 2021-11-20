@@ -1,5 +1,6 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 import { BotContent } from './content.type';
+import { User } from '.';
 
 export class BotIntent {
 	id?: string;
@@ -24,12 +25,17 @@ export class BotIntent {
 
 	contents?: BotContent[];
 
+	message?: string;
+
+	creator: User;
+
 	constructor() {
 		this.name = '';
 		this.dialogflow_id = '';
 		this.training_phrases = [];
 		this.priority = 0;
 		this.end_interaction = false;
+		this.creator = new User();
 	}
 };
 
@@ -63,8 +69,6 @@ export class NewIntent {
 export class EditIntent {
 	public name: string;
 
-	public dialogflow_id: string;
-
 	public training_phrases: string[];
 
 	public priority: number;
@@ -73,35 +77,43 @@ export class EditIntent {
 
 	public contents?: BotContent[];
 
+	public message?: string;
+
 	constructor(intent?: BotIntent) {
 		this.name = intent ? intent.name : '';
-		this.dialogflow_id = intent ? intent.dialogflow_id : '';
 		this.training_phrases = intent ? intent.training_phrases : [];
 		this.priority = intent ? intent.priority : 0;
 		this.end_interaction = intent ? intent.end_interaction : false;
 		this.contents = intent ? intent.contents : [];
+		this.message = intent && intent.message ? intent.message : '';
 	}
 };
 
 export class IntentDetails {
 	public name: string;
 
-	public dialogflow_id: string;
-
 	public training_phrases: string[];
 
 	public priority: number;
+
+	public created_at?: Date;
 
 	public end_interaction: boolean;
 
 	public contents?: BotContent[];
 
+	public message?: string;
+
+	public creator: User;
+
 	constructor(intent?: BotIntent) {
 		this.name = intent ? intent.name : '';
-		this.dialogflow_id = intent ? intent.dialogflow_id : '';
 		this.training_phrases = (intent ? intent.training_phrases : []);
 		this.priority = intent ? intent.priority : 0;
+		this.created_at = intent ? intent.created_at : undefined;
 		this.end_interaction = intent ? intent.end_interaction : false;
 		this.contents = intent ? intent.contents : [];
+		this.message = intent ? intent.message : '';
+		this.creator = intent ? intent.creator : new User();
 	}
 }

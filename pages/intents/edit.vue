@@ -5,7 +5,7 @@
 		<OModalBody>
 			<VForm ref="form" class="form">
 				<OInput
-					v-model="userData.name"
+					v-model="intentData.name"
 					text
 					:label="Dictionary.bot_intent.getFieldName('name')"
 					name="name"
@@ -14,45 +14,39 @@
 				/>
 
 				<OSelectList
-					v-model="userData.type"
+					v-model="intentData.contents"
 					:label="Dictionary.bot_intent.getFieldName('contents')"
 					name="type"
 					required
-					:items="userTypes"
+					:items="contents"
 					class="space-top-1"
 					autocomplete
 					multiple
+					return-object
 				/>
 
 				<OInput
-					textarea
+					v-model="intentData.message"
 					:label="Dictionary.bot_intent.getFieldName('message')"
 					name="message"
+					text
 					required
 					class="space-top-1 label-left space-full-w"
 				/>
 
-				<OTrainingPhrases />
+				<OTrainingPhrases v-model="intentData.training_phrases" :pre-added-phrases="intentData.training_phrases" />
 			</VForm>
 		</OModalBody>
 
 		<OModalFooter>
 			<OButton
 				success
-				icon="content-save-all"
-				class="space-right-1"
-				:action="saveAndNew"
+				:action="update"
 				:disabled="loading"
-				:title="Dictionary.misc.getLabel('save_and_new')"
-			/>
-
-			<OButton
-				success
-				icon="content-save"
-				:action="save"
-				:disabled="loading"
-				:title="Dictionary.misc.getLabel('save')"
-			/>
+				:title="Dictionary.misc.getLabel('update')"
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
 		</OModalFooter>
 	</section>
 </template>
@@ -91,25 +85,23 @@
 		},
 
 		computed: {
-
 			id() {
 				return this.$route.query.id;
 			}
 		},
 
 		methods: {
-
 			update() {
-				return this.Api.put(`intent/update/${this.id}`, this.intentData)
-					.then(() => {
-						this.closeModal();
-					});
+				return this.Api.put(`chatbot/intent/update/${this.id}`, this.intentData).then(() => {
+					this.closeModal();
+					this.$root.$emit('update-list');
+				});
 			},
 
-			async getUserDetails() {
+			async getIntentDetails() {
 				this.loading = true;
 
-				await this.Api.get(`intent/details/${this.id}`)
+				await this.Api.get(`chatbot/intent/details/${this.id}`)
 					.then((response) => {
 						this.intentData = new EditIntent(response);
 						this.notChangedIntentData = new EditIntent(response);
@@ -131,6 +123,7 @@
 
 		async mounted() {
 			await this.getContents();
+			await this.getIntentDetails();
 		}
 	});
 </script>

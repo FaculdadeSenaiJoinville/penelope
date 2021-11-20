@@ -9,6 +9,7 @@
 			class="space-top-1"
 		/>
 		<OButton
+			title="Adicionar"
 			icon="plus"
 			success
 			:action="addPhrase"
@@ -34,6 +35,7 @@
 	import { VChip } from 'vuetify/lib';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OButton from '~/components/buttons/OButton.vue';
+	import { OTrainingPhrasesData } from '~/types/components/o-training-phrases.type';
 
 	export default Vue.extend({
 		components: {
@@ -42,7 +44,11 @@
 			OButton
 		},
 
-		data() {
+		props: {
+			preAddedPhrases: { type: Array as () => string[], default: () => [] }
+		},
+
+		data(): OTrainingPhrasesData {
 			return {
 				currentPhrase: '',
 				phrases: [],
@@ -54,6 +60,14 @@
 					}
 				]
 			};
+		},
+
+		watch: {
+			preAddedPhrases(value: string[]) {
+				if (value) {
+					this.phrases = value;
+				}
+			}
 		},
 
 		methods: {

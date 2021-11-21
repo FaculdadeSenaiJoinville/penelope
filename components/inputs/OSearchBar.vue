@@ -54,6 +54,7 @@
 	}
 
 	.o-search-bar-input {
+		height: 2.2rem;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 		border-right: 0;

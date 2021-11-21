@@ -2,7 +2,7 @@
 	<section class="o-group-container">
 		<div class="o-group-header">
 			<div class="o-group-title">
-				Grupos
+				{{ title }}
 			</div>
 
 			<div v-if="!readOnly" class="o-select-container">
@@ -39,7 +39,7 @@
 			>
 				<template #item="{ item }">
 					<tr :key="item.id">
-						<td v-for="(column, index) in columns" :key="`ò-group-column-${index}`">
+						<td v-for="(column, index) in columns" :key="`ò-group-column-${index}`" class="o-group-column">
 							{{ item[column] }}
 						</td>
 
@@ -69,12 +69,14 @@
 		},
 
 		props: {
+			title: { type: String, required: true },
 			apiEndpoint: { type: String, default: '' },
 			headers: { type: Array as () => DataTableHeader[], required: true },
 			columns: { type: Array as () => string[], required: true },
 			placeholder: { type: String, default: '' },
 			preSelectedItems: { type: Array as () => any[], default: () => [] },
 			noDataSelectedText: { type: String, required: true },
+			itemsPerPageText: { type: String, required: true },
 			readOnly: { type: Boolean, default: false }
 		},
 
@@ -108,7 +110,7 @@
 		computed: {
 			footProps(): FootProps {
 				return {
-					itemsPerPageText: this.Dictionary.groups.getMessage('users_per_page'),
+					itemsPerPageText: this.itemsPerPageText,
 					itemsPerPageOptions: [3, 4, 5]
 				};
 			},
@@ -205,8 +207,13 @@
 		cursor: pointer;
 	}
 
+	.o-group-column {
+		text-align: left;
+	}
+
 	.o-group-action-column {
-		text-align: right;
+		display: flex;
+		flex-direction: row-reverse;
 	}
 
 	.o-group-header {
@@ -232,12 +239,12 @@
 
 	.o-select-list-menu {
 		width: 14.8rem;
-		/* margin-top: 2.2rem; */
 		position: absolute;
 		border: 2px solid var(--green);
 		background: var(--gray-1);
 		border-top: none;
 		border-radius: 0 0 10px 10px;
+		z-index: 2;
 	}
 
 	.o-select-list-item {

@@ -23,7 +23,9 @@
 					:title="Dictionary.misc.getModule('groups')"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
-					no-data-selected-text="Nenhum grupo associado"
+					:no-data-selected-text="Dictionary.groups.getLabel('no_groups_associated')"
+					:items-per-page-text="Dictionary.groups.getLabel('groups_per_page')"
+					class="space-top-1 space-bottom-2"
 					read-only
 				/>
 			</VForm>

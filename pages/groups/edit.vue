@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="groups" type="details" :title="groupData.name" />
+		<OModalHeader module="groups" type="edit" :title="groupData.name" />
 
 		<OModalBody>
 			<VForm v-if="!loading" class="form d-flex-column">
@@ -20,7 +20,6 @@
 					:label="Dictionary.groups.getFieldName('users')"
 					:members="groupData.members"
 					class="space-top-1"
-					details
 				/>
 			</VForm>
 
@@ -52,7 +51,9 @@
 		data() {
 			return {
 				loading: false,
-				groupData: new GroupDetails()
+				groupData: new GroupDetails(),
+				membersToRemove: [] as string[],
+				membersToAdd: [] as string[]
 			};
 		},
 

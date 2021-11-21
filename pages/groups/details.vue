@@ -16,11 +16,15 @@
 					class="space-top-1"
 				/>
 
-				<OGroupMembers
-					:label="Dictionary.groups.getFieldName('users')"
-					:members="groupData.members"
-					class="space-top-1"
-					details
+				<OGroup
+					:pre-selected-items="preSelectedGroupMembers"
+					:title="Dictionary.misc.getModule('users')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					:no-data-selected-text="Dictionary.users.getLabel('no_users_associated')"
+					:items-per-page-text="Dictionary.users.getLabel('users_per_page')"
+					class="space-top-1 space-bottom-2"
+					read-only
 				/>
 			</VForm>
 
@@ -32,12 +36,14 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { DataTableHeader } from 'vuetify';
+	import { User } from '../../types/entities';
 	import { GroupDetails } from '~/types/entities/group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OField from '~/components/OField.vue';
-	import OGroupMembers from '~/components/OGroupMembers.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -46,19 +52,28 @@
 			OModalBody,
 			OField,
 			OLoader,
-			OGroupMembers
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
-				groupData: new GroupDetails()
+				groupData: new GroupDetails(),
+				preSelectedGroupMembers: [] as User[],
+				oGroupColumns: ['name', 'type']
 			};
 		},
 
 		computed: {
 			id() {
 				return this.$route.query.id;
+			},
+
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: this.Dictionary.users.getFieldName('name'), value: 'name', width: '50%' },
+					{ text: this.Dictionary.users.getFieldName('type'), value: 'type', width: '50%' }
+				];
 			}
 		},
 
@@ -69,6 +84,7 @@
 				return this.Api.get(`groups/details/${this.id}`)
 					.then((response) => {
 						this.groupData = new GroupDetails(response);
+						this.preSelectedGroupMembers = this.groupData.members;
 					})
 					.catch((error) => {
 						this.Messages.error(error);

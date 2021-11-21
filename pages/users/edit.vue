@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="users" type="edit" :title="notChangedUserData.name" />
+		<OModalHeader module="users" type="edit" :title="userData.name" />
 
 		<OModalBody>
 			<VForm v-if="!loading" ref="form" class="form">
@@ -106,7 +106,6 @@
 				loading: false,
 				userData: new EditUser(),
 				preSelectedUserGroups: [] as Group[],
-				notChangedUserData: new EditUser(),
 				groupSelectedData: new OGroupSlectedData(),
 				oGroupColumns: ['name']
 			};
@@ -139,10 +138,6 @@
 					{ text: 'Nome', value: 'name', width: '60%' },
 					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
 				];
-			},
-
-			notChanged(): boolean {
-				return this.sameObject(this.userData, this.notChangedUserData);
 			}
 		},
 
@@ -165,7 +160,6 @@
 					.then((response) => {
 						this.userData = new EditUser(response);
 						this.preSelectedUserGroups = this.userData.groups;
-						this.notChangedUserData = new EditUser(response);
 					})
 					.catch(() => {
 						this.closeModal();

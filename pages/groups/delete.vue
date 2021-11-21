@@ -80,7 +80,7 @@
 			getGroupDetails() {
 				this.loading = true;
 
-				this.Api.get(`groups/details/${this.id}`)
+				return this.Api.get(`groups/details/${this.id}`)
 					.then((response) => {
 						this.groupData = new GroupDetails(response);
 					})

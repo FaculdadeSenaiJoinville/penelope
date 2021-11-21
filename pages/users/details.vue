@@ -75,7 +75,7 @@
 
 			oGroupHeaders(): DataTableHeader[] {
 				return [
-					{ text: 'Nome', value: 'name', width: '60%' }
+					{ text: this.Dictionary.groups.getFieldName('name'), value: 'name', width: '60%' }
 				];
 			}
 		},

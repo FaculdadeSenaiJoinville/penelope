@@ -29,9 +29,9 @@ export type GroupUpdate = {
 
 	description: string;
 
-	members: string[];
+	members: User[];
 
-	members_to_remove: string[];
+	members_to_remove: User[];
 }
 
 export class GroupDetails {
@@ -53,9 +53,9 @@ export class EditGroup {
 
 	public description: string;
 
-	public members: string[];
+	public members: User[];
 
-	public members_to_remove: string[];
+	public members_to_remove: User[];
 
 	constructor(group?: GroupUpdate) {
 		this.name = group ? group.name : '';

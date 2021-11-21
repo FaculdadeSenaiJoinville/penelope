@@ -17,6 +17,15 @@
 					disabled
 					class="o-text-value space-top-bottom-1"
 				/>
+
+				<OGroup
+					:pre-selected-items="preSelectedUserGroups"
+					:title="Dictionary.misc.getModule('groups')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					no-data-selected-text="Nenhum grupo associado"
+					read-only
+				/>
 			</VForm>
 
 			<OLoader v-else />
@@ -27,7 +36,10 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { DataTableHeader } from 'vuetify';
 	import { UserDetails } from '~/types/entities/user.type';
+	import { Group } from '~/types/entities';
+	import OGroup from '~/components/OGroup.vue';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OField from '~/components/OField.vue';
@@ -41,19 +53,28 @@
 			OModalBody,
 			OToggleSwitch,
 			OField,
-			OLoader
+			OLoader,
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
-				userData: new UserDetails()
+				userData: new UserDetails(),
+				preSelectedUserGroups: [] as Group[],
+				oGroupColumns: ['name']
 			};
 		},
 
 		computed: {
 			id() {
 				return this.$route.query.id;
+			},
+
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' }
+				];
 			}
 		},
 
@@ -64,6 +85,7 @@
 				this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new UserDetails(response);
+						this.preSelectedUserGroups = this.userData.groups;
 					})
 					.catch(() => {
 						this.closeModal();

@@ -48,6 +48,16 @@
 					required
 					class="space-top-bottom-1"
 				/>
+
+				<OGroup
+					v-model="groupSelectedData"
+					:title="Dictionary.misc.getModule('groups')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					api-endpoint="groups/list"
+					placeholder="Adicionar grupos..."
+					no-data-selected-text="Nenhum grupo selecionado"
+				/>
 			</VForm>
 		</OModalBody>
 
@@ -77,14 +87,17 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { DataTableHeader } from 'vuetify';
 	import { VForm } from 'vuetify/lib';
 	import { NewUser, UserType } from '~/types/entities/user.type';
+	import { OGroupSlectedData } from '~/types/components/o-group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
+	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -94,13 +107,16 @@
 			VForm,
 			OInput,
 			OSelectList,
-			OButton
+			OButton,
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
-				userData: new NewUser()
+				userData: new NewUser(),
+				groupSelectedData: new OGroupSlectedData(),
+				oGroupColumns: ['name']
 			};
 		},
 
@@ -120,6 +136,13 @@
 				}
 
 				return types;
+			},
+
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
+				];
 			}
 		},
 
@@ -140,6 +163,10 @@
 			},
 
 			saveUserData() {
+				const { selectedItems } = this.groupSelectedData;
+
+				this.userData.groups = selectedItems;
+
 				return this.Api.post('users/create', this.userData);
 			}
 		}

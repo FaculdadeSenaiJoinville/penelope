@@ -39,6 +39,17 @@
 					required
 					class="space-top-bottom-1"
 				/>
+
+				<OGroup
+					v-model="groupSelectedData"
+					:pre-selected-items="preSelectedUserGroups"
+					:title="Dictionary.misc.getModule('groups')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					api-endpoint="groups/list"
+					placeholder="Adicionar grupos..."
+					no-data-selected-text="Nenhum grupo selecionado"
+				/>
 			</VForm>
 
 			<OLoader v-else />
@@ -48,7 +59,7 @@
 			<OButton
 				success
 				:action="update"
-				:disabled="loading || notChanged"
+				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
 			>
 				{{ Dictionary.misc.getLabel('save') }}
@@ -60,6 +71,9 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { DataTableHeader } from 'vuetify';
+	import { Group } from '~/types/entities';
+	import { OGroupSlectedData } from '~/types/components/o-group.type';
 	import { EditUser, UserType } from '~/types/entities/user.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
@@ -69,6 +83,7 @@
 	import OButton from '~/components/buttons/OButton.vue';
 	import OLoader from '~/components/OLoader.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
+	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -80,14 +95,18 @@
 			OSelectList,
 			OButton,
 			OLoader,
-			OToggleSwitch
+			OToggleSwitch,
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
 				userData: new EditUser(),
-				notChangedUserData: new EditUser()
+				preSelectedUserGroups: [] as Group[],
+				notChangedUserData: new EditUser(),
+				groupSelectedData: new OGroupSlectedData(),
+				oGroupColumns: ['name']
 			};
 		},
 
@@ -113,6 +132,13 @@
 				return this.$route.query.id;
 			},
 
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
+				];
+			},
+
 			notChanged(): boolean {
 				return this.sameObject(this.userData, this.notChangedUserData);
 			}
@@ -120,18 +146,23 @@
 
 		methods: {
 			update() {
-				return this.Api.put(`users/update/${this.id}`, this.userData)
-					.then(() => {
-						this.closeModal();
-					});
+				const { selectedItems, removedItems } = this.groupSelectedData;
+
+				this.userData.groups = selectedItems;
+				this.userData.groups_to_leave = removedItems;
+
+				return this.Api.put(`users/update/${this.id}`, this.userData).then(() => {
+					this.closeModal();
+				});
 			},
 
-			async getUserDetails() {
+			getUserDetails() {
 				this.loading = true;
 
-				await this.Api.get(`users/details/${this.id}`)
+				return this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new EditUser(response);
+						this.preSelectedUserGroups = this.userData.groups;
 						this.notChangedUserData = new EditUser(response);
 					})
 					.catch(() => {

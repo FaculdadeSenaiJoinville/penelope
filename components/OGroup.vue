@@ -1,20 +1,20 @@
 <template>
 	<section class="o-group-container">
-		<section class="o-group-header">
-			<div>Grupos</div>
+		<div class="o-group-header">
+			<div class="o-group-title">
+				Grupos
+			</div>
 
-			<div v-if="!readOnly">
-				<div class="o-select-list-field">
-					<input
-						v-model="search"
-						v-click-outside="closeMenu"
-						type="text"
-						name="o-group-searchbar"
-						:class="inputClasses"
-						:placeholder="placeholder"
-						@focus="getItems"
-					/>
-				</div>
+			<div v-if="!readOnly" class="o-select-container">
+				<input
+					v-model="search"
+					v-click-outside="closeMenu"
+					type="text"
+					name="o-group-searchbar"
+					:class="inputClasses"
+					:placeholder="placeholder"
+					@focus="getItems"
+				/>
 
 				<div v-if="isDropdownActive" class="o-select-list-menu">
 					<span
@@ -27,29 +27,31 @@
 					</span>
 				</div>
 			</div>
+		</div>
+
+		<section>
+			<VDataTable
+				:items="group.selectedItems"
+				:headers="headers"
+				:no-data-text="noDataSelectedText"
+				:items-per-page="perPage"
+				:footer-props="footProps"
+			>
+				<template #item="{ item }">
+					<tr :key="item.id">
+						<td v-for="(column, index) in columns" :key="`ò-group-column-${index}`">
+							{{ item[column] }}
+						</td>
+
+						<td v-if="!readOnly" class="o-group-action-column">
+							<div class="remove-item-icon" @click="() => removeItem(item)">
+								<OIcon name="minus-circle-outline" />
+							</div>
+						</td>
+					</tr>
+				</template>
+			</VDataTable>
 		</section>
-
-		<VDataTable
-			:items="group.selectedItems"
-			:headers="headers"
-			:no-data-text="noDataSelectedText"
-			:items-per-page="perPage"
-			:footer-props="footProps"
-		>
-			<template #item="{ item }">
-				<tr :key="item.id">
-					<td v-for="(column, index) in columns" :key="`ò-group-column-${index}`">
-						{{ item[column] }}
-					</td>
-
-					<td v-if="!readOnly" class="o-group-action-column">
-						<div class="remove-item-icon" @click="() => removeItem(item)">
-							<OIcon name="minus-circle-outline" />
-						</div>
-					</td>
-				</tr>
-			</template>
-		</VDataTable>
 	</section>
 </template>
 
@@ -198,38 +200,42 @@
 		box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);
 	}
 
-	.o-group-header {
-		width: 100%;
-		display: flex;
-		align-content: space-between;
-	}
-
-	.o-select-input {
-		width: 220px;
-	}
-
 	.remove-item-icon {
 		width: 20px;
 		cursor: pointer;
 	}
 
-	.o-select-list {
-		display: flex;
-		flex-direction: column;
-		text-align: left;
-		width: 220px;
+	.o-group-action-column {
+		text-align: right;
 	}
 
-	.o-select-list-field {
+	.o-group-header {
+		width: 100%;
+		height: 2.2rem;
 		display: flex;
+	}
+
+	.o-group-title {
+		display: flex;
+		width: 50%;
+		text-align: left;
+		cursor: default;
+		color: var(--gray-dark-2);
+		font-weight: 600;
+		height: 2.2rem;
+		line-height: 2.2rem;
+	}
+
+	.o-select-container {
+		width: 14.8rem;
 	}
 
 	.o-select-list-menu {
-		width: 220px;
-		margin-top: 2.2rem;
+		width: 14.8rem;
+		/* margin-top: 2.2rem; */
 		position: absolute;
 		border: 2px solid var(--green);
-		background: var(--gray-light);
+		background: var(--gray-1);
 		border-top: none;
 		border-radius: 0 0 10px 10px;
 	}
@@ -241,7 +247,7 @@
 	}
 
 	.o-select-list-item:hover {
-		background: var(--gray-medium);
+		background: var(--gray-2);
 	}
 
 	.o-select-list-last-item:hover {
@@ -249,11 +255,8 @@
 		border-bottom-right-radius: 10px;
 	}
 
-	.o-group-action-column {
-		text-align: right;
-	}
-
-	td {
-		text-align: left;
+	.no-border-bottom-radius {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 </style>

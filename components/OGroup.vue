@@ -70,13 +70,14 @@
 
 		props: {
 			title: { type: String, required: true },
-			apiEndpoint: { type: String, default: '' },
+			module: { type: String, default: '' },
 			headers: { type: Array as () => DataTableHeader[], required: true },
 			columns: { type: Array as () => string[], required: true },
 			placeholder: { type: String, default: '' },
 			preSelectedItems: { type: Array as () => any[], default: () => [] },
 			noDataSelectedText: { type: String, required: true },
 			itemsPerPageText: { type: String, required: true },
+			enumColumns: { type: Array as () => string[], default: () => [] },
 			readOnly: { type: Boolean, default: false }
 		},
 
@@ -128,25 +129,34 @@
 
 		methods: {
 			getItems(): Promise<void> {
-				const { search, apiEndpoint } = this;
+				const { search, module } = this;
 				const query = {
 					perPage: 5,
 					like: search ? { name: search } : null
 				};
 
-				return this.Api.get(apiEndpoint, query).then((response) => {
+				return this.Api.get(`${module}/list`, query).then((response) => {
 					this.items = response[0];
 				});
 			},
 
 			addItem(item: any) {
 				const itemAlreadyAdded = this.group.selectedItems.some(selectedItem => selectedItem.id === item.id);
+				const itemAlreadyRemoved = this.group.removedItems.some(removedItem => removedItem.id === item.id);
 
 				if (!itemAlreadyAdded) {
+					this.translateEnumColumns(item);
+
 					this.group.selectedItems.unshift(item);
 
-					this.$emit('input', this.group);
+					if (itemAlreadyRemoved) {
+						const itemIndex = this.group.removedItems.indexOf((selectedItem: any) => selectedItem.id === item.id) + 1;
+
+						this.group.removedItems.splice(itemIndex, 1);
+					}
 				}
+
+				this.$emit('input', this.group);
 			},
 
 			removeItem(item: any) {
@@ -174,9 +184,26 @@
 				}
 			},
 
+			translateEnumColumns(item: any) {
+				for (const key of Object.keys(item)) {
+					if (this.enumColumns.includes(key)) {
+						const dictionary = this.Dictionary as any;
+						const moduleTranslations = dictionary[this.module];
+
+						item[key] = moduleTranslations ? moduleTranslations.getEnum(item[key]) : item[key];
+					}
+				}
+			},
+
 			setPreSelectedItems() {
 				if (this.preSelectedItems) {
-					this.group.selectedItems = this.preSelectedItems;
+					const items = this.preSelectedItems.map((item) => {
+						this.translateEnumColumns(item);
+
+						return item;
+					});
+
+					this.group.selectedItems = items;
 				}
 			}
 		},

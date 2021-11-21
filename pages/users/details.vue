@@ -25,6 +25,7 @@
 					:columns="oGroupColumns"
 					:no-data-selected-text="Dictionary.groups.getLabel('no_groups_associated')"
 					:items-per-page-text="Dictionary.groups.getLabel('groups_per_page')"
+					module="groups"
 					class="space-top-1 space-bottom-2"
 					read-only
 				/>

@@ -21,8 +21,10 @@
 					:title="Dictionary.misc.getModule('users')"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
+					:enum-columns="oGroupEnumColumns"
 					:no-data-selected-text="Dictionary.users.getLabel('no_users_associated')"
 					:items-per-page-text="Dictionary.users.getLabel('users_per_page')"
+					module="users"
 					class="space-top-1 space-bottom-2"
 					read-only
 				/>
@@ -60,7 +62,8 @@
 				loading: false,
 				groupData: new GroupDetails(),
 				preSelectedGroupMembers: [] as User[],
-				oGroupColumns: ['name', 'type']
+				oGroupColumns: ['name', 'type'],
+				oGroupEnumColumns: ['type']
 			};
 		},
 

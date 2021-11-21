@@ -28,11 +28,12 @@
 					:title="Dictionary.misc.getModule('users')"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
+					:enum-columns="oGroupEnumColumns"
 					:placeholder="Dictionary.users.getLabel('assign_user')"
 					:no-data-selected-text="Dictionary.users.getLabel('no_users_associated')"
 					:items-per-page-text="Dictionary.users.getLabel('users_per_page')"
 					class="space-top-1 space-bottom-2"
-					api-endpoint="users/list"
+					module="users"
 				/>
 			</VForm>
 
@@ -85,7 +86,8 @@
 				groupData: new EditGroup(),
 				preSelectedGroupMembers: [] as User[],
 				groupSelectedData: new OGroupSlectedData(),
-				oGroupColumns: ['name', 'type']
+				oGroupColumns: ['name', 'type'],
+				oGroupEnumColumns: ['type']
 			};
 		},
 

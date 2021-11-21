@@ -18,7 +18,7 @@
 
 				<OGroup
 					:pre-selected-items="preSelectedGroupMembers"
-					:title="Dictionary.misc.getModule('users')"
+					:title="Dictionary.groups.getFieldName('users')"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
 					:enum-columns="oGroupEnumColumns"

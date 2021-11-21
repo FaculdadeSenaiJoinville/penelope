@@ -264,6 +264,10 @@
 		width: 14.8rem;
 	}
 
+	.o-select-input {
+		height: 2.2rem;
+	}
+
 	.o-select-list-menu {
 		width: 14.8rem;
 		position: absolute;

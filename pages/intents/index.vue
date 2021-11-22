@@ -83,19 +83,19 @@
 			headers() {
 				return [
 					{
-						text: this.Dictionary.bot_intent.getFieldName('name'),
+						text: this.Dictionary.bot_intents.getFieldName('name'),
 						value: 'name',
 						align: 'left',
 						width: '30%'
 					},
 					{
-						text: this.Dictionary.bot_intent.getFieldName('created_by'),
+						text: this.Dictionary.bot_intents.getFieldName('created_by'),
 						value: 'created_by',
 						align: 'left',
 						width: '20%'
 					},
 					{
-						text: this.Dictionary.bot_intent.getFieldName('created_at'),
+						text: this.Dictionary.bot_intents.getFieldName('created_at'),
 						value: 'created_at',
 						align: 'left',
 						width: '20%'

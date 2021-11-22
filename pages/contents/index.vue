@@ -82,13 +82,13 @@
 			headers() {
 				return [
 					{
-						text: this.Dictionary.bot_content.getFieldName('name'),
+						text: this.Dictionary.bot_contents.getFieldName('name'),
 						value: 'name',
 						align: 'left',
 						width: '50%'
 					},
 					{
-						text: this.Dictionary.bot_content.getFieldName('link'),
+						text: this.Dictionary.bot_contents.getFieldName('link'),
 						value: 'link',
 						align: 'left',
 						width: '40%'

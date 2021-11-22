@@ -7,32 +7,39 @@
 				<OInput
 					v-model="intentData.name"
 					text
-					:label="Dictionary.bot_intent.getFieldName('name')"
+					:label="Dictionary.bot_intents.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
 				/>
 
-				<OSelectList
-					v-model="intentData.contents"
-					:label="Dictionary.bot_intent.getFieldName('contents')"
-					name="type"
-					required
-					:items="contents"
-					class="space-top-1"
-					autocomplete
-					multiple
-				/>
-
 				<OInput
 					v-model="intentData.message"
-					:label="Dictionary.bot_intent.getFieldName('message')"
+					:label="Dictionary.bot_intents.getFieldName('message')"
 					name="message"
-					required
-					class="space-top-1 label-left space-full-w"
+					class="space-top-1"
 				/>
 
-				<OTrainingPhrases v-model="intentData.training_phrases" />
+				<OTextChips
+					v-model="intentData.training_phrases"
+					name="training_phrases"
+					:label="Dictionary.bot_intents.getFieldName('training_phrases')"
+					:pre-added-texts="intentData.training_phrases"
+					required
+				/>
+
+				<OGroup
+					v-model="groupSelectedData"
+					:title="Dictionary.misc.getModule('bot_contents')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					:placeholder="Dictionary.bot_contents.getLabel('assign_bot_content')"
+					:no-data-selected-text="Dictionary.bot_contents.getLabel('no_bot_contents_associated')"
+					:items-per-page-text="Dictionary.bot_contents.getLabel('bot_contents_per_page')"
+					class="space-top-1 space-bottom-2"
+					api-endpoint="chatbot/content"
+					module="bot_contents"
+				/>
 			</VForm>
 		</OModalBody>
 
@@ -60,14 +67,16 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { DataTableHeader } from 'vuetify';
+	import { OGroupSlectedData } from '../../types/components/o-group.type';
+	import { NewIntent } from '../../types/entities';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
-	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import OTrainingPhrases from '~/components/intent/OTrainingPhrases.vue';
-	import { NewIntent } from '~/types/entities';
+	import OTextChips from '~/components/intent/OTextChips.vue';
+	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -76,54 +85,62 @@
 			OModalFooter,
 			VForm,
 			OInput,
-			OSelectList,
 			OButton,
-			OTrainingPhrases
+			OTextChips,
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
 				intentData: new NewIntent(),
-				contents: []
+				groupSelectedData: new OGroupSlectedData(),
+				oGroupColumns: ['name']
 			};
+		},
+
+		computed: {
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
+				];
+			}
 		},
 
 		methods: {
 			saveAndNew(): Promise<void> {
-				return this.saveIntentData().then(() => {
-					this.intentData = new NewIntent();
+				return this.saveIntentData()
+					.then(() => {
+						this.intentData = new NewIntent();
 
-					this.resetVuetifyForm();
-				});
+						this.resetVuetifyForm();
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			},
 
 			save(): Promise<void> {
-				return this.saveIntentData().then(() => {
-					this.closeModal();
-					this.$root.$emit('update-list');
-				});
+				return this.saveIntentData()
+					.then(() => {
+						this.closeModal();
+						this.$root.$emit('update-list');
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			},
 
 			saveIntentData() {
+				this.loading = true;
+
+				const { selectedItems } = this.groupSelectedData;
+
+				this.intentData.contents = selectedItems;
+
 				return this.Api.post('chatbot/intent/create', this.intentData);
-			},
-
-			getContents() {
-				return this.Api.get('chatbot/content/list').then((response) => {
-					this.contents = response[0];
-				});
 			}
-		},
-
-		async mounted() {
-			await this.getContents();
 		}
 	});
 </script>
-
-<style scoped>
-	.label-left{
-		text-align: left;
-	}
-</style>

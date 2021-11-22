@@ -58,6 +58,7 @@
 					:no-data-selected-text="Dictionary.groups.getLabel('no_groups_associated')"
 					:items-per-page-text="Dictionary.groups.getLabel('groups_per_page')"
 					class="space-top-1 space-bottom-2"
+					api-endpoint="groups"
 					module="groups"
 				/>
 			</VForm>

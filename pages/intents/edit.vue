@@ -7,34 +7,44 @@
 				<OInput
 					v-model="intentData.name"
 					text
-					:label="Dictionary.bot_intent.getFieldName('name')"
+					:label="Dictionary.bot_intents.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
 				/>
 
-				<OSelectList
-					v-model="intentData.contents"
-					:label="Dictionary.bot_intent.getFieldName('contents')"
-					name="type"
-					required
-					:items="contents"
-					class="space-top-1"
-					autocomplete
-					multiple
-					return-object
-				/>
-
 				<OInput
 					v-model="intentData.message"
-					:label="Dictionary.bot_intent.getFieldName('message')"
+					:label="Dictionary.bot_intents.getFieldName('message')"
 					name="message"
 					text
 					required
 					class="space-top-1 label-left space-full-w"
 				/>
 
-				<OTrainingPhrases v-model="intentData.training_phrases" :pre-added-phrases="intentData.training_phrases" />
+				<OTextChips
+					v-if="intentData.name"
+					v-model="intentData.training_phrases"
+					name="training_phrases"
+					:label="Dictionary.bot_intents.getFieldName('training_phrases')"
+					:pre-added-texts="intentData.training_phrases"
+					required
+				/>
+
+				<OGroup
+					v-if="intentData.name"
+					v-model="groupSelectedData"
+					:pre-selected-items="preSelectedIntentContents"
+					:title="Dictionary.misc.getModule('bot_contents')"
+					:headers="oGroupHeaders"
+					:columns="oGroupColumns"
+					:placeholder="Dictionary.bot_contents.getLabel('assign_bot_content')"
+					:no-data-selected-text="Dictionary.bot_contents.getLabel('no_bot_contents_associated')"
+					:items-per-page-text="Dictionary.bot_contents.getLabel('bot_contents_per_page')"
+					class="space-top-1 space-bottom-2"
+					api-endpoint="chatbot/content"
+					module="bot_contents"
+				/>
 			</VForm>
 		</OModalBody>
 
@@ -54,14 +64,16 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
+	import { DataTableHeader } from 'vuetify';
+	import { OGroupSlectedData } from '../../types/components/o-group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
-	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import OTrainingPhrases from '~/components/intent/OTrainingPhrases.vue';
-	import { EditIntent } from '~/types/entities';
+	import OTextChips from '~/components/intent/OTextChips.vue';
+	import { BotContent, EditIntent } from '~/types/entities';
+	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -70,41 +82,59 @@
 			OModalFooter,
 			VForm,
 			OInput,
-			OSelectList,
 			OButton,
-			OTrainingPhrases
+			OTextChips,
+			OGroup
 		},
 
 		data() {
 			return {
 				loading: false,
 				intentData: new EditIntent(),
-				notChangedIntentData: new EditIntent(),
-				contents: []
+				preSelectedIntentContents: [] as BotContent[],
+				groupSelectedData: new OGroupSlectedData(),
+				oGroupColumns: ['name']
 			};
 		},
 
 		computed: {
 			id() {
 				return this.$route.query.id;
+			},
+
+			oGroupHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
+				];
 			}
 		},
 
 		methods: {
 			update() {
-				return this.Api.put(`chatbot/intent/update/${this.id}`, this.intentData).then(() => {
-					this.closeModal();
-					this.$root.$emit('update-list');
-				});
-			},
+				const { selectedItems, removedItems } = this.groupSelectedData;
 
-			async getIntentDetails() {
+				this.intentData.contents = selectedItems;
+				this.intentData.contents_to_remove = removedItems;
 				this.loading = true;
 
-				await this.Api.get(`chatbot/intent/details/${this.id}`)
+				return this.Api.put(`chatbot/intent/update/${this.id}`, this.intentData)
+					.then(() => {
+						this.closeModal();
+						this.$root.$emit('update-list');
+					})
+					.finally(() => {
+						this.loading = false;
+					});
+			},
+
+			getIntentDetails() {
+				this.loading = true;
+
+				return this.Api.get(`chatbot/intent/details/${this.id}`)
 					.then((response) => {
 						this.intentData = new EditIntent(response);
-						this.notChangedIntentData = new EditIntent(response);
+						this.preSelectedIntentContents = this.intentData.contents;
 					})
 					.catch(() => {
 						this.closeModal();
@@ -112,18 +142,11 @@
 					.finally(() => {
 						this.loading = false;
 					});
-			},
-
-			getContents() {
-				return this.Api.get('chatbot/content/list').then((response) => {
-					this.contents = response[0];
-				});
 			}
 		},
 
-		async mounted() {
-			await this.getContents();
-			await this.getIntentDetails();
+		mounted() {
+			this.getIntentDetails();
 		}
 	});
 </script>

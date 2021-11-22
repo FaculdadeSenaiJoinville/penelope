@@ -5,7 +5,7 @@
 		<OModalBody>
 			<div>
 				<span class="o-modal-text">
-					{{ Dictionary.bot_intent.getMessage('confirm_delete', { intent_name: intentData.name }) }}
+					{{ Dictionary.bot_intents.getMessage('confirm_delete', { intent_name: intentData.name }) }}
 				</span>
 			</div>
 		</OModalBody>

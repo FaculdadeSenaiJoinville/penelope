@@ -7,7 +7,7 @@
 				<OInput
 					v-model="contentData.name"
 					text
-					:label="Dictionary.bot_content.getFieldName('name')"
+					:label="Dictionary.bot_contents.getFieldName('name')"
 					name="name"
 					required
 					class="space-top-1"
@@ -15,7 +15,7 @@
 
 				<OInput
 					v-model="contentData.link"
-					:label="Dictionary.bot_content.getFieldName('link')"
+					:label="Dictionary.bot_contents.getFieldName('link')"
 					name="link"
 					class="space-top-1"
 				/>
@@ -23,7 +23,7 @@
 				<div class="textarea-full-width">
 					<OInput
 						v-model="contentData.explanation"
-						:label="Dictionary.bot_content.getFieldName('explanation')"
+						:label="Dictionary.bot_contents.getFieldName('explanation')"
 						name="explanation"
 						textarea
 						class="space-top-1"

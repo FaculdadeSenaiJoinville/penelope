@@ -5,19 +5,19 @@
 		<OModalBody>
 			<VForm v-if="!loading" class="form">
 				<OField
-					:label="Dictionary.bot_content.getFieldName('name')"
+					:label="Dictionary.bot_contents.getFieldName('name')"
 					:text="contentData.name"
 					class="space-top-1"
 				/>
 
 				<OField
-					:label="Dictionary.bot_content.getFieldName('link')"
+					:label="Dictionary.bot_contents.getFieldName('link')"
 					:text="contentData.link"
 					class="space-top-1"
 				/>
 
 				<OField
-					:label="Dictionary.bot_content.getFieldName('explanation')"
+					:label="Dictionary.bot_contents.getFieldName('explanation')"
 					:text="contentData.explanation"
 					class="space-top-bottom-1 textarea-full-width"
 				/>

@@ -1,6 +1,6 @@
-export type OTrainingPhrasesData = {
-    currentPhrase: string;
-    phrases: string[];
+export type OTextChipsData = {
+    currentText: string;
+    texts: string[];
     addButton: [
         {
             icon: string,

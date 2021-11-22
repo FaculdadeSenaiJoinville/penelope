@@ -24,6 +24,7 @@
 
 				<OGroup
 					v-model="groupSelectedData"
+					:v-if="groupData.name"
 					:pre-selected-items="preSelectedGroupMembers"
 					:title="Dictionary.groups.getFieldName('users')"
 					:headers="oGroupHeaders"
@@ -33,6 +34,7 @@
 					:no-data-selected-text="Dictionary.users.getLabel('no_users_associated')"
 					:items-per-page-text="Dictionary.users.getLabel('users_per_page')"
 					class="space-top-1 space-bottom-2"
+					api-endpoint="users"
 					module="users"
 				/>
 			</VForm>

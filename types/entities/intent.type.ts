@@ -23,7 +23,7 @@ export class BotIntent {
 
 	updated_by?: string;
 
-	contents?: BotContent[];
+	contents: BotContent[];
 
 	message?: string;
 
@@ -36,6 +36,7 @@ export class BotIntent {
 		this.priority = 0;
 		this.end_interaction = false;
 		this.creator = new User();
+		this.contents = [];
 	}
 };
 
@@ -75,7 +76,9 @@ export class EditIntent {
 
 	public end_interaction: boolean;
 
-	public contents?: BotContent[];
+	public contents: BotContent[];
+
+	public contents_to_remove: BotContent[];
 
 	public message?: string;
 
@@ -85,6 +88,7 @@ export class EditIntent {
 		this.priority = intent ? intent.priority : 0;
 		this.end_interaction = intent ? intent.end_interaction : false;
 		this.contents = intent ? intent.contents : [];
+		this.contents_to_remove = [];
 		this.message = intent && intent.message ? intent.message : '';
 	}
 };
@@ -100,7 +104,7 @@ export class IntentDetails {
 
 	public end_interaction: boolean;
 
-	public contents?: BotContent[];
+	public contents: BotContent[];
 
 	public message?: string;
 

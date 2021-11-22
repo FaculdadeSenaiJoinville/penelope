@@ -70,6 +70,7 @@
 
 		props: {
 			title: { type: String, required: true },
+			apiEndpoint: { type: String, default: '' },
 			module: { type: String, default: '' },
 			headers: { type: Array as () => DataTableHeader[], required: true },
 			columns: { type: Array as () => string[], required: true },
@@ -129,13 +130,13 @@
 
 		methods: {
 			getItems(): Promise<void> {
-				const { search, module } = this;
+				const { search, apiEndpoint } = this;
 				const query = {
 					perPage: 5,
 					like: search ? { name: search } : null
 				};
 
-				return this.Api.get(`${module}/list`, query).then((response) => {
+				return this.Api.get(`${apiEndpoint}/list`, query).then((response) => {
 					this.items = response[0];
 				});
 			},

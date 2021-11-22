@@ -64,3 +64,17 @@ export class EditGroup {
 		this.members_to_remove = group ? group.members_to_remove : [];
 	}
 };
+
+export class NewGroup {
+	public name: string;
+
+	public description: string;
+
+	public members: User[];
+
+	constructor() {
+		this.name = '';
+		this.description = '';
+		this.members = [];
+	}
+};

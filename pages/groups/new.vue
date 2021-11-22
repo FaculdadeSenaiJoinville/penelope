@@ -25,8 +25,8 @@
 				<OGroup
 					v-model="groupSelectedData"
 					:v-if="groupData.name"
-					:pre-selected-items="preSelectedGroupMembers"
 					:title="Dictionary.groups.getFieldName('users')"
+					:pre-selected-items="preSelectedGroupMembers"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
 					:enum-columns="oGroupEnumColumns"
@@ -45,7 +45,18 @@
 		<OModalFooter>
 			<OButton
 				success
-				:action="update"
+				icon="plus-box-multiple"
+				class="space-right-1"
+				:action="saveAndNew"
+				:disabled="loading"
+				:title="Dictionary.misc.getLabel('save_and_new')"
+			>
+				{{ Dictionary.misc.getLabel('save') }}
+			</OButton>
+
+			<OButton
+				success
+				:action="save"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
 			>
@@ -61,7 +72,7 @@
 	import { DataTableHeader } from 'vuetify';
 	import { User } from '../../types/entities';
 	import { OGroupSlectedData } from '../../types/components/o-group.type';
-	import { EditGroup } from '~/types/entities/group.type';
+	import { NewGroup } from '~/types/entities/group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
@@ -85,7 +96,7 @@
 		data() {
 			return {
 				loading: false,
-				groupData: new EditGroup(),
+				groupData: new NewGroup(),
 				preSelectedGroupMembers: [] as User[],
 				groupSelectedData: new OGroupSlectedData(),
 				oGroupColumns: ['name', 'type'],
@@ -108,37 +119,35 @@
 		},
 
 		methods: {
-			getGroupDetails() {
+			saveAndNew(): Promise<void> {
+				return this.saveGroupData().then(() => {
+					this.groupData = new NewGroup();
+					this.preSelectedGroupMembers = [];
+
+					this.resetVuetifyForm();
+				});
+			},
+
+			save(): Promise<void> {
+				return this.saveGroupData().then(() => {
+					this.closeModal();
+				});
+			},
+
+			saveGroupData() {
+				const { selectedItems } = this.groupSelectedData;
+
+				this.groupData.members = selectedItems;
 				this.loading = true;
 
-				return this.Api.get(`groups/details/${this.id}`)
-					.then((response) => {
-						this.groupData = new EditGroup(response);
-						this.preSelectedGroupMembers = this.groupData.members;
-					})
-					.catch((error) => {
-						this.Messages.error(error);
-						this.closeModal();
+				return this.Api.post('groups/create', this.groupData)
+					.then(() => {
+						this.$root.$emit('update-list');
 					})
 					.finally(() => {
 						this.loading = false;
 					});
-			},
-
-			update() {
-				const { selectedItems, removedItems } = this.groupSelectedData;
-
-				this.groupData.members = selectedItems;
-				this.groupData.members_to_remove = removedItems;
-
-				return this.Api.put(`groups/update/${this.id}`, this.groupData).then(() => {
-					this.closeModal();
-				});
 			}
-		},
-
-		mounted() {
-			this.getGroupDetails();
 		}
 	});
 </script>

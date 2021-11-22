@@ -52,6 +52,7 @@
 				<OGroup
 					v-model="groupSelectedData"
 					:title="Dictionary.misc.getModule('groups')"
+					:pre-selected-items="preSelectedUserGroups"
 					:headers="oGroupHeaders"
 					:columns="oGroupColumns"
 					:placeholder="Dictionary.groups.getLabel('assign_group')"
@@ -92,6 +93,7 @@
 	import Vue from 'vue';
 	import { DataTableHeader } from 'vuetify';
 	import { VForm } from 'vuetify/lib';
+	import { Group } from '../../types/entities';
 	import { NewUser, UserType } from '~/types/entities/user.type';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
@@ -119,6 +121,7 @@
 				loading: false,
 				userData: new NewUser(),
 				groupSelectedData: new OGroupSlectedData(),
+				preSelectedUserGroups: [] as Group[],
 				oGroupColumns: ['name']
 			};
 		},
@@ -153,6 +156,7 @@
 			saveAndNew(): Promise<void> {
 				return this.saveUserData().then(() => {
 					this.userData = new NewUser();
+					this.preSelectedUserGroups = [];
 
 					this.resetVuetifyForm();
 				});
@@ -161,7 +165,6 @@
 			save(): Promise<void> {
 				return this.saveUserData().then(() => {
 					this.closeModal();
-					this.$root.$emit('update-list');
 				});
 			},
 
@@ -169,8 +172,15 @@
 				const { selectedItems } = this.groupSelectedData;
 
 				this.userData.groups = selectedItems;
+				this.loading = true;
 
-				return this.Api.post('users/create', this.userData);
+				return this.Api.post('users/create', this.userData)
+					.then(() => {
+						this.$root.$emit('update-list');
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			}
 		}
 	});

@@ -26,7 +26,9 @@ const GlobalMixin: DefaultProps = {
 		resetVuetifyForm(): void {
 			const form = this.$refs.form as Vue;
 
-			form.reset();
+			if (form) {
+				form.reset();
+			}
 		}
 	}
 };

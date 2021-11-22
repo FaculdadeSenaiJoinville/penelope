@@ -106,6 +106,13 @@
 
 			search() {
 				this.getItems();
+			},
+
+			preSelectedItems() {
+				this.group.selectedItems = [];
+				this.group.removedItems = [];
+
+				this.setPreSelectedItems();
 			}
 		},
 

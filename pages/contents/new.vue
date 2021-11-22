@@ -101,12 +101,19 @@
 			save(): Promise<void> {
 				return this.saveContentData().then(() => {
 					this.closeModal();
-					this.$root.$emit('update-list');
 				});
 			},
 
 			saveContentData() {
-				return this.Api.post('chatbot/content/create', this.contentData);
+				this.loading = true;
+
+				return this.Api.post('chatbot/content/create', this.contentData)
+					.then(() => {
+						this.$root.$emit('update-list');
+					})
+					.finally(() => {
+						this.loading = false;
+					});
 			}
 		}
 	});

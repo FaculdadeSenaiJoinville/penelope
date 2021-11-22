@@ -110,36 +110,32 @@
 
 		methods: {
 			saveAndNew(): Promise<void> {
-				return this.saveIntentData()
-					.then(() => {
-						this.intentData = new NewIntent();
+				return this.saveIntentData().then(() => {
+					this.intentData = new NewIntent();
 
-						this.resetVuetifyForm();
-					})
-					.finally(() => {
-						this.loading = false;
-					});
+					this.resetVuetifyForm();
+				});
 			},
 
 			save(): Promise<void> {
-				return this.saveIntentData()
+				return this.saveIntentData().then(() => {
+					this.closeModal();
+				});
+			},
+
+			saveIntentData() {
+				const { selectedItems } = this.groupSelectedData;
+
+				this.intentData.contents = selectedItems;
+				this.loading = true;
+
+				return this.Api.post('chatbot/intent/create', this.intentData)
 					.then(() => {
-						this.closeModal();
 						this.$root.$emit('update-list');
 					})
 					.finally(() => {
 						this.loading = false;
 					});
-			},
-
-			saveIntentData() {
-				this.loading = true;
-
-				const { selectedItems } = this.groupSelectedData;
-
-				this.intentData.contents = selectedItems;
-
-				return this.Api.post('chatbot/intent/create', this.intentData);
 			}
 		}
 	});

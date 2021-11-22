@@ -249,6 +249,9 @@
 	.o-group-action-column {
 		display: flex;
 		flex-direction: row-reverse;
+		text-align: center;
+		height: 3rem;
+		line-height: 3rem;
 	}
 
 	.o-group-header {

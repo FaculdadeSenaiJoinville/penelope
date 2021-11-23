@@ -1,11 +1,11 @@
 <template>
 	<section>
-		<OModalHeader module="groups" type="delete" :title="groupData.name" />
+		<OModalHeader module="bot_intents" type="delete" :title="intentData.name" />
 
 		<OModalBody>
 			<div>
 				<span class="o-modal-text">
-					{{ Dictionary.groups.getMessage('confirm_delete', { group_name: groupData.name }) }}
+					{{ Dictionary.bot_intents.getMessage('confirm_delete', { intent_name: intentData.name }) }}
 				</span>
 			</div>
 		</OModalBody>
@@ -37,8 +37,7 @@
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import { GroupDetails } from '~/types/entities/group.type';
-
+	import { IntentDetails } from '~/types/entities';
 	export default Vue.extend({
 		components: {
 			OModalHeader,
@@ -50,7 +49,7 @@
 		data() {
 			return {
 				loading: false,
-				groupData: {} as any
+				intentData: {} as any
 			};
 		},
 
@@ -64,7 +63,7 @@
 			deleteGroup(): any {
 				this.loading = true;
 
-				return this.Api.delete(`groups/remove/${this.id}`)
+				return this.Api.delete(`chatbot/intent/remove/${this.id}`)
 					.then(() => {
 						this.closeModal();
 						this.$root.$emit('update-list');
@@ -77,12 +76,12 @@
 					});
 			},
 
-			getGroupDetails() {
+			getIntentDetails() {
 				this.loading = true;
 
-				return this.Api.get(`groups/details/${this.id}`)
+				this.Api.get(`chatbot/intent/details/${this.id}`)
 					.then((response) => {
-						this.groupData = new GroupDetails(response);
+						this.intentData = new IntentDetails(response);
 					})
 					.catch((error) => {
 						this.Messages.error(error);
@@ -95,7 +94,7 @@
 		},
 
 		mounted() {
-			this.getGroupDetails();
+			this.getIntentDetails();
 		}
 	});
 </script>

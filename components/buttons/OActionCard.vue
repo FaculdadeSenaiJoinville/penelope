@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink v-if="to" class="o-shortcut-card" @click="action">
+	<NuxtLink v-if="to" class="o-shortcut-card" :to="to">
 		<div>
 			<OIcon :name="icon" size="3" class="o-action-card-icon" />
 
@@ -52,6 +52,16 @@
 		box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);
 		background: linear-gradient(329.54deg, var(--white) 20%, var(--white-blue) 120%);
 		cursor: pointer;
+		-moz-transition: all 0.3s;
+		-webkit-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+
+	.o-shortcut-card:hover {
+		-moz-transition: all 0.3s;
+		-webkit-transition: all 0.3s;
+		transition: all 0.3s;
+		background: linear-gradient(329.54deg, var(--white-blue) 20%, var(--white) 120%);
 	}
 
 	.o-action-card-icon {
@@ -60,5 +70,6 @@
 
 	.o-action-card-description {
 		font-weight: 600;
+		color: var(--gray-dark-2);
 	}
 </style>

@@ -72,6 +72,7 @@
 				const classes = ['button', 'icon-button'];
 				const isFirstButton = currentButtonIndex === 0;
 				const isLastButton = currentButtonIndex === buttons.length - 1;
+				const hasOneButton = buttons.length === 1;
 
 				if (buttons[currentButtonIndex].success) {
 					classes.push('button-success');
@@ -83,11 +84,11 @@
 					console.error(errorMessages.buttonTypeProps);
 				}
 
-				if (isFirstButton) {
+				if (isFirstButton && !hasOneButton) {
 					classes.push('o-action-buttons-no-border-right-radius');
-				} else if (isLastButton) {
+				} else if (isLastButton && !hasOneButton) {
 					classes.push('o-action-buttons-no-border-left-radius');
-				} else {
+				} else if (!hasOneButton) {
 					classes.push('o-action-buttons-no-border-radius');
 				}
 

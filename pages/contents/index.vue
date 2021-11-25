@@ -85,7 +85,7 @@
 						text: this.Dictionary.bot_contents.getFieldName('name'),
 						value: 'name',
 						align: 'left',
-						width: '50%'
+						width: '40%'
 					},
 					{
 						text: this.Dictionary.bot_contents.getFieldName('link'),
@@ -128,6 +128,12 @@
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
 									action: () => this.openModal({ modal: 'contents/edit', id: content.id as string })
+								},
+								{
+									icon: 'delete',
+									title: this.Dictionary.misc.getLabel('delete'),
+									danger: true,
+									action: () => this.openModal({ modal: 'contents/delete', id: content.id as string })
 								}
 							];
 

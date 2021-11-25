@@ -70,7 +70,7 @@
 				} else if (email) {
 					return 'email';
 				} else {
-					console.warn('Nenhuma das props "text" ou "number" estÃ¡ sendo passada para o componente OInput!');
+					console.warn('Nenhuma das props "text" ou "number" está sendo passada para o componente OInput!');
 
 					return '';
 				}

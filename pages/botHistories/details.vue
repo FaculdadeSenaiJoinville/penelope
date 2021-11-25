@@ -89,5 +89,4 @@
 	.d-flex-column {
 		flex-direction: column
 	}
-
 </style>

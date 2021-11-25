@@ -22,7 +22,11 @@
 			>
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
-						<td><VChip small primary>{{ item.chat_id }}</VChip></td>
+						<td>
+							<VChip small primary>
+								{{ item.chat_id }}
+							</VChip>
+						</td>
 						<td>{{ item.user_name }}</td>
 						<td>{{ item.created_at }}</td>
 

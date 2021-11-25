@@ -28,13 +28,14 @@ export class User {
 
 	updated_by?: string;
 
-	groups?: Group[];
+	groups: Group[];
 
 	constructor() {
 		this.name = '';
 		this.email = '';
 		this.type = '' as UserType;
 		this.active = true;
+		this.groups = [];
 	}
 };
 
@@ -53,12 +54,15 @@ export class NewUser {
 
 	public confirm_password: string;
 
+	public groups: Group[];
+
 	constructor() {
 		this.name = '';
 		this.email = '';
 		this.type = '' as UserType;
 		this.password = '';
 		this.confirm_password = '';
+		this.groups = [];
 	}
 }
 
@@ -82,11 +86,16 @@ export class EditUser {
 
 	public active: boolean;
 
+	public groups: Group[];
+
+	public groups_to_leave?: Group[];
+
 	constructor(user?: User) {
 		this.name = user ? user.name : '';
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 		this.active = user ? user.active : true;
+		this.groups = user ? user.groups : [];
 	}
 };
 
@@ -107,11 +116,14 @@ export class UserDetails {
 
 	public active: boolean;
 
+	public groups: Group[];
+
 	constructor(user?: User) {
 		this.name = user ? user.name : '';
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 		this.active = user ? user.active : true;
+		this.groups = user ? user.groups : [];
 	}
 }
 

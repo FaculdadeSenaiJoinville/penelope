@@ -1,24 +1,22 @@
 <template>
 	<section>
 		<div class="o-filters-container space-bottom-1">
-			<OButton success :title="Dictionary.misc.getLabel('new')" :action="openNewGroupModal">
+			<OButton success :title="Dictionary.misc.getLabel('new')" :action="openNewIntentModal">
 				{{ Dictionary.misc.getLabel('new') }}
 			</OButton>
 
-			<div class="d-flex">
-				<OSearchBar
-					v-model="searchText"
-					:action="findGroups"
-					:placeholder="Dictionary.misc.getLabel('search_by_name')"
-				/>
-			</div>
+			<OSearchBar
+				v-model="searchText"
+				:action="findIntents"
+				:placeholder="Dictionary.misc.getLabel('search_by_name')"
+			/>
 		</div>
 
 		<div>
 			<VDataTable
 				hide-default-footer
 				:headers="headers"
-				:items="groups"
+				:items="intents"
 				:loading="loading"
 				:no-data-text="Dictionary.misc.getMessage('no_data_found')"
 				:loading-text="Dictionary.misc.getMessage('loading')"
@@ -27,7 +25,8 @@
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
-						<td>{{ item.description }}</td>
+						<td>{{ item.creator.name }}</td>
+						<td>{{ item.created_at }}</td>
 
 						<td class="text-right">
 							<OActionButtons :buttons="item.actionButtons" />
@@ -51,7 +50,7 @@
 	import OActionButtons from '~/components/buttons/OActionButtons.vue';
 	import OSearchBar from '~/components/inputs/OSearchBar.vue';
 
-	import { GroupWithActions } from '~/types/entities';
+	import { IntentWithActions } from '~/types/entities';
 
 	export default Vue.extend({
 		components: {
@@ -65,7 +64,7 @@
 		data() {
 			return {
 				searchText: '',
-				groups: [] as GroupWithActions[],
+				intents: [] as IntentWithActions[],
 				loading: false,
 				page: 1,
 				totalPages: 1
@@ -75,7 +74,7 @@
 		watch: {
 			page(newValue, oldValue) {
 				if (newValue !== oldValue) {
-					this.findGroups();
+					this.findIntents();
 				}
 			}
 		},
@@ -84,19 +83,24 @@
 			headers() {
 				return [
 					{
-						text: this.Dictionary.groups.getFieldName('name'),
+						text: this.Dictionary.bot_intents.getFieldName('name'),
 						value: 'name',
 						align: 'left',
 						width: '30%'
 					},
 					{
-						text: this.Dictionary.groups.getFieldName('description'),
-						value: 'description',
+						text: this.Dictionary.bot_intents.getFieldName('created_by'),
+						value: 'created_by',
 						align: 'left',
-						width: '30%'
+						width: '20%'
 					},
 					{
-						text: '',
+						text: this.Dictionary.bot_intents.getFieldName('created_at'),
+						value: 'created_at',
+						align: 'left',
+						width: '20%'
+					},
+					{
 						sortable: false,
 						align: 'right'
 					}
@@ -105,7 +109,7 @@
 		},
 
 		methods: {
-			findGroups() {
+			findIntents() {
 				this.loading = true;
 
 				const query = {
@@ -113,51 +117,51 @@
 					like: (this.searchText) ? { name: this.searchText } : null
 				};
 
-				this.Api.get('/groups/list', query)
+				this.Api.get('/chatbot/intent/list', query)
 					.then((response) => {
-						const [groups, count] = response;
+						const [intents, count] = response;
 
-						this.groups = groups.map((group: GroupWithActions) => {
-							group.actionButtons = [
+						this.intents = intents.map((intent: IntentWithActions) => {
+							intent.actionButtons = [
 								{
 									icon: 'eye',
 									title: this.Dictionary.misc.getLabel('details'),
 									info: true,
-									action: () => this.openModal({ modal: 'groups/details', id: group.id as string })
+									action: () => this.openModal({ modal: 'intents/details', id: intent.id as string })
 								},
 								{
 									icon: 'pen',
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
-									action: () => this.openModal({ modal: 'groups/edit', id: group.id as string })
+									action: () => this.openModal({ modal: 'intents/edit', id: intent.id as string })
 								},
 								{
 									icon: 'delete',
 									title: this.Dictionary.misc.getLabel('delete'),
 									danger: true,
-									action: () => this.openModal({ modal: 'groups/delete', id: group.id as string })
+									action: () => this.openModal({ modal: 'intents/delete', id: intent.id as string })
 								}
 							];
 
-							return group;
+							return intent;
 						});
 
 						this.totalPages = Math.ceil(parseInt(count) / 10);
-						this.groups = groups;
+						this.intents = intents;
 					})
 					.finally(() => {
 						this.loading = false;
 					});
 			},
 
-			openNewGroupModal() {
-				this.openModal({ modal: 'groups/new' });
+			openNewIntentModal() {
+				this.openModal({ modal: 'intents/new' });
 			}
 		},
 
 		mounted() {
-			this.findGroups();
-			this.$root.$on('update-list', this.findGroups);
+			this.findIntents();
+			this.$root.$on('update-list', this.findIntents);
 		}
 	});
 </script>

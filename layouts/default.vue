@@ -4,7 +4,7 @@
 			<span @click="sendToHome">ODYSSEY</span>
 
 			<button v-click-outside="closeDropdown" type="button" @click="changeDropdownStatus">
-				{{ $auth.user.name }}
+				{{ userName }}
 			</button>
 		</header>
 
@@ -51,6 +51,10 @@
 		computed: {
 			showModal() {
 				return Boolean(this.$route.query.modal);
+			},
+
+			userName() {
+				return this.$auth.user?.name;
 			}
 		},
 
@@ -67,10 +71,8 @@
 
 			async doLogout() {
 				await this.$axios.delete('/auth/logout');
-				await this.$auth.setUserToken(false);
+				this.$auth.setUserToken(false);
 				this.$auth.setUser(null);
-
-				location.reload();
 			},
 
 			sendToHome() {

@@ -1,9 +1,9 @@
 <template>
-	<AdminDashboard v-if="$auth.user.type === UserType.ADMIN" />
+	<AdminDashboard v-if="type === UserType.ADMIN" />
 
-	<ProfessorDashboard v-else-if="$auth.user.type === UserType.PROFESSOR" />
+	<ProfessorDashboard v-else-if="type === UserType.PROFESSOR" />
 
-	<StudentDashboard v-else-if="$auth.user.type === UserType.STUDENT" />
+	<StudentDashboard v-else-if="type === UserType.STUDENT" />
 </template>
 
 <script lang="ts">
@@ -24,6 +24,12 @@
 			return {
 				UserType
 			};
+		},
+
+		computed: {
+			type() {
+				return this.$auth.user?.type;
+			}
 		}
 	});
 </script>

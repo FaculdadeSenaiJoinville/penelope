@@ -11,16 +11,7 @@
 				</div>
 
 				<OInput
-					v-model="user.email"
-					text
-					name="email"
-					class="space-bottom-1"
-					block
-					:label="Dictionary.users.getFieldName('email')"
-				/>
-
-				<OInput
-					v-model="user.password"
+					v-model="newPassword.password"
 					password
 					name="password"
 					class="space-bottom-2"
@@ -28,20 +19,24 @@
 					:label="Dictionary.users.getFieldName('password')"
 				/>
 
+				<OInput
+					v-model="newPassword.confirm_password"
+					password
+					name="password"
+					class="space-bottom-2"
+					block
+					:label="Dictionary.users.getFieldName('confirm_password')"
+				/>
+
 				<OButton
 					class="o-button-block space-bottom-1"
 					block
 					success
-					:action="doLogin"
+					:action="updatePassword"
+					:disabled="loading"
 				>
-					{{ Dictionary.misc.getLabel('enter') }}
+					{{ Dictionary.misc.getLabel('save') }}
 				</OButton>
-
-				<div class="reset-password-link">
-					<NuxtLink to="/auth/reset_password">
-						{{ Dictionary.auth.getLabel('forgot_password') }}
-					</NuxtLink>
-				</div>
 			</OCard>
 		</div>
 	</div>
@@ -49,6 +44,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import { EditPassword } from '../../types/entities';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OCard from '~/components/OCard.vue';
@@ -64,26 +60,41 @@
 
 		data() {
 			return {
-				user: {
-					email: null,
-					password: null
-				}
+				loading: false,
+				newPassword: new EditPassword()
 			};
 		},
 
-		methods: {
-			async doLogin() {
-				const { email, password } = this.user;
+		computed: {
+			id() {
+				const { id } = this.$route.query;
 
-				try {
-					await this.$auth.loginWith('local', {
-						data: {
-							email,
-							password,
-							expiresIn: 84000
-						}
+				return this.Base64.decode(id as string || '');
+			},
+
+			token() {
+				const { token } = this.$route.query;
+
+				return this.Base64.decode(token as string || '');
+			}
+		},
+
+		methods: {
+			async updatePassword() {
+				this.loading = true;
+
+				await this.$auth.setUserToken(this.token);
+
+				this.Api.put(`/users/update-password/${this.id}`, this.newPassword)
+					.then(() => {
+						this.$router.push('/auth/login');
+					})
+					.finally(async() => {
+						await this.$auth.setUserToken(false);
+
+						this.$auth.setUser(null);
+						this.loading = false;
 					});
-				} catch (error) {}
 			}
 		}
 	});

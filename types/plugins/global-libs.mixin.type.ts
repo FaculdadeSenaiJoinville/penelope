@@ -19,3 +19,8 @@ export type Api = {
 
 	delete: (endpoint: string, query?: GenericObject) => Promise<any>;
 }
+
+export type Base64Methods = {
+	encode: (value: string) => string;
+	decode: (base64encoded: string) => string;
+}

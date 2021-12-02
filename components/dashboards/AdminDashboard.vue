@@ -10,7 +10,6 @@
 			icon="account-group"
 			:description="Dictionary.groups.getLabel('list_page_description')"
 			:action="openGroupList"
-			class="ml-6"
 		/>
 
 		<OActionCard

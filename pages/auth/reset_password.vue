@@ -10,36 +10,32 @@
 					ODYSSEY
 				</div>
 
-				<OInput
-					v-model="user.email"
-					text
-					name="email"
-					class="space-bottom-1"
-					block
-					:label="Dictionary.users.getFieldName('email')"
-				/>
+				<p class="message space-bottom-2">
+					{{ Dictionary.auth.getLabel('reset_password_orientation') }}
+				</p>
 
 				<OInput
-					v-model="user.password"
-					password
-					name="password"
+					v-model="email"
+					text
+					name="email"
 					class="space-bottom-2"
 					block
-					:label="Dictionary.users.getFieldName('password')"
+					:label="Dictionary.users.getFieldName('email')"
 				/>
 
 				<OButton
 					class="o-button-block space-bottom-1"
 					block
 					success
-					:action="doLogin"
+					:action="requestPasswordReset"
+					:disabled="loading"
 				>
-					{{ Dictionary.misc.getLabel('enter') }}
+					{{ Dictionary.misc.getLabel('send') }}
 				</OButton>
 
-				<div class="reset-password-link">
-					<NuxtLink to="/auth/reset_password">
-						{{ Dictionary.auth.getLabel('forgot_password') }}
+				<div class="return-to-login-link">
+					<NuxtLink to="/auth/login">
+						{{ Dictionary.auth.getLabel('return_to_login') }}
 					</NuxtLink>
 				</div>
 			</OCard>
@@ -64,26 +60,24 @@
 
 		data() {
 			return {
-				user: {
-					email: null,
-					password: null
-				}
+				loading: false,
+				email: null
 			};
 		},
 
 		methods: {
-			async doLogin() {
-				const { email, password } = this.user;
+			requestPasswordReset() {
+				const { email } = this;
 
-				try {
-					await this.$auth.loginWith('local', {
-						data: {
-							email,
-							password,
-							expiresIn: 84000
-						}
+				this.loading = true;
+
+				this.Api.post('/auth/request-password-reset', { email })
+					.then(() => {
+						this.$router.push('/auth/login');
+					})
+					.finally(() => {
+						this.loading = false;
 					});
-				} catch (error) {}
 			}
 		}
 	});
@@ -119,7 +113,11 @@
 		text-align: center;
 	}
 
-	.reset-password-link {
+	.message {
+		text-align: justify;
+	}
+
+	.return-to-login-link {
 		width: 100%;
 		text-align: center;
 		font-weight: 600;

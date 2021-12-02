@@ -94,6 +94,10 @@
 		padding: 3rem;
 	}
 
+	.o-card-padding-5 {
+		padding: 3.5rem;
+	}
+
 	.o-card-title {
 		border-radius: 10px 10px 0 0;
 		width: 100%;

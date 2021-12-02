@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import { DefaultProps } from 'vue/types/options';
 import { Dictionary, OdysseyDictionary } from 'odyssey-dictionary';
-import { Api, AxiosConfigObject, Messages } from '../../types/plugins/global-libs.mixin.type';
+import { Api, AxiosConfigObject, Base64Methods, Messages } from '../../types/plugins/global-libs.mixin.type';
 import { GenericObject } from '../../types/global.type';
 
 export interface IGlobalLibs {
 	Dictionary: OdysseyDictionary;
 	Messages: Messages;
 	Api: Api;
+	Base64: Base64Methods
 }
 
 const GlobalMixin: DefaultProps = {
@@ -72,6 +73,17 @@ const GlobalMixin: DefaultProps = {
 					}
 
 					return axios.$delete(endpoint);
+				}
+			};
+		},
+
+		Base64() {
+			return {
+				encode(value: string) {
+					return Buffer.from(value).toString('base64');
+				},
+				decode(base64encoded: string) {
+					return Buffer.from(base64encoded, 'base64').toString();
 				}
 			};
 		}

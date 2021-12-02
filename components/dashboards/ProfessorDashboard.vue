@@ -1,5 +1,5 @@
 <template>
-	<section class="d-flex">
+	<section class="flex-section">
 		<OActionCard
 			icon="account"
 			:description="Dictionary.users.getLabel('list_page_description')"
@@ -10,6 +10,18 @@
 			icon="account-group"
 			:description="Dictionary.groups.getLabel('list_page_description')"
 			:action="openGroupList"
+		/>
+
+		<OActionCard
+			icon="robot-confused"
+			:description="Dictionary.bot_intents.getLabel('list_page_description')"
+			to="/intents"
+		/>
+
+		<OActionCard
+			icon="book-open"
+			:description="Dictionary.bot_contents.getLabel('list_page_description')"
+			to="/contents"
 		/>
 	</section>
 </template>
@@ -34,3 +46,11 @@
 		}
 	});
 </script>
+
+<style scoped>
+	.flex-section{
+		display: flex;
+		align-items: flex-start;
+		gap: 2rem;
+	}
+</style>

@@ -68,7 +68,6 @@
 			async doLogout() {
 				await this.$axios.delete('/auth/logout');
 				await this.$auth.setUserToken(false);
-				await this.$auth.setStrategy('');
 				this.$auth.setUser(null);
 
 				location.reload();

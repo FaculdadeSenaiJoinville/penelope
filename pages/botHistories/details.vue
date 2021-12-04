@@ -14,14 +14,15 @@
 
 				<div class="d-flex-column d-flex align-start">
 					<OField :label="Dictionary.bot_histories.getFieldName('bot_response')" class="space-top-1" />
-					<VChip
+					<VCard
 						v-for="response in botHistoryData.bot_response"
 						:key="response"
-						small
-						class="my-1"
+						elevation="0"
+						color="grey lighten-2"
+						class="my-1 pa-3 rounded-xl"
 					>
 						{{ response }}
-					</VChip>
+					</VCard>
 				</div>
 			</VForm>
 			<OLoader v-else />
@@ -31,7 +32,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { VForm, VChip } from 'vuetify/lib';
+	import { VForm, VCard } from 'vuetify/lib';
 	import { BotHistoryDetails } from '~/types/entities/bot-history.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
@@ -44,7 +45,7 @@
 			OModalHeader,
 			OModalBody,
 			OField,
-			VChip,
+			VCard,
 			OLoader
 		},
 

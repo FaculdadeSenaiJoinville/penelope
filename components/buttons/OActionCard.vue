@@ -44,7 +44,6 @@
 		width: 220px;
 		padding: 1.5rem;
 		display: flex;
-		justify-content: center;
 		align-items: center;
 		color: var(--gray-dark-2);
 		border: 1px solid var(--white-blue-dark);

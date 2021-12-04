@@ -13,15 +13,9 @@
 		/>
 
 		<OActionCard
-			icon="robot-confused"
-			:description="Dictionary.bot_intents.getLabel('list_page_description')"
-			to="/intents"
-		/>
-
-		<OActionCard
-			icon="book-open"
-			:description="Dictionary.bot_contents.getLabel('list_page_description')"
-			to="/contents"
+			icon="robot-happy"
+			description="Chatbot Hermes"
+			to="/chatbot"
 		/>
 	</section>
 </template>

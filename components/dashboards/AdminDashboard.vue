@@ -14,7 +14,7 @@
 
 		<OActionCard
 			icon="robot-happy"
-			description="Chatbot Hermes"
+			:description="Dictionary.groups.getLabel('chatbot_name')"
 			to="/chatbot"
 		/>
 	</section>

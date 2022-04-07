@@ -23,6 +23,11 @@
 			:description="Dictionary.bot_contents.getLabel('list_page_description')"
 			to="/contents"
 		/>
+		<OActionCard
+			icon="trail"
+			:description="Dictionary.users.getLabel('list_page_description')"
+			to="/contents"
+		/>
 	</section>
 </template>
 

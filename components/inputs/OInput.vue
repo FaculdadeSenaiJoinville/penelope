@@ -17,6 +17,7 @@
 			class="input"
 			:required="required"
 			@input="$emit('input', $event.target.value)"
+			@keyup.enter="action"
 		/>
 
 		<textarea
@@ -48,7 +49,8 @@
 			required: { type: Boolean, default: false },
 			text: { type: Boolean, default: false },
 			number: { type: Boolean, default: false },
-			password: { type: Boolean, default: false },
+			password: { type: Boolean, default: false },	
+			action: { type: Function, default: () => null },
 			email: { type: Boolean, default: false },
 			name: { type: String, required: true },
 			value: { type: String, default: '' },

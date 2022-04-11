@@ -17,6 +17,7 @@
 					class="space-bottom-1"
 					block
 					:label="Dictionary.users.getFieldName('email')"
+					:action="doLogin"
 				/>
 
 				<OInput
@@ -26,6 +27,7 @@
 					class="space-bottom-2"
 					block
 					:label="Dictionary.users.getFieldName('password')"
+					:action="doLogin"
 				/>
 
 				<OButton

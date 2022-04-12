@@ -58,6 +58,7 @@
 </template>
 
 <script lang="ts">
+
 	import Vue from 'vue';
 	import { VDataTable, VPagination } from 'vuetify/lib';
 	import OButton from '~/components/buttons/OButton.vue';

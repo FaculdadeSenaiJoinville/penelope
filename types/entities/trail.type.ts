@@ -25,10 +25,10 @@ export class Trail {
 
 	constructor() {
 		this.name = '';
-        this.descricao = '';
-        this.status = '';
-        this.icon = '';
-        this.color = 0;
+		this.descricao = '';
+		this.status = '';
+		this.icon = '';
+		this.color = 0;
 		this.active = true;
 	}
 };
@@ -62,14 +62,13 @@ export class NewTrail {
 
 	constructor() {
 		this.name = '';
-        this.descricao = '';
-        this.status = '';
-        this.icon = '';
-        this.color = 0;
+		this.descricao = '';
+		this.status = '';
+		this.icon = '';
+		this.color = 0;
 		this.active = true;
 	}
 }
-
 
 export class EditTrail {
 	name: string;
@@ -86,10 +85,10 @@ export class EditTrail {
 
 	constructor(trail?: Trail) {
 		this.name = '';
-        this.descricao = '';
-        this.status = '';
-        this.icon = '';
-        this.color = 0;
+		this.descricao = '';
+		this.status = '';
+		this.icon = '';
+		this.color = 0;
 		this.active = true;
 	}
 };
@@ -117,10 +116,10 @@ export class TrailDetails {
 
 	constructor(trail?: Trail) {
 		this.name = '';
-        this.descricao = '';
-        this.status = '';
-        this.icon = '';
-        this.color = 0;
+		this.descricao = '';
+		this.status = '';
+		this.icon = '';
+		this.color = 0;
 		this.active = true;
 	}
 }

@@ -25,8 +25,8 @@
 		/>
 		<OActionCard
 			icon="trail"
-			:description="Dictionary.users.getLabel('list_page_description')"
-			to="/contents"
+			:description="Dictionary.trails.getLabel('list_page_description')"
+			to="/trails"
 		/>
 	</section>
 </template>

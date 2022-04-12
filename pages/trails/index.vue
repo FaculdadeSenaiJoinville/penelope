@@ -139,16 +139,16 @@
 			filterableTypes() {
 				return [
 					{
-						title: this.Dictionary.trails.getEnum('ADMIN'),
-						value: 'ADMIN'
+						title: this.Dictionary.trails.getEnum('ONEDIT'),
+						value: 'ONEDIT'
 					},
 					{
-						title: this.Dictionary.trails.getEnum('PROFESSOR'),
-						value: 'PROFESSOR'
+						title: this.Dictionary.trails.getEnum('ONTEST'),
+						value: 'ONTEST'
 					},
 					{
-						title: this.Dictionary.trails.getEnum('STUDENT'),
-						value: 'STUDENT'
+						title: this.Dictionary.trails.getEnum('PUBLISHED'),
+						value: 'PUBLISHED'
 					}
 				];
 			},

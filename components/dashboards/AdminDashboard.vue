@@ -24,7 +24,7 @@
 			to="/contents"
 		/>
 		<OActionCard
-			icon="trail"
+			icon="desktop-mac-dashboard"
 			:description="Dictionary.trails.getLabel('list_page_description')"
 			to="/trails"
 		/>

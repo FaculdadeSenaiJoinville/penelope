@@ -88,17 +88,17 @@
 						text: 'Nome',
 						value: 'name',
 						align: 'left',
-						width: '30%'
+						width: '20%'
 					},
 					{
-						text: 'E-mail',
-						value: 'email',
+						text: 'Descrição',
+						value: 'description',
 						align: 'left',
-						width: '30%'
+						width: '40%'
 					},
 					{
-						text: 'Tipo',
-						value: 'type',
+						text: 'Status',
+						value: 'status',
 						align: 'left',
 						width: '20%'
 					},

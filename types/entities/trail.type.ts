@@ -1,5 +1,12 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 
+export enum StatusType {	
+	ONEDIT = 'Em Edição',
+	ONTEST = 'Em Teste',
+	PUBLISHED = 'Publicado'
+
+}
+
 export class Trail {
 	id?: string;
 
@@ -7,7 +14,7 @@ export class Trail {
 
 	descricao: string;
 
-	status: string;
+	status: StatusType;
 
     icon: string;
 
@@ -26,7 +33,7 @@ export class Trail {
 	constructor() {
 		this.name = '';
 		this.descricao = '';
-		this.status = '';
+		this.status = '' as StatusType;
 		this.icon = '';
 		this.color = 0;
 		this.active = true;
@@ -44,7 +51,7 @@ export class NewTrail {
 
 	descricao: string;
 
-	status: string;
+	status: StatusType;
 
     icon: string;
 
@@ -63,7 +70,7 @@ export class NewTrail {
 	constructor() {
 		this.name = '';
 		this.descricao = '';
-		this.status = '';
+		this.status = '' as StatusType;
 		this.icon = '';
 		this.color = 0;
 		this.active = true;
@@ -75,7 +82,7 @@ export class EditTrail {
 
 	descricao: string;
 
-	status: string;
+	status: StatusType;
 
     icon: string;
 
@@ -86,7 +93,7 @@ export class EditTrail {
 	constructor(trail?: Trail) {
 		this.name = '';
 		this.descricao = '';
-		this.status = '';
+		this.status = '' as StatusType;
 		this.icon = '';
 		this.color = 0;
 		this.active = true;
@@ -106,7 +113,7 @@ export class TrailDetails {
 
 	descricao: string;
 
-	status: string;
+	status: StatusType;
 
     icon: string;
 
@@ -117,7 +124,7 @@ export class TrailDetails {
 	constructor(trail?: Trail) {
 		this.name = '';
 		this.descricao = '';
-		this.status = '';
+		this.status = '' as StatusType;
 		this.icon = '';
 		this.color = 0;
 		this.active = true;

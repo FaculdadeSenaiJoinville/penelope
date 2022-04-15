@@ -37,8 +37,20 @@
 				const actionName = this.Dictionary.misc.getLabel(this.type);
 
 				return `${moduleName} > ${actionName} >`;
+			},
+			escapeModal(): any {
+				return this.closeModal();
+				
 			}
-		}
+		},
+
+		mounted() {
+		document.addEventListener("keydown", (e) => {
+			if (e.code == 'Escape') {
+				this.escapeModal;
+			}
+		});
+	},
 	});
 </script>
 

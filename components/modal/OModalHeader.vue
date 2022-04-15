@@ -38,19 +38,20 @@
 
 				return `${moduleName} > ${actionName} >`;
 			},
+
 			escapeModal(): any {
 				return this.closeModal();
-				
 			}
 		},
 
 		mounted() {
-		document.addEventListener("keydown", (e) => {
-			if (e.code == 'Escape') {
-				this.escapeModal;
-			}
-		});
-	},
+			document.addEventListener('keydown', (e) => {
+				if (e.code === 'Escape') {
+					// eslint-disable-next-line no-unused-expressions
+					this.escapeModal;
+				}
+			});
+		}
 	});
 </script>
 

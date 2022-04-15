@@ -1,6 +1,6 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 
-export enum StatusType {	
+export enum StatusType {
 	ONEDIT = 'Em Edição',
 	ONTEST = 'Em Teste',
 	PUBLISHED = 'Publicado'
@@ -90,7 +90,7 @@ export class EditTrail {
 
 	active: boolean;
 
-	constructor(trail?: Trail) {
+	constructor() {
 		this.name = '';
 		this.descricao = '';
 		this.status = '' as StatusType;
@@ -121,7 +121,7 @@ export class TrailDetails {
 
 	active: boolean;
 
-	constructor(trail?: Trail) {
+	constructor() {
 		this.name = '';
 		this.descricao = '';
 		this.status = '' as StatusType;

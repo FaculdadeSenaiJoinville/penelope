@@ -1,5 +1,10 @@
 <template>
-	<div class="o-modal-overlay">
+	<div
+		ref="mainModal"
+		class="o-modal-overlay"
+		tabindex="0"
+		@keydown.esc="closeModal"
+	>
 		<section class="o-modal">
 			<div class="o-modal-body">
 				<Component :is="pageData" />
@@ -34,6 +39,11 @@
 					return '';
 				}
 			}
+		},
+
+		mounted() {
+			const modal = this.$refs.mainModal as HTMLElement;
+			modal.focus();
 		}
 	});
 </script>

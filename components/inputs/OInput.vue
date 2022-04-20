@@ -49,7 +49,7 @@
 			required: { type: Boolean, default: false },
 			text: { type: Boolean, default: false },
 			number: { type: Boolean, default: false },
-			password: { type: Boolean, default: false },	
+			password: { type: Boolean, default: false },
 			action: { type: Function, default: () => null },
 			email: { type: Boolean, default: false },
 			name: { type: String, required: true },

@@ -21,7 +21,6 @@
 					required
 					class="space-top-1"
 				/>
-
 			</VForm>
 		</OModalBody>
 
@@ -54,15 +53,13 @@
 	import { DataTableHeader } from 'vuetify';
 	import { VForm } from 'vuetify/lib';
 	import { Group } from '../../types/entities';
-	import { NewTrail, StatusType, TrailStatus } from '~/types/entities/trail.type';
+	import { NewTrail } from '~/types/entities/trail.type';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
-	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import OGroup from '~/components/OGroup.vue';
 
 	export default Vue.extend({
 		components: {
@@ -71,9 +68,7 @@
 			OModalFooter,
 			VForm,
 			OInput,
-			OSelectList,
-			OButton,
-			OGroup
+			OButton
 		},
 
 		data() {
@@ -87,7 +82,6 @@
 		},
 
 		computed: {
-			
 
 			oGroupHeaders(): DataTableHeader[] {
 				return [
@@ -114,7 +108,6 @@
 			},
 
 			savetrailData() {
-				
 				this.loading = true;
 
 				return this.Api.post('trails/create', this.trailData)

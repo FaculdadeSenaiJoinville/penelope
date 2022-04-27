@@ -21,6 +21,17 @@
 					required
 					class="space-top-1"
 				/>
+
+				<OIconPicker
+					v-model="trailData.icon"
+					iconPicker
+					icon
+					:label="Dictionary.trails.getFieldName('icon')"
+					name="icon"
+					class="space-top-1"
+				/>
+				
+	
 			</VForm>
 		</OModalBody>
 
@@ -60,6 +71,7 @@
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OButton from '~/components/buttons/OButton.vue';
+	import OIconPicker from "~/components/inputs/OIconPicker.vue";
 
 	export default Vue.extend({
 		components: {
@@ -68,7 +80,8 @@
 			OModalFooter,
 			VForm,
 			OInput,
-			OButton
+			OButton,
+			OIconPicker
 		},
 
 		data() {
@@ -77,7 +90,8 @@
 				trailData: new NewTrail(),
 				groupSelectedData: new OGroupSlectedData(),
 				preSelectedtrailGroups: [] as Group[],
-				oGroupColumns: ['name']
+				oGroupColumns: ['name'],
+				selected: ""
 			};
 		},
 

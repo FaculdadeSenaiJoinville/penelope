@@ -1,0 +1,21 @@
+.icon {
+	min-height: 2.2rem;
+	width: 100%;
+	border: 2px solid var(--gray-3);
+	background: var(--gray-1);
+	border-radius: 10px;
+	padding: 0.5rem;
+}
+
+.icon::placeholder {
+	color: var(--gray-dark-1)
+}
+
+.icon-block {
+	width: 100% !important;
+}
+
+.icon:focus {
+	outline: none;
+	border-color: var(--green);
+}

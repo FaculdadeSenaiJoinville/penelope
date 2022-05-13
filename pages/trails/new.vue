@@ -22,14 +22,29 @@
 					class="space-top-1"
 				/>
 
-				<OIconPicker
-					v-model="trailData.icon"
-					iconPicker
-					icon
-					:label="Dictionary.trails.getFieldName('icon')"
-					name="icon"
-					class="space-top-1"
-				/>
+			<div class="o-input">
+				<div class="o-field-label">
+				<label  >{{ Dictionary.trails.getFieldName('icon') }}</label>
+				 <ORequiredSymbol />
+				</div>	
+				<vue-awesome-icon-picker
+				 :colorMdi="this.trailData.color" :icon-preview="true" @selected="onIconSelected" />
+			</div>
+
+
+				<div class="o-input">
+				<div class="o-field-label">
+				<label  >{{ Dictionary.trails.getFieldName('color') }}</label>
+				 <ORequiredSymbol />
+				</div>	
+				
+				<v-color-picker
+				dot-size="25" v-model="trailData.color" @input="$emit('input')" @update:color="updateColors"
+				width="150" mode="hexa"
+				swatches-max-height="150"
+				></v-color-picker>
+			</div>
+
 				
 	
 			</VForm>
@@ -72,7 +87,12 @@
 	import OInput from '~/components/inputs/OInput.vue';
 	import OButton from '~/components/buttons/OButton.vue';
 	import OIconPicker from "~/components/inputs/OIconPicker.vue";
+	
+	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
+Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
+	import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
+import { debug } from 'webpack';
 	export default Vue.extend({
 		components: {
 			OModalHeader,
@@ -81,7 +101,12 @@
 			VForm,
 			OInput,
 			OButton,
-			OIconPicker
+			OIconPicker,
+			ORequiredSymbol
+		},
+		props: {
+			icon: { type: String, default: '' },
+			color: { type: String, default: '' }
 		},
 
 		data() {
@@ -91,7 +116,8 @@
 				groupSelectedData: new OGroupSlectedData(),
 				preSelectedtrailGroups: [] as Group[],
 				oGroupColumns: ['name'],
-				selected: ""
+				selected: "",
+				styleObject:'#8FA7B2'
 			};
 		},
 
@@ -106,6 +132,18 @@
 		},
 
 		methods: {
+
+			updateColors(colors)
+			{
+				this.trailData.color = colors.hex;
+			},
+
+			onIconSelected(icon) {
+			this.selected = icon.name;
+			icon.value = this.selected;
+			this.trailData.icon = icon.name;
+
+        	},
 			saveAndNew(): Promise<void> {
 				return this.savetrailData().then(() => {
 					this.trailData = new NewTrail();
@@ -114,8 +152,8 @@
 					this.resetVuetifyForm();
 				});
 			},
-
 			save(): Promise<void> {
+				console.log(this.trailData);
 				return this.savetrailData().then(() => {
 					this.closeModal();
 				});
@@ -123,7 +161,7 @@
 
 			savetrailData() {
 				this.loading = true;
-
+				console.log(this.trailData);
 				return this.Api.post('trails/create', this.trailData)
 					.then(() => {
 						this.$root.$emit('update-list');
@@ -135,3 +173,24 @@
 		}
 	});
 </script>
+
+<style scoped>
+
+	.o-input {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		width: 220px;
+	}
+
+	.o-input input {
+		width: 100%;
+	}
+
+	.o-field-label {
+		margin-bottom: 0.3rem;
+		color: var(--gray-dark-2);
+		font-weight: 600;
+	}
+
+</style>

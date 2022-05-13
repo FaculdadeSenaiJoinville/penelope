@@ -12,13 +12,13 @@ export class Trail {
 
 	name: string;
 
-	descricao: string;
+	description: string;
 
 	status: StatusType;
 
     icon: string;
 
-    color:number;
+    color:string;
 
 	active: boolean;
 
@@ -32,10 +32,10 @@ export class Trail {
 
 	constructor() {
 		this.name = '';
-		this.descricao = '';
+		this.description = '';
 		this.status = '' as StatusType;
 		this.icon = '';
-		this.color = 0;
+		this.color = '#A31D1D';
 		this.active = true;
 	}
 };
@@ -49,13 +49,13 @@ export class NewTrail {
 
 	name: string;
 
-	descricao: string;
+	description: string;
 
 	status: StatusType;
 
     icon: string;
 
-    color:number;
+    color:string;
 
 	active: boolean;
 
@@ -69,10 +69,10 @@ export class NewTrail {
 
 	constructor() {
 		this.name = '';
-		this.descricao = '';
+		this.description = '';
 		this.status = '' as StatusType;
 		this.icon = '';
-		this.color = 0;
+		this.color = '#A31D1D';
 		this.active = true;
 	}
 }
@@ -80,23 +80,23 @@ export class NewTrail {
 export class EditTrail {
 	name: string;
 
-	descricao: string;
+	description: string;
 
 	status: StatusType;
 
     icon: string;
 
-    color:number;
+    color:string;
 
 	active: boolean;
 
-	constructor() {
-		this.name = '';
-		this.descricao = '';
-		this.status = '' as StatusType;
-		this.icon = '';
-		this.color = 0;
-		this.active = true;
+	constructor(trail?: Trail) {
+		this.name = trail ? trail.name : '';
+		this.description = trail ? trail.description :'';
+		this.status = (trail ? trail.status : '') as StatusType;
+		this.icon = trail ? trail.icon : '';
+		this.color = trail ? trail.color : '#A31D1D';
+		this.active = trail ? trail.active : true;
 	}
 };
 
@@ -111,22 +111,22 @@ export class TrailStatus {
 export class TrailDetails {
 	name: string;
 
-	descricao: string;
+	description: string;
 
 	status: StatusType;
 
     icon: string;
 
-    color:number;
+    color:string;
 
 	active: boolean;
 
-	constructor() {
-		this.name = '';
-		this.descricao = '';
-		this.status = '' as StatusType;
-		this.icon = '';
-		this.color = 0;
-		this.active = true;
+	constructor(trail?: Trail) {
+		this.name = trail ? trail.name : '';
+		this.description = trail ? trail.description :'';
+		this.status = (trail ? trail.status : '') as StatusType;
+		this.icon = trail ? trail.icon : '';
+		this.color = trail ? trail.color : '#A31D1D';
+		this.active = trail ? trail.active : true;
 	}
 }

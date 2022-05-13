@@ -39,8 +39,8 @@
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
-						<td>{{ item.email }}</td>
-						<td>{{ Dictionary.trails.getEnum(item.type) }}</td>
+						<td>{{ item.description }}</td>
+						<td>{{ Dictionary.trails.getEnum(item.status) }}</td>
 
 						<td class="text-right">
 							<OActionButtons :buttons="item.actionButtons" />

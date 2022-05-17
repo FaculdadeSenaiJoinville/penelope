@@ -24,7 +24,7 @@
 				<div class="o-field-label">
 				<label  class="o-field-label">{{ Dictionary.trails.getFieldName('icon') }}</label>
 				</div>	
-				<OIcon :name="trailData.icon"  :style='`color: #`+getName' />
+				<OIcon :name="trailData.icon" :style='`color: #`+getName' />
 			</div>
 
 			</VForm>
@@ -36,7 +36,8 @@
 
 <script lang="ts">
 
-	import '@mdi/font/css/materialdesignicons.css'
+	import '@mdi/font/css/materialdesignicons.css';
+	require('@mdi/font/css/materialdesignicons.css');
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
 	import { DataTableHeader } from 'vuetify';
@@ -51,7 +52,7 @@
 	import OLoader from '~/components/OLoader.vue';
 
 Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
-	import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
+import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
 	export default Vue.extend({
 		components: {
 			VForm,

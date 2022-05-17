@@ -1,9 +1,9 @@
 <template>
 	<section>
-		<OModalHeader module="trails" type="new" />
+		<OModalHeader module="trails" type="edit" :title="trailData.name" />
 
 		<OModalBody>
-			<VForm ref="form" class="form">
+			<VForm v-if="!loading" ref="form" class="form">
 				<OInput
 					v-model="trailData.name"
 					text
@@ -22,29 +22,47 @@
 					class="space-top-1"
 				/>
 
-				<OIconPicker
-				 :colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
-			
-				<OColorPicker  class="space-top-1" :colorUpdated="updateColors"/>
+			<div class="o-input">
+				<div class="o-field-label">
+				<label  >{{ Dictionary.trails.getFieldName('icon') }}</label>
+				
+				</div>	
+				<vue-awesome-icon-picker
+				 :colorMdi="this.trailData.color" :iconPlaceholder="this.trailData.icon || 'help-circle'" :icon-preview="true" @selected="onIconSelected" />
+				
+			</div>
+
+
+			<div class="o-input">
+				<div class="o-field-label">
+				<label  >{{ Dictionary.trails.getFieldName('color') }}</label>
+				
+				</div>	
+				<v-color-picker
+					dot-size="25" hide-canvas v-model="trailData.color" @input="$emit('input')" @update:color="updateColors"
+					width="200" mode="hexa"
+					swatches-max-height="150"
+					></v-color-picker>
+			</div>
+
+			<OToggleSwitch
+				v-model="trailData.active"
+				:label="Dictionary.trails.getFieldName('active')"
+				name="active"
+				required
+				class="space-top-bottom-1"
+			/>
+				
 	
 			</VForm>
+
+			<OLoader v-else />
 		</OModalBody>
 
 		<OModalFooter>
 			<OButton
 				success
-				icon="plus-box-multiple"
-				class="space-right-1"
-				:action="saveAndNew"
-				:disabled="loading"
-				:title="Dictionary.misc.getLabel('save_and_new')"
-			>
-				{{ Dictionary.misc.getLabel('save') }}
-			</OButton>
-
-			<OButton
-				success
-				:action="save"
+				:action="update"
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
 			>
@@ -56,24 +74,25 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { DataTableHeader } from 'vuetify';
 	import { VForm } from 'vuetify/lib';
-	import { Group } from '../../types/entities';
-	import { NewTrail } from '~/types/entities/trail.type';
+	import { DataTableHeader } from 'vuetify';
+	import { Group } from '~/types/entities';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
+	import { EditTrail } from '~/types/entities/trail.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
 	import OInput from '~/components/inputs/OInput.vue';
+	import OSelectList from '~/components/inputs/OSelectList.vue';
 	import OButton from '~/components/buttons/OButton.vue';
-	import OIconPicker from "~/components/inputs/OIconPicker.vue";
-	import OColorPicker from "~/components/inputs/OColorPicker.vue";
+	import OLoader from '~/components/OLoader.vue';
+	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
+	import OGroup from '~/components/OGroup.vue';
 	
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 	import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
-import { debug } from 'webpack';
 	export default Vue.extend({
 		components: {
 			OModalHeader,
@@ -81,9 +100,11 @@ import { debug } from 'webpack';
 			OModalFooter,
 			VForm,
 			OInput,
+			OSelectList,
 			OButton,
-			OIconPicker,
-			OColorPicker,
+			OLoader,
+			OToggleSwitch,
+			OGroup,
 			ORequiredSymbol
 		},
 		props: {
@@ -94,20 +115,20 @@ import { debug } from 'webpack';
 		data() {
 			return {
 				loading: false,
-				trailData: new NewTrail(),
+				trailData: new EditTrail(),
+				preSelectedTrailGroups: [] as Group[],
 				groupSelectedData: new OGroupSlectedData(),
-				preSelectedtrailGroups: [] as Group[],
 				oGroupColumns: ['name'],
 				selected: "",
 				styleObject:'#8FA7B2'
 			};
 		},
 
-		mounted() {
-			this.trailData.icon = 'help-circle';
-		},
-
 		computed: {
+			
+			id() {
+				return this.$route.query.id;
+			},
 
 			oGroupHeaders(): DataTableHeader[] {
 				return [
@@ -118,48 +139,50 @@ import { debug } from 'webpack';
 		},
 
 		methods: {
-
-			updateColors(colors)
+			updateColors({hex})
 			{
-				this.trailData.color = colors.hex;
+				this.trailData.color = hex;
 			},
 
 			onIconSelected(icon) {
-
 			this.selected = icon.name;
 			icon.value = this.selected;
 			this.trailData.icon = icon.name;
-		
-        	},
-			saveAndNew(): Promise<void> {
-				return this.savetrailData().then(() => {
-					this.trailData = new NewTrail();
-					this.preSelectedtrailGroups = [];
 
-					this.resetVuetifyForm();
-				});
-			},
-			save(): Promise<void> {
-				console.log(this.trailData);
-				return this.savetrailData().then(() => {
+        	},
+			
+			update() {
+				const { selectedItems, removedItems } = this.groupSelectedData;
+
+
+				return this.Api.put(`trails/update/${this.id}`, this.trailData).then(() => {
 					this.closeModal();
 				});
 			},
 
-			savetrailData() {
+			getTrailDetails() {
 				this.loading = true;
-				console.log(this.trailData);
-				return this.Api.post('trails/create', this.trailData)
-					.then(() => {
-						this.$root.$emit('update-list');
+
+				return this.Api.get(`trails/details/${this.id}`)
+					.then((response) => {
+						this.trailData = new EditTrail(response);
+						console.log(this.trailData);
+					})
+					.catch(() => {
+						this.closeModal();
 					})
 					.finally(() => {
 						this.loading = false;
 					});
 			}
+		},
+
+		mounted() {
+			this.getTrailDetails();
 		}
 	});
 </script>
+
 
 <style scoped>
 

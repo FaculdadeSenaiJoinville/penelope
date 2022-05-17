@@ -1,10 +1,13 @@
 <template>
 	<section :class="inputClasses">
 		<div class="o-input-label">
-				<label  >{{ Dictionary.trails.getFieldName('icon') }}</label>
+				<label  >{{ Dictionary.trails.getFieldName('color') }}</label>
 				 <ORequiredSymbol />
-				<vue-awesome-icon-picker
-				 :colorMdi="colorDefault" :icon-preview="needPreview" @selected="iconSelected" :iconPlaceholder="iconDefault" />
+				<v-color-picker
+				:dot-size="dotSize" @input="$emit('input')" @update:color="colorUpdated"
+				:width="dashboardWitdh" :mode="typeMode"
+				:swatches-max-height="swatchesMaxHeight" 
+				></v-color-picker>
 			</div>
 	</section>
 </template>
@@ -13,24 +16,10 @@
 	import Vue from 'vue';
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
-
-Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
-	import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
-
-
 	export default Vue.extend({
 		components: {
 			ORequiredSymbol
 		},
-		data: function() {
-		return {
-			selected: "",
-        	selectedIcon: '',
-			dataValue:''
-		}
-		
-		},
-		
 		methods: {
 		},
 		computed: {
@@ -45,10 +34,12 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 		},
 
 		props: {
+			swatchesMaxHeight: {type: Number, default: 150},
+			typeMode: {type: String, default: 'hexa'},
+			dashboardWitdh: {type: Number, default: 150},
+			dotSize: {type: Number, default: 25},
 			colorDefault: {type: String, default: ''},
-			iconSelected: { type: Function, default: () => null },
-			iconDefault: {type: String, default: 'help-circle'},
-			needPreview: {type: Boolean, default: false}
+			colorUpdated: { type: Function, default: () => null },
 		}
 		
 	});

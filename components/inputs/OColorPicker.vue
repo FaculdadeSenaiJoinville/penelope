@@ -7,6 +7,7 @@
 				:dot-size="dotSize" @input="$emit('input')" @update:color="colorUpdated"
 				:width="dashboardWitdh" :mode="typeMode"
 				:swatches-max-height="swatchesMaxHeight" 
+				:value="content"
 				></v-color-picker>
 			</div>
 	</section>
@@ -38,8 +39,10 @@
 			typeMode: {type: String, default: 'hexa'},
 			dashboardWitdh: {type: Number, default: 150},
 			dotSize: {type: Number, default: 25},
+			colorModel:{type: String, default: ''},
 			colorDefault: {type: String, default: ''},
 			colorUpdated: { type: Function, default: () => null },
+			content: {type: String, default: ''},
 		}
 		
 	});

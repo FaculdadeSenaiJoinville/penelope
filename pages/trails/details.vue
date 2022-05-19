@@ -83,10 +83,7 @@ import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odys
 				return [
 					{ text: this.Dictionary.groups.getFieldName('name'), value: 'name', width: '60%' }
 				];
-			},getName(): String{
-				console.log("cor");
-				console.log(this.trailData.color);
-				
+			},getName(): String{				
 				return this.trailData.color;
 			}
 		},
@@ -101,10 +98,7 @@ import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odys
 						var element  = Array.from(document.getElementsByClassName("mdi-"+this.trailData.icon));
 						element.forEach((element) => {
 							element.setAttribute("style", "color: #"+this.trailData.color+"");
-							console.log("mdi-"+this.trailData.icon);
 						});
-						
-						console.log("mdi-"+this.trailData.icon);
 					})
 					.catch(() => {
 						this.closeModal();

@@ -140,7 +140,6 @@ import { debug } from 'webpack';
 				});
 			},
 			save(): Promise<void> {
-				console.log(this.trailData);
 				return this.savetrailData().then(() => {
 					this.closeModal();
 				});
@@ -148,7 +147,6 @@ import { debug } from 'webpack';
 
 			savetrailData() {
 				this.loading = true;
-				console.log(this.trailData);
 				return this.Api.post('trails/create', this.trailData)
 					.then(() => {
 						this.$root.$emit('update-list');

@@ -22,28 +22,10 @@
 					class="space-top-1"
 				/>
 
-			<div class="o-input">
-				<div class="o-field-label">
-				<label  >{{ Dictionary.trails.getFieldName('icon') }}</label>
-				
-				</div>	
-				<vue-awesome-icon-picker
-				 :colorMdi="this.trailData.color" :iconPlaceholder="this.trailData.icon || 'help-circle'" :icon-preview="true" @selected="onIconSelected" />
-				
-			</div>
-
-
-			<div class="o-input">
-				<div class="o-field-label">
-				<label  >{{ Dictionary.trails.getFieldName('color') }}</label>
-				
-				</div>	
-				<v-color-picker
-					dot-size="25" hide-canvas v-model="trailData.color" @input="$emit('input')" @update:color="updateColors"
-					width="200" mode="hexa"
-					swatches-max-height="150"
-					></v-color-picker>
-			</div>
+			<OIconPicker 
+				:colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
+			
+			<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
 
 			<OToggleSwitch
 				v-model="trailData.active"
@@ -87,7 +69,10 @@
 	import OButton from '~/components/buttons/OButton.vue';
 	import OLoader from '~/components/OLoader.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
-	import OGroup from '~/components/OGroup.vue';
+	import OGroup from '~/components/OGroup.vue';	
+	import OIconPicker from "~/components/inputs/OIconPicker.vue";
+	import OColorPicker from "~/components/inputs/OColorPicker.vue";
+	
 	
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
@@ -105,7 +90,9 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 			OLoader,
 			OToggleSwitch,
 			OGroup,
-			ORequiredSymbol
+			ORequiredSymbol,
+			OIconPicker,
+			OColorPicker
 		},
 		props: {
 			icon: { type: String, default: '' },
@@ -120,7 +107,7 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 				groupSelectedData: new OGroupSlectedData(),
 				oGroupColumns: ['name'],
 				selected: "",
-				styleObject:'#8FA7B2'
+				colorDefault:'#8FA7B2'
 			};
 		},
 
@@ -152,21 +139,20 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
         	},
 			
 			update() {
-				const { selectedItems, removedItems } = this.groupSelectedData;
 
 
 				return this.Api.put(`trails/update/${this.id}`, this.trailData).then(() => {
-					this.closeModal();
+					this.$root.$emit('update-list');
+					this.closeModal();				
 				});
 			},
 
-			getTrailDetails() {
+			async getTrailDetails() {
 				this.loading = true;
 
-				return this.Api.get(`trails/details/${this.id}`)
+				return await this.Api.get(`trails/details/${this.id}`)
 					.then((response) => {
 						this.trailData = new EditTrail(response);
-						console.log(this.trailData);
 					})
 					.catch(() => {
 						this.closeModal();
@@ -175,8 +161,8 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 						this.loading = false;
 					});
 			}
-		},
 
+		},
 		mounted() {
 			this.getTrailDetails();
 		}

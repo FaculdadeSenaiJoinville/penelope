@@ -120,8 +120,8 @@
 
 				return this.Api.put(`chatbot/intent/update/${this.id}`, this.intentData)
 					.then(() => {
-						this.closeModal();
 						this.$root.$emit('update-list');
+						this.closeModal();
 					})
 					.finally(() => {
 						this.loading = false;

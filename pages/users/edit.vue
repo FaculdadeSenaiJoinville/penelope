@@ -151,6 +151,7 @@
 				this.userData.groups_to_leave = removedItems;
 
 				return this.Api.put(`users/update/${this.id}`, this.userData).then(() => {
+					this.$root.$emit('update-list');
 					this.closeModal();
 				});
 			},

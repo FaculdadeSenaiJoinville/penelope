@@ -22,9 +22,9 @@
 					class="space-top-1"
 				/>
 
-			<OIconPicker 
+			<OIconPicker
 				:colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
-			
+
 			<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
 
 			<OToggleSwitch
@@ -34,8 +34,8 @@
 				required
 				class="space-top-bottom-1"
 			/>
-				
-	
+
+
 			</VForm>
 
 			<OLoader v-else />
@@ -69,11 +69,11 @@
 	import OButton from '~/components/buttons/OButton.vue';
 	import OLoader from '~/components/OLoader.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
-	import OGroup from '~/components/OGroup.vue';	
+	import OGroup from '~/components/OGroup.vue';
 	import OIconPicker from "~/components/inputs/OIconPicker.vue";
 	import OColorPicker from "~/components/inputs/OColorPicker.vue";
-	
-	
+
+
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
@@ -112,7 +112,7 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 		},
 
 		computed: {
-			
+
 			id() {
 				return this.$route.query.id;
 			},
@@ -132,18 +132,15 @@ Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
 			},
 
 			onIconSelected(icon) {
-			this.selected = icon.name;
-			icon.value = this.selected;
-			this.trailData.icon = icon.name;
-
+				this.selected = icon.name;
+				icon.value = this.selected;
+				this.trailData.icon = icon.name;
         	},
-			
+
 			update() {
-
-
 				return this.Api.put(`trails/update/${this.id}`, this.trailData).then(() => {
 					this.$root.$emit('update-list');
-					this.closeModal();				
+					this.closeModal();
 				});
 			},
 

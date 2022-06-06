@@ -199,6 +199,7 @@ import {TrailButton} from './buttons';
 				this.loading = true;
 
 				const query = {
+					page: this.page,
 					active: (this.activeSelected !== null) ? this.activeSelected : null,
 					status: (this.statusSelected) ? this.statusSelected : null,
 					like: (this.searchText) ? { name: this.searchText } : null

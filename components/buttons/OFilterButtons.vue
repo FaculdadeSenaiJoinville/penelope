@@ -40,6 +40,8 @@
 					this.$emit('input', option.value);
 					this.selected = index;
 				}
+
+				this.$root.$emit('reset-pagination');
 			},
 
 			isSelected(index: Number) {

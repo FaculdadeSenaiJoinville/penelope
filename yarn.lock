@@ -1460,13 +1460,6 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.20.tgz#111b5db0f501aa89b05076fa31f0ea0e0c292cd3"
   integrity sha512-88p7+M0QGxKpmnkfXjS4V26AnoC/eiqZutE8GLdaI5X12NY75bXSdTY9NkmYb2Xyk1O+MmkuO6Frmsj84V6I8Q==
 
-"@rightbraintechbd/vue-awesome-icon-picker-odyssey@file:../vue-awesome-icon-picker-odyssey":
-  version "1.0.0"
-  dependencies:
-    "@fortawesome/fontawesome-free" "^5.13.0"
-    fs "0.0.1-security"
-    path "^0.12.7"
-
 "@types/anymatch@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-3.0.0.tgz#c95ff14401dbb2869913afac3935af4ad0d37f1a"
@@ -9089,12 +9082,14 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
-vue-awesome-icon-picker-odyssey@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vue-awesome-icon-picker-odyssey/-/vue-awesome-icon-picker-odyssey-1.0.0.tgz#ad5202a481cfb5cb48997fcb635d90b446e34e81"
-  integrity sha512-cJSsOCuwQwpBgJYNKh0VxI14LujQ6ZcObgQDOcqaieg++Ze1ICkAxcA7zGpVTlBhHxxYoUW/a4BSzkiKs/h8RQ==
+vue-awesome-icon-picker-odyssey@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-awesome-icon-picker-odyssey/-/vue-awesome-icon-picker-odyssey-1.1.0.tgz#bd5297dc3beb0864529d068b13e16d76acaa5ce9"
+  integrity sha512-NJsaAKJpvG4yF7pux0PZENBeNYshQFVA6hLT8GsARD3Yp2LyIPOcgPZbUGUYHDY9+OqWkexh9LWekWZIWK5GZQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.13.0"
+    "@mdi/js" "^6.6.96"
+    "@mdi/svg" "^6.6.96"
     fs "0.0.1-security"
     path "^0.12.7"
 

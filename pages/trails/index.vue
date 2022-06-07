@@ -170,18 +170,13 @@ import {TrailButton} from './buttons';
 		},
 
 		methods: {
-			showButton(trail, number) {	
-				if(number == TrailButton.PUBLISHED && trail.updated_by === this.$auth.user.id){
-					return false;
-				}	
-
-				if(((trail.status === "ONEDIT" && number === TrailButton.PUBLISHED) || 
-				(trail.status === "ONTEST" && number === TrailButton.ONTEST) || 
-				(trail.status === "PUBLISHED" && (number === TrailButton.ONTEST || number === TrailButton.PUBLISHED)) || (number == TrailButton.PUBLISHED && trail.updated_by === this.$auth.user.id))){
-					return false;
-				}
-	
-				return true;
+			showButton(trail, trailButton : TrailButton) {		
+				return !(
+					(trailButton === TrailButton.PUBLISHED && trail.updated_by === this.$auth.user.id) ||
+					(trail.status === "PUBLISHED" && [TrailButton.ONTEST, TrailButton.PUBLISHED].includes(trailButton)) ||
+					(trail.status === "ONEDIT" && trailButton === TrailButton.PUBLISHED) || 
+					(trail.status === "ONTEST" && trailButton === TrailButton.ONTEST)
+				);
 			},
 
 			resetPagination() {
@@ -211,35 +206,34 @@ import {TrailButton} from './buttons';
 						this.trails = trails.map((trail: TrailWithActions) => {
 							trail.actionButtons = [
 								{
-									show: true,
 									icon: 'eye',
 									title: this.Dictionary.misc.getLabel('details'),
 									info: true,
 									action: () => this.openModal({ modal: 'trails/details', id: trail.id as string })
 								},
 								{
-									show: this.showButton(trail, 1),
+									show: this.showButton(trail, TrailButton.ONEDIT),
 									icon: 'pen',
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
 									action: () => this.openModal({ modal: 'trails/edit', id: trail.id as string })
 								},
 								{
-									show: this.showButton(trail, 2),
+									show: this.showButton(trail, TrailButton.ONTEST),
 									icon: 'clock-check-outline',
 									title: this.Dictionary.misc.getLabel('ontest'),
 									ontest: true,
 									action: () => this.openModal({ modal: 'trails/test', id: trail.id as string })
 								},
 								{
-									show: this.showButton(trail, 3),
+									show: this.showButton(trail, TrailButton.PUBLISHED),
 									icon: 'publish',
 									title: this.Dictionary.misc.getLabel('publish'),
 									publish: true,
 									action: () => this.openModal({ modal: 'trails/publish', id: trail.id as string })
 								}
 						
-							].filter(obj => obj.show);
+							].filter(obj => typeof obj.show === 'boolean' ? obj.show : true);
 						});
 
 						this.totalPages = Math.ceil(parseInt(count) / 10);

@@ -3,7 +3,7 @@
 		<div class="o-input-label">
 				<label  >{{ Dictionary.trails.getFieldName('icon') }}</label>
 				 <ORequiredSymbol />
-				<vue-awesome-icon-picker
+				<vue-material-design-icon-picker
 				 :colorMdi="colorDefault" :icon-preview="needPreview" @selected="iconSelected" :iconPlaceholder="iconDefault" />
 			</div>
 	</section>
@@ -14,8 +14,8 @@
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
 
-Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
-	import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
+Vue.component('vue-material-design-icon-picker', VueAwesomeIconPicker)
+	import VueAwesomeIconPicker from 'vue-material-design-icon-picker';
 
 
 	export default Vue.extend({

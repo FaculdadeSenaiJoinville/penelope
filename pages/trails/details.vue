@@ -51,8 +51,8 @@
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 	import OLoader from '~/components/OLoader.vue';
 
-Vue.component('vue-awesome-icon-picker', VueAwesomeIconPicker)
-import VueAwesomeIconPicker from '@rightbraintechbd/vue-awesome-icon-picker-odyssey';
+Vue.component('vue-material-design-icon-picker', VueAwesomeIconPicker)
+import VueAwesomeIconPicker from 'vue-material-design-icon-picker';
 	export default Vue.extend({
 		components: {
 			VForm,

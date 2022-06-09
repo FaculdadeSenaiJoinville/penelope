@@ -58,6 +58,7 @@
 	import Vue from 'vue';
 	import { DataTableHeader } from 'vuetify';
 	import { VForm } from 'vuetify/lib';
+
 	import { Group } from '../../types/entities';
 	import { NewTrail } from '~/types/entities/trail.type';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
@@ -68,12 +69,9 @@
 	import OButton from '~/components/buttons/OButton.vue';
 	import OIconPicker from "~/components/inputs/OIconPicker.vue";
 	import OColorPicker from "~/components/inputs/OColorPicker.vue";
-	
+	import VueMaterialDesignIconPicker from 'vue-material-design-icon-picker';
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 
-Vue.component('vue-material-design-icon-picker', VueMaterialDesignIconPicker)
-import VueMaterialDesignIconPicker from 'vue-material-design-icon-picker';
-import { debug } from 'webpack';
 	export default Vue.extend({
 		components: {
 			OModalHeader,
@@ -84,7 +82,8 @@ import { debug } from 'webpack';
 			OButton,
 			OIconPicker,
 			OColorPicker,
-			ORequiredSymbol
+			ORequiredSymbol,
+			VueMaterialDesignIconPicker
 		},
 		props: {
 			icon: { type: String, default: '' },

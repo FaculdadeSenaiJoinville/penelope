@@ -50,9 +50,9 @@
 	import OField from '~/components/OField.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import VueAwesomeIconPicker from 'vue-material-design-icon-picker';
+	Vue.component('vue-material-design-icon-picker', VueAwesomeIconPicker)
 
-Vue.component('vue-material-design-icon-picker', VueAwesomeIconPicker)
-import VueAwesomeIconPicker from 'vue-material-design-icon-picker';
 	export default Vue.extend({
 		components: {
 			VForm,
@@ -62,7 +62,8 @@ import VueAwesomeIconPicker from 'vue-material-design-icon-picker';
 			OField,
 			OLoader,
 			OGroup,
-			OIcon
+			//VueMaterialDesignIconPicker,
+			OIcon,
 		},
 
 		data() {

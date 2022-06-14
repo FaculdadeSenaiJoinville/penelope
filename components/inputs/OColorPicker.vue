@@ -1,7 +1,7 @@
 <template>
 	<section :class="inputClasses">
 		<div class="o-input-label">
-				<label  >{{ Dictionary.trails.getFieldName('color') }}</label>
+				<label>{{ Dictionary.trails.getFieldName('color') }}</label>
 				 <ORequiredSymbol />
 				<v-color-picker
 				:dot-size="dotSize" @input="$emit('input')" @update:color="colorUpdated"

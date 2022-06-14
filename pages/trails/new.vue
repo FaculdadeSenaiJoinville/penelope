@@ -22,7 +22,7 @@
 					class="space-top-1"
 				/>
 
-				<OColorPicker  :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
+				<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
 
 				<OIconPicker :colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
 			

@@ -25,6 +25,7 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.14.6",
+		"@mdi/font": "^5.9.55",
 		"@mdi/js": "^6.6.96",
 		"@mdi/svg": "^6.6.96",
 		"@nuxt/typescript-runtime": "^2.1.0",
@@ -40,18 +41,15 @@
 		"odyssey-dictionary": "^2.32.0",
 		"sass": "~1.32.6",
 		"ts-loader": "8.0.0",
-		"v-icon-picker": "^1.0.3",
 		"vue": "^2.6.14",
 		"vue-material-design-icon-picker": "^1.1.2",
 		"vue-template-compiler": "^2.6.10",
 		"vuetify": "2.5.10",
-		"vuetify-icon-picker": "^1.0.14",
 		"vuetify-loader": "^1.7.3",
 		"webpack": "^4.46.0"
 	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.14.7",
-		"@mdi/font": "^5.9.55",
 		"@nuxt/types": "^2.15.7",
 		"@nuxt/typescript-build": "^2.1.0",
 		"@nuxtjs/eslint-config-typescript": "^6.0.1",

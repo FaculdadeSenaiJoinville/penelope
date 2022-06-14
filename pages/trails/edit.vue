@@ -21,11 +21,11 @@
 					required
 					class="space-top-1"
 				/>
+			<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
 
 			<OIconPicker
 				:colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
 
-			<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
 
 			<OToggleSwitch
 				v-model="trailData.active"
@@ -72,7 +72,6 @@
 	import OGroup from '~/components/OGroup.vue';
 	import OIconPicker from "~/components/inputs/OIconPicker.vue";
 	import OColorPicker from "~/components/inputs/OColorPicker.vue";
-
 
 	import ORequiredSymbol from '~/components/ORequiredSymbol.vue';
 

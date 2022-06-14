@@ -22,11 +22,10 @@
 					class="space-top-1"
 				/>
 
-				<OIconPicker
-				 :colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
+				<OColorPicker  :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>
+
+				<OIconPicker :colorDefault="this.trailData.color" class="space-top-1" :needPreview="true" :iconSelected="onIconSelected" :iconDefault="this.trailData.icon" />
 			
-				<OColorPicker  class="space-top-1" :colorUpdated="updateColors"/>
-	
 			</VForm>
 		</OModalBody>
 
@@ -118,9 +117,9 @@
 
 		methods: {
 
-			updateColors(colors)
+			updateColors({hex})
 			{
-				this.trailData.color = colors.hex;
+				this.trailData.color = hex;
 			},
 
 			onIconSelected(icon) {

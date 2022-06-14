@@ -7,7 +7,7 @@
 				:dot-size="dotSize" @input="$emit('input')" @update:color="colorUpdated"
 				:width="dashboardWitdh" :mode="typeMode"
 				:swatches-max-height="swatchesMaxHeight" 
-				:value="content"
+				:value="content" hide-mode-switch
 				></v-color-picker>
 			</div>
 	</section>

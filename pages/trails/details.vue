@@ -62,7 +62,6 @@
 			OField,
 			OLoader,
 			OGroup,
-			//VueMaterialDesignIconPicker,
 			OIcon,
 		},
 

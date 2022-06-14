@@ -132,6 +132,7 @@
 				this.groupData.members_to_remove = removedItems;
 
 				return this.Api.put(`groups/update/${this.id}`, this.groupData).then(() => {
+					this.$root.$emit('update-list');
 					this.closeModal();
 				});
 			}

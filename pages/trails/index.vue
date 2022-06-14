@@ -7,13 +7,13 @@
 
 			<div class="d-flex">
 				<OFilterButtons
-					v-model="statusSelected"
+					v-model="activeSelected"
 					:options="filterableStatus"
 					class="space-right-1"
 				/>
 
 				<OFilterButtons
-					v-model="typeSelected"
+					v-model="statusSelected"
 					:options="filterableTypes"
 					class="space-right-1"
 				/>
@@ -39,11 +39,11 @@
 				<template #item="{ item }">
 					<tr :key="item.id" class="o-table-row">
 						<td>{{ item.name }}</td>
-						<td>{{ item.email }}</td>
-						<td>{{ Dictionary.trails.getEnum(item.type) }}</td>
+						<td>{{ item.description }}</td>
+						<td>{{ Dictionary.trails.getEnum(item.status) }}</td>
 
 						<td class="text-right">
-							<OActionButtons :buttons="item.actionButtons" />
+							<OActionButtons :buttons="item.actionButtons"/>
 						</td>
 					</tr>
 				</template>
@@ -66,7 +66,8 @@
 	import OActionButtons from '~/components/buttons/OActionButtons.vue';
 	import OSearchBar from '~/components/inputs/OSearchBar.vue';
 
-	import { TrailWithActions } from '~/types/entities';
+	import { Trail, TrailDetails, TrailStatus, TrailWithActions } from '~/types/entities';
+import {TrailButton} from './buttons';
 
 	export default Vue.extend({
 		components: {
@@ -80,8 +81,8 @@
 
 		data() {
 			return {
+				activeSelected: null,
 				statusSelected: null,
-				typeSelected: null,
 				searchText: '',
 				headers: [
 					{
@@ -115,7 +116,7 @@
 				totalPages: 1
 			};
 		},
-
+		
 		watch: {
 			page(newValue, oldValue) {
 				if (newValue !== oldValue) {
@@ -123,13 +124,13 @@
 				}
 			},
 
-			typeSelected(newValue, oldValue) {
+			statusSelected(newValue, oldValue) {
 				if (newValue !== oldValue) {
 					this.findTrails();
 				}
 			},
 
-			statusSelected(newValue, oldValue) {
+			activeSelected(newValue, oldValue) {
 				if (newValue !== oldValue) {
 					this.findTrails();
 				}
@@ -169,20 +170,39 @@
 		},
 
 		methods: {
+			showButton(trail, trailButton : TrailButton) {		
+				return !(
+					(trailButton === TrailButton.PUBLISHED && trail.updated_by === this.$auth.user.id) ||
+					(trail.status === "PUBLISHED" && [TrailButton.ONTEST, TrailButton.PUBLISHED].includes(trailButton)) ||
+					(trail.status === "ONEDIT" && trailButton === TrailButton.PUBLISHED) || 
+					(trail.status === "ONTEST" && trailButton === TrailButton.ONTEST)
+				);
+			},
+
+			resetPagination() {
+				this.page = 1;
+			},
+
+			changeStatus(id : string, status : string, trailData : TrailDetails) {
+				return this.Api.put(`trails/status/${status}/${id}`, trailData).then(() => {
+					this.$root.$emit('update-list');
+					this.closeModal();
+				});
+			},
+
 			findTrails() {
 				this.loading = true;
 
 				const query = {
 					page: this.page,
-					active: (this.statusSelected !== null) ? this.statusSelected : null,
-					type: (this.typeSelected) ? this.typeSelected : null,
+					active: (this.activeSelected !== null) ? this.activeSelected : null,
+					status: (this.statusSelected) ? this.statusSelected : null,
 					like: (this.searchText) ? { name: this.searchText } : null
 				};
 
 				this.Api.get('/trails/list', query)
 					.then((response) => {
 						const [trails, count] = response;
-
 						this.trails = trails.map((trail: TrailWithActions) => {
 							trail.actionButtons = [
 								{
@@ -192,14 +212,28 @@
 									action: () => this.openModal({ modal: 'trails/details', id: trail.id as string })
 								},
 								{
+									show: this.showButton(trail, TrailButton.ONEDIT),
 									icon: 'pen',
 									title: this.Dictionary.misc.getLabel('edit'),
 									success: true,
 									action: () => this.openModal({ modal: 'trails/edit', id: trail.id as string })
+								},
+								{
+									show: this.showButton(trail, TrailButton.ONTEST),
+									icon: 'clock-check-outline',
+									title: this.Dictionary.misc.getLabel('ontest'),
+									ontest: true,
+									action: () => this.openModal({ modal: 'trails/test', id: trail.id as string })
+								},
+								{
+									show: this.showButton(trail, TrailButton.PUBLISHED),
+									icon: 'publish',
+									title: this.Dictionary.misc.getLabel('publish'),
+									publish: true,
+									action: () => this.openModal({ modal: 'trails/publish', id: trail.id as string })
 								}
-							];
-
-							return trail;
+						
+							].filter(obj => typeof obj.show === 'boolean' ? obj.show : true);
 						});
 
 						this.totalPages = Math.ceil(parseInt(count) / 10);
@@ -218,6 +252,8 @@
 		mounted() {
 			this.findTrails();
 			this.$root.$on('update-list', this.findTrails);
+			this.$root.$on('change-status', this.changeStatus);
+			this.$root.$on('reset-pagination', this.resetPagination);
 		}
 	});
 </script>

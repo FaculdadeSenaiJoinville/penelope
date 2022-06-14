@@ -34,6 +34,12 @@
 .button-danger {
 	background: var(--red);
 }
+.button-publish {
+	background: var(--green-dark);
+}
+.button-ontest {
+	background: var(--yellow);
+}
 
 /* Efeito hover e active */
 .button-success:not(:disabled):hover {

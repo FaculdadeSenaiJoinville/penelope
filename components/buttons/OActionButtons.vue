@@ -5,7 +5,7 @@
 				<button
 					type="button"
 					:title="button.title"
-					:class="buttonClasses(index)"
+					:class="buttonClasses(button)"
 					@click="buttonAction(button)"
 				>
 					<OIcon :name="button.icon" />
@@ -21,24 +21,23 @@
 				<button
 					type="button"
 					:title="button.title"
-					:class="buttonClasses(index)"
+					:class="buttonClasses(button)"
 					@click="buttonAction(button)"
 				>
 					<OIcon :name="button.icon" />
 				</button>
 			</a>
 
-			<button
-				v-else
+			<button 
 				type="button"
 				:title="button.title"
-				:class="buttonClasses(index)"
+				:class="buttonClasses(button)"
 				:disabled="button.disabled"
 				@click="buttonAction(button)"
 			>
 				<OIcon :name="button.icon" />
 			</button>
-		</div>
+			</div>
 	</section>
 </template>
 
@@ -67,19 +66,24 @@
 		},
 
 		methods: {
-			buttonClasses(currentButtonIndex: number): string {
+			buttonClasses(button: ActionButtonConfig): string {
 				const { buttons, errorMessages } = this;
+				const buttonIndex =  buttons.indexOf(button);
 				const classes = ['button', 'icon-button'];
-				const isFirstButton = currentButtonIndex === 0;
-				const isLastButton = currentButtonIndex === buttons.length - 1;
+				const isFirstButton = buttonIndex === 0;
+				const isLastButton =  buttonIndex === buttons.length - 1;
 				const hasOneButton = buttons.length === 1;
 
-				if (buttons[currentButtonIndex].success) {
+				if (button.success) {
 					classes.push('button-success');
-				} else if (buttons[currentButtonIndex].info) {
+				} else if (button.info) {
 					classes.push('button-info');
-				} else if (buttons[currentButtonIndex].danger) {
+				} else if (button.danger) {
 					classes.push('button-danger');
+				}else if (button.ontest) {
+					classes.push('button-ontest');
+				}else if (button.publish) {
+					classes.push('button-publish');
 				} else {
 					console.error(errorMessages.buttonTypeProps);
 				}

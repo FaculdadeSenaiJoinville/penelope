@@ -4,6 +4,10 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import vuetify from 'vuetify/lib';
+	import '@mdi/font/css/materialdesignicons.css';
+	require('@mdi/font/css/materialdesignicons.css');
+
 
 	export default Vue.extend({
 		props: {

@@ -18,7 +18,6 @@
 					description
 					:label="Dictionary.trails.getFieldName('description')"
 					name="description"
-					required
 					class="space-top-1"
 				/>
 			<OColorPicker :content="this.trailData.color" class="space-top-1" :colorUpdated="updateColors"/>

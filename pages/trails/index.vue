@@ -184,9 +184,16 @@ import {TrailButton} from './buttons';
 			},
 
 			changeStatus(id : string, status : string, trailData : TrailDetails) {
+				this.loading = true;
 				return this.Api.put(`trails/status/${status}/${id}`, trailData).then(() => {
-					this.$root.$emit('update-list');
 					this.closeModal();
+					this.$root.$emit('update-list');
+				})
+				.catch((error: any) => {
+						this.Messages.error(error);
+				})
+				.finally(() => {
+						this.loading = false;
 				});
 			},
 

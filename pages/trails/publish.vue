@@ -64,7 +64,18 @@
 		methods: {
 
 			sendTrailToPublish(): any {
-				this.$root.$emit('change-status', this.id, `PUBLISHED`, this.trailData);	
+				this.loading = true;
+				return this.Api.put(`trails/status/${"PUBLISHED"}/${this.id}`, this.trailData).then(() => {
+					this.closeModal();
+					this.$root.$emit('update-list');
+				})
+				.catch((error: any) => {
+						this.Messages.error(error);
+				})
+				.finally(() => {
+						this.loading = false;
+				});
+			
 			},
 			getTrailDetails() {
 				this.loading = true;

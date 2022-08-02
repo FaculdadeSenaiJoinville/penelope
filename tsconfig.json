@@ -22,7 +22,12 @@
 			"~/*": ["./*"],
 			"@/*": ["./*"]
 		},
-		"typeRoots": ["./node_modules/@types"],
+		"typeRoots": [
+			"./node_modules/@types",
+			"./src/@types",
+			"./custom_typings",
+			"./@types"
+		],
 		"types": [
 			"@nuxt/types",
 			"@nuxtjs/axios",

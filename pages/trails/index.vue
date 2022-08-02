@@ -202,8 +202,8 @@ import {TrailButton} from './buttons';
 
 				const query = {
 					page: this.page,
-					active: (this.activeSelected !== null) ? this.activeSelected : null,
-					status: (this.statusSelected) ? this.statusSelected : null,
+					active: this.activeSelected || null,
+					status: this.statusSelected || null,
 					like: (this.searchText) ? { name: this.searchText } : null
 				};
 
@@ -238,6 +238,13 @@ import {TrailButton} from './buttons';
 									title: this.Dictionary.misc.getLabel('publish'),
 									publish: true,
 									action: () => this.openModal({ modal: 'trails/publish', id: trail.id as string })
+								},
+								{
+									show: this.showButton(trail, TrailButton.ACCESS),
+									icon: 'account-multiple-plus',
+									title: this.Dictionary.misc.getLabel('access'),
+									publish: true,
+									action: () => this.openModal({ modal: 'trails/access', id: trail.id as string })
 								}
 						
 							].filter(obj => typeof obj.show === 'boolean' ? obj.show : true);

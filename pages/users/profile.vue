@@ -28,8 +28,17 @@
 			</div>
 		</OCard>
 
-		<OCard :button="trailsCardButton" block class="space-bottom-3">
-			Work in progress...
+
+		<OCard :button="trailsCardButton" :title="Dictionary.misc.getModule('trails')" block class="space-bottom-3">
+			<VDataTable
+				hide-default-footer
+				:headers="tableHeaders"
+				:items="user.trails"
+				:loading="loading"
+				:items-per-page="5"
+				:no-data-text="Dictionary.misc.getMessage('no_data_found')"
+				:loading-text="Dictionary.misc.getMessage('loading')"
+			/>
 		</OCard>
 
 		<OCard :title="Dictionary.misc.getModule('groups')" block class="space-bottom-3">
@@ -38,6 +47,7 @@
 				:headers="tableHeaders"
 				:items="user.groups"
 				:loading="loading"
+				:items-per-page="2"
 				:no-data-text="Dictionary.misc.getMessage('no_data_found')"
 				:loading-text="Dictionary.misc.getMessage('loading')"
 			/>
@@ -52,12 +62,15 @@
 	import { EditPassword, Profile } from '~/types/entities';
 	import OInput from '~/components/inputs/OInput.vue';
 	import OCard from '~/components/OCard.vue';
+	
+	import OActionCard from '~/components/buttons/OActionCard.vue';
 
 	export default Vue.extend({
 		components: {
 			VDataTable,
 			OInput,
-			OCard
+			OCard,
+			OActionCard
 		},
 
 		data() {
@@ -69,18 +82,18 @@
 		},
 
 		computed: {
+						trailsCardButton(): CardButton {
+								return {
+					text: this.Dictionary.misc.getLabel('visualize_all_trails'),
+					action: () => this.openModal({ modal: 'users/userTrails', id: this.$auth.user.id as string}),
+				};
+				
+			},
 			updatePasswordCardButton(): CardButton {
 				return {
 					text: this.Dictionary.users.getLabel('save_password'),
 					action: this.updatePassword,
 					disabled: this.disableSaveButton
-				};
-			},
-
-			trailsCardButton(): CardButton {
-				return {
-					text: this.Dictionary.users.getMessage('visualize_all_trails'),
-					action: () => {}
 				};
 			},
 
@@ -100,7 +113,6 @@
 					}
 				];
 			},
-
 			disableSaveButton(): boolean {
 				return Boolean(!this.newPassword.password && !this.newPassword.confirm_password);
 			}
@@ -118,7 +130,6 @@
 						this.loading = false;
 					});
 			},
-
 			updatePassword() {
 				this.Api.put(`/users/update-password/${this.$auth.user.id}`, this.newPassword).then(() => {
 					this.newPassword = new EditPassword();

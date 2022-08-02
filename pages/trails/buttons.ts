@@ -4,4 +4,5 @@ export enum TrailButton {
   ONEDIT,
   ONTEST,
   PUBLISHED,
+  ACCESS
 }

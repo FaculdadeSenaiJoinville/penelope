@@ -1,3 +1,4 @@
+import { User } from '.';
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 
 export enum StatusType {
@@ -30,6 +31,8 @@ export class Trail {
 
 	updated_by?: string;
 
+	users?: User[];
+
 	constructor() {
 		this.name = '';
 		this.description = '';
@@ -37,6 +40,7 @@ export class Trail {
 		this.icon = '';
 		this.color = '#A31D1D';
 		this.active = true;
+		this.users = [];
 	}
 };
 
@@ -67,6 +71,8 @@ export class NewTrail {
 
 	updated_by?: string;
 
+	users?: User[];
+
 	constructor() {
 		this.name = '';
 		this.description = '';
@@ -74,6 +80,7 @@ export class NewTrail {
 		this.icon = '';
 		this.color = '#A31D1D';
 		this.active = true;
+		this.users = [];
 	}
 }
 
@@ -90,6 +97,8 @@ export class EditTrail {
 
 	active: boolean;
 
+	users: User[];
+
 	constructor(trail?: Trail) {
 		this.name = trail ? trail.name : '';
 		this.description = trail ? trail.description :'';
@@ -97,9 +106,45 @@ export class EditTrail {
 		this.icon = trail ? trail.icon : '';
 		this.color = trail ? trail.color : '#A31D1D';
 		this.active = trail ? trail.active : true;
+		this.users = trail ? trail.users : [];
 	}
 };
 
+export class UserTrails {
+	private trails: Trail[];
+
+	constructor(trails?: Trail[]) {
+		this.trails = trails;
+	}
+
+	get(index: Number) : Trail
+	{
+		return this.trails[Number(index)];
+	}
+
+	add(trail: Trail) {
+		if(trail)
+		{
+			this.trails.push(trail);
+		}
+	}
+
+	remove(trail: Trail)
+	{
+		if(trail)
+		{
+			this.trails = this.trails.filter(t => t !== trail);
+		}
+	}
+
+	removeByIndex(index: Number)
+	{
+		if(Number.isInteger(index) && this.trails.length > index)
+		{
+			this.trails = this.trails.splice(Number(index), 1);
+		}
+	}
+};
 export class TrailStatus {
 	public active: boolean;
 
@@ -121,6 +166,8 @@ export class TrailDetails {
 
 	active: boolean;
 
+	users: User[];
+
 	constructor(trail?: Trail) {
 		this.name = trail ? trail.name : '';
 		this.description = trail ? trail.description :'';
@@ -128,5 +175,6 @@ export class TrailDetails {
 		this.icon = trail ? trail.icon : '';
 		this.color = trail ? trail.color : '#A31D1D';
 		this.active = trail ? trail.active : true;
+		this.users = trail ? trail.users : [];
 	}
 }

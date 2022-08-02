@@ -133,8 +133,17 @@ export type ProfileGroup = {
 	description: string;
 }
 
+export type ProfileTrail = {
+	name: string;
+	description: string;
+	icon: string;
+	color: string;
+}
+
 export class Profile {
 	name?: string;
+
+	id?: string;
 
 	email?: string;
 
@@ -142,10 +151,13 @@ export class Profile {
 
 	groups?: ProfileGroup[]
 
+	trails?: ProfileTrail[]
+
 	constructor(user?: User) {
 		this.name = user?.name;
 		this.email = user?.email;
 		this.type = user?.type;
 		this.groups = user?.groups as ProfileGroup[];
+		//this.trails = user?.trails as ProfileTrail[];
 	}
 }

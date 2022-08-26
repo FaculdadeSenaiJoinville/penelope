@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<OModalHeader module="trails" type="edit" :title="trailData.name" />
+		<OModalHeader module="trails" type="edit" :title="''" />
 
 		<OModalBody>
 			<VForm v-if="!loading" ref="form" class="form">
@@ -58,7 +58,7 @@
 	import { Group, User } from '~/types/entities';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
   import { OUserSelectedData } from '~/types/components/o-user.type';
-	import { EditTrail, TrailDetails } from '~/types/entities/trail.type';
+	import { AvailableTrail, EditTrail, TrailDetails, Type } from '~/types/entities/trail.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OModalFooter from '~/components/modal/OModalFooter.vue';
@@ -94,15 +94,18 @@ import { Groups } from 'odyssey-dictionary/dist/translations';
 			OIconPicker,
 			OColorPicker
 		},
-		props: {
-			icon: { type: String, default: '' },
-			color: { type: String, default: '' }
+		props() {
+				return {
+				icon: { type: String, default: '' },
+				color: { type: String, default: '' }
+			}
 		},
 
 		data() {
 			return {
 				loading: false,
-				trailData: new EditTrail(),
+				trailDataUsers: [],
+				trailDataGroups: [],
 				preSelectedTrailGroups: [] as Group[],
 				preSelectedTrailUsers: [] as User[],
 				groupSelectedData: new OGroupSlectedData(),
@@ -111,7 +114,7 @@ import { Groups } from 'odyssey-dictionary/dist/translations';
         oUserColumns: ['name'],
 				selected: "",
 				colorDefault:'#8FA7B2'
-			};
+		}
 		},
 
 		computed: {
@@ -135,33 +138,62 @@ import { Groups } from 'odyssey-dictionary/dist/translations';
 		},
 
 		methods: {
-			updateColors({hex})
-			{
-				this.trailData.color = hex;
-			},
-
-			onIconSelected(icon) {
-				this.selected = icon.name;
-				icon.value = this.selected;
-				this.trailData.icon = icon.name;
-        	},
-
 			update() {
-				return this.Api.put(`trails/updateAccess/${this.id}`, this.trailData).then(() => {
+
+				const users = {
+					selectedItems:  this.userSelectedData.selectedItems, 
+					removedItems: this.userSelectedData.removedItems
+				}
+
+				const groups = {
+					selectedItems:  this.groupSelectedData.selectedItems, 
+					removedItems: this.groupSelectedData.removedItems
+				}
+
+				//this.userData.groups = selectedGroups;
+			//	this.userData.groups_to_leave = removedItems;
+
+				const data = {
+					users: this.userSelectedData.selectedItems, 
+					users_to_remove: this.userSelectedData.removedItems,
+					groups: this.groupSelectedData.selectedItems,
+					groups_to_remove: this.groupSelectedData.removedItems
+					};
+
+				return this.Api.put(`trails/access/update/${this.id}`, data).then(() => {
 					this.$root.$emit('update-list');
 					this.closeModal();
 				});
 			},
-
-			async getTrailDetails() {
+			async getAccessesToTrail() {
 				this.loading = true;
 
-				return await this.Api.get(`trails/details/${this.id}`)
+				return await this.Api.get(`trails/access/find/${this.id}`)
 					.then((response) => {
-						this.trailData = new TrailDetails(response);
-						debugger;
-						this.preSelectedTrailUsers = this.trailData.users;
-						this.preSelectedTrailGroups = [];
+					
+					debugger;
+					//this.trailData = new TrailDetails(response);
+					//this.trailData = response;
+					this.trailDataUsers = response
+						.filter(element => element.type === Type.USER)
+						.map(element => {return new User(element.users)});
+					this.trailDataGroups = response
+						.filter(element => element.type === Type.GROUP)
+						.map(element => {return new Group(element.groups)});
+
+				console.log(this.trailDataUsers);
+				console.log(this.trailDataGroups);
+				
+				this.preSelectedTrailUsers = this.trailDataUsers;
+				this.preSelectedTrailGroups = this.trailDataGroups;
+				
+				//console.log(this.trailData)
+				console.log('response')
+				console.log(response)
+
+				//select avt.*, g.`name` groupname, u.`name` username from available_trails avt 
+				//left join `groups` g on avt.entity_id = g.id 
+    		//left join users u on u.id = avt.entity_id where avt.entity_id = '' and avt.`type` = '';
 					})
 					.catch(() => {
 						this.closeModal();
@@ -169,12 +201,11 @@ import { Groups } from 'odyssey-dictionary/dist/translations';
 					.finally(() => {
 						this.loading = false;
 					});
-
-}
+			}
 
 		},
 		mounted() {
-			this.getTrailDetails();
+			this.getAccessesToTrail();
 		}
 	});
 </script>

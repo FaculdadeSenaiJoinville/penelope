@@ -35,7 +35,7 @@ export class BotIntent {
 		this.training_phrases = [];
 		this.priority = 0;
 		this.end_interaction = false;
-		this.creator = new User();
+		this.creator = new User(this.creator);
 		this.contents = [];
 	}
 };
@@ -118,6 +118,6 @@ export class IntentDetails {
 		this.end_interaction = intent ? intent.end_interaction : false;
 		this.contents = intent ? intent.contents : [];
 		this.message = intent ? intent.message : '';
-		this.creator = intent ? intent.creator : new User();
+		this.creator = intent ? intent.creator : new User(this.creator);
 	}
 }

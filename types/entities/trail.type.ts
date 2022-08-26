@@ -1,4 +1,4 @@
-import { User } from '.';
+import { Group, User } from '.';
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 
 export enum StatusType {
@@ -33,6 +33,11 @@ export class Trail {
 
 	users?: User[];
 
+	users_to_remove: User[];
+
+	groups: Group[];
+ 	
+	groups_to_remove: Group[];
 	constructor() {
 		this.name = '';
 		this.description = '';
@@ -41,6 +46,7 @@ export class Trail {
 		this.color = '#A31D1D';
 		this.active = true;
 		this.users = [];
+		this.groups = [];
 	}
 };
 
@@ -98,6 +104,12 @@ export class EditTrail {
 	active: boolean;
 
 	users: User[];
+ 	
+	users_to_remove: User[];
+
+	groups: Group[];
+ 	
+	groups_to_remove: Group[];
 
 	constructor(trail?: Trail) {
 		this.name = trail ? trail.name : '';
@@ -107,6 +119,7 @@ export class EditTrail {
 		this.color = trail ? trail.color : '#A31D1D';
 		this.active = trail ? trail.active : true;
 		this.users = trail ? trail.users : [];
+		this.groups = trail ? trail.groups : [];
 	}
 };
 
@@ -153,6 +166,30 @@ export class TrailStatus {
 	}
 };
 
+export enum Type {
+	USER = "USER",
+	GROUP = "GROUP"
+}
+
+export class AvailableTrail {
+
+	id?: string;
+	type: Type;
+	trails_id: string;
+	entity_id: string;
+	created_by: string;
+
+	constructor(availableTrail?: AvailableTrail)
+	{
+		this.type = availableTrail ? availableTrail.type : Type.USER;
+		this.trails_id = availableTrail ? availableTrail.trails_id : "";
+		this.entity_id = availableTrail ? availableTrail.entity_id : "";
+		this.created_by = availableTrail ? availableTrail.created_by : "";
+	}
+
+
+}
+
 export class TrailDetails {
 	name: string;
 
@@ -168,6 +205,12 @@ export class TrailDetails {
 
 	users: User[];
 
+	users_to_remove: User[];
+	
+	groups: Group[];
+ 	
+	groups_to_remove: Group[];
+
 	constructor(trail?: Trail) {
 		this.name = trail ? trail.name : '';
 		this.description = trail ? trail.description :'';
@@ -176,5 +219,6 @@ export class TrailDetails {
 		this.color = trail ? trail.color : '#A31D1D';
 		this.active = trail ? trail.active : true;
 		this.users = trail ? trail.users : [];
+		this.groups = trail ? trail.groups : [];
 	}
 }

@@ -1,8 +1,8 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 import { User } from '.';
 
-export type Group = {
-	id: string;
+export class Group {
+	id?: string;
 
 	name: string;
 
@@ -17,6 +17,18 @@ export type Group = {
 	created_by?: string;
 
 	updated_by?: string;
+
+	constructor(group: Group)
+	{
+		this.id = group ? group.id : '';
+		this.name = group ? group.name : '';
+		this.description = group ? group.description : '';
+		this.created_at = group ? group.created_at : new Date();
+		this.updated_at = group ? group.updated_at : new Date();
+		this.created_by = group ? group.created_by : '';
+		this.updated_by = group ? group.updated_by : '';
+	}
+
 };
 
 export type GroupWithActions = Group & {

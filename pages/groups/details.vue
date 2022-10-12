@@ -28,6 +28,18 @@
 					class="space-top-1 space-bottom-2"
 					read-only
 				/>
+
+				<OTrail
+					:pre-selected-items="preSelectedGroupTrails"
+					:title="Dictionary.misc.getModule('trails')"
+					:headers="oTrailHeaders"
+					:columns="oTrailColumns"
+					:no-data-selected-text="Dictionary.trails.getLabel('no_trails_associated')"
+					:items-per-page-text="Dictionary.trails.getLabel('trails_per_page')"
+					class="space-top-1 space-bottom-2"
+					module="trails"
+					read-only
+			/>
 			</VForm>
 
 			<OLoader v-else />
@@ -39,13 +51,15 @@
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
 	import { DataTableHeader } from 'vuetify';
-	import { User } from '../../types/entities';
+	import { User, Trail } from '../../types/entities';
 	import { GroupDetails } from '~/types/entities/group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OField from '~/components/OField.vue';
 	import OLoader from '~/components/OLoader.vue';
 	import OGroup from '~/components/OGroup.vue';
+	import OTrail from '~/components/OTrail.vue';
+	import { OTrailSelectedData } from '~/types/components/o-trail.type';
 
 	export default Vue.extend({
 		components: {
@@ -54,7 +68,8 @@
 			OModalBody,
 			OField,
 			OLoader,
-			OGroup
+			OGroup,
+			OTrail
 		},
 
 		data() {
@@ -63,7 +78,10 @@
 				groupData: new GroupDetails(),
 				preSelectedGroupMembers: [] as User[],
 				oGroupColumns: ['name', 'type'],
-				oGroupEnumColumns: ['type']
+				oGroupEnumColumns: ['type'],
+				preSelectedGroupTrails: [] as Trail[],
+				trailSelectedData: new OTrailSelectedData(),
+				oTrailColumns: ['name']
 			};
 		},
 
@@ -77,6 +95,11 @@
 					{ text: this.Dictionary.users.getFieldName('name'), value: 'name', width: '50%' },
 					{ text: this.Dictionary.users.getFieldName('type'), value: 'type', width: '50%' }
 				];
+			},
+			oTrailHeaders(): DataTableHeader[] {
+				return [
+						{ text: this.Dictionary.trails.getFieldName('name'), value: 'name', width: '60%' }
+				];
 			}
 		},
 
@@ -88,6 +111,7 @@
 					.then((response) => {
 						this.groupData = new GroupDetails(response);
 						this.preSelectedGroupMembers = this.groupData.members;
+						this.preSelectedGroupTrails = this.groupData.trails;	
 					})
 					.catch((error) => {
 						this.Messages.error(error);

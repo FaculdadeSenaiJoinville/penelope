@@ -9,6 +9,7 @@ export type ActionButtonConfig = {
 	title: string;
 	disabled?: boolean;
 	publish?: boolean;
+	access?: boolean;
 	ontest?: boolean;
 	show?: boolean;
 };

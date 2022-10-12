@@ -168,7 +168,7 @@
 			},
 
 			removeItem(item: any) {
-				const itemIndex = this.user.selectedItems.indexOf((selectedItem: any) => selectedItem.id === item.id) + 1;
+				const itemIndex = this.user.selectedItems.indexOf(item);
 				const itemAlreadyRemoved = this.user.removedItems.some(removedItem => removedItem.id === item.id);
 
 				this.user.selectedItems.splice(itemIndex, 1);
@@ -281,7 +281,7 @@
 
 	.o-select-list-menu {
 		width: 14.8rem;
-		position: absolute;
+		position: relative;
 		border: 2px solid var(--green);
 		background: var(--gray-1);
 		border-top: none;

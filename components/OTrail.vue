@@ -1,7 +1,7 @@
 <template>
-	<section class="o-group-container">
-		<div class="o-group-header">
-			<div class="o-group-title">
+	<section class="o-trail-container">
+		<div class="o-trail-header" v-if="title">
+			<div class="o-trail-title">
 				{{ title }}
 			</div>
 
@@ -10,7 +10,7 @@
 					v-model="search"
 					v-click-outside="closeMenu"
 					type="text"
-					name="o-group-searchbar"
+					name="o-trail-searchbar"
 					:class="inputClasses"
 					:placeholder="placeholder"
 					@focus="getItems"
@@ -31,7 +31,7 @@
 
 		<section>
 			<VDataTable
-				:items="group.selectedItems"
+				:items="trail.selectedItems"
 				:headers="headers"
 				:no-data-text="noDataSelectedText"
 				:items-per-page="perPage"
@@ -39,11 +39,11 @@
 			>
 				<template #item="{ item }">
 					<tr :key="item.id">
-						<td v-for="(column, index) in columns" :key="`ò-group-column-${index}`" class="o-group-column">
+						<td v-for="(column, index) in columns" :key="`ò-trail-column-${index}`" class="o-trail-column">
 							{{ item[column] }}
 						</td>
 
-						<td v-if="!readOnly" class="o-group-action-column">
+						<td v-if="!readOnly" class="o-trail-action-column">
 							<div class="remove-item-icon" @click="() => removeItem(item)">
 								<OIcon name="minus-circle-outline" />
 							</div>
@@ -59,8 +59,9 @@
 	import Vue from 'vue';
 	import { DataTableHeader } from 'vuetify';
 	import { VDataTable } from 'vuetify/lib';
-	import { OGroupData, FootProps } from '~/types/components/o-group.type';
+	import { OTrailData, FootProps } from '~/types/components/o-trail.type';
 	import OIcon from '~/components/OIcon.vue';
+	import { StatusType, EntityType, Status } from '~/types/entities';
 
 	export default Vue.extend({
 		components: {
@@ -69,7 +70,7 @@
 		},
 
 		props: {
-			title: { type: String, required: true },
+			title: { type: String, required: false },
 			apiEndpoint: { type: String, default: '' },
 			module: { type: String, default: '' },
 			headers: { type: Array as () => DataTableHeader[], required: true },
@@ -82,13 +83,13 @@
 			readOnly: { type: Boolean, default: false }
 		},
 
-		data(): OGroupData {
+		data(): OTrailData {
 			return {
 				items: [],
 				search: '',
 				perPage: 3,
 				isDropdownActive: false,
-				group: {
+				trail: {
 					selectedItems: [],
 					removedItems: []
 				}
@@ -109,8 +110,8 @@
 			},
 
 			preSelectedItems() {
-				this.group.selectedItems = [];
-				this.group.removedItems = [];
+				this.trail.selectedItems = [];
+				this.trail.removedItems = [];
 
 				this.setPreSelectedItems();
 			}
@@ -140,7 +141,7 @@
 				const { search, apiEndpoint } = this;
 				const query = {
 					perPage: 5,
-					like: search ? { name: search } : null
+					like: search ? {name: search} : null,
 				};
 
 				return this.Api.get(`${apiEndpoint}/list`, query).then((response) => {
@@ -149,36 +150,35 @@
 			},
 
 			addItem(item: any) {
-				const itemAlreadyAdded = this.group.selectedItems.some(selectedItem => selectedItem.id === item.id);
-				const itemAlreadyRemoved = this.group.removedItems.some(removedItem => removedItem.id === item.id);
+				const itemAlreadyAdded = this.trail.selectedItems.some(selectedItem => selectedItem.id === item.id);
+				const itemAlreadyRemoved = this.trail.removedItems.some(removedItem => removedItem.id === item.id);
 
 				if (!itemAlreadyAdded) {
 					this.translateEnumColumns(item);
 
-					this.group.selectedItems.unshift(item);
+					this.trail.selectedItems.unshift(item);
 
 					if (itemAlreadyRemoved) {
-						const itemIndex = this.group.removedItems.indexOf((selectedItem: any) => selectedItem.id === item.id) + 1;
+						const itemIndex = this.trail.removedItems.indexOf((selectedItem: any) => selectedItem.id === item.id) + 1;
 
-						this.group.removedItems.splice(itemIndex, 1);
+						this.trail.removedItems.splice(itemIndex, 1);
 					}
 				}
 
-				this.$emit('input', this.group);
+				this.$emit('input', this.trail);
 			},
 
 			removeItem(item: any) {
+				const itemIndex = this.trail.selectedItems.indexOf(item);
+				const itemAlreadyRemoved = this.trail.removedItems.some(removedItem => removedItem.id === item.id);
 				
-				const itemIndex = this.group.selectedItems.indexOf(item);
-				const itemAlreadyRemoved = this.group.removedItems.some(removedItem => removedItem.id === item.id);
-
-				this.group.selectedItems.splice(itemIndex, 1);
+				this.trail.selectedItems.splice(itemIndex, 1);
 
 				if (!itemAlreadyRemoved) {
-					this.group.removedItems.push(item);
+					this.trail.removedItems.push(item);
 				}
 
-				this.$emit('input', this.group);
+				this.$emit('input', this.trail);
 			},
 
 			openMenu(): void {
@@ -212,7 +212,7 @@
 						return item;
 					});
 
-					this.group.selectedItems = items;
+					this.trail.selectedItems = items;
 				}
 			}
 		},
@@ -232,7 +232,7 @@
 <style scoped>
 	@import url('assets/styles/input.css');
 
-	.o-group-container {
+	.o-trail-container {
 		padding: 1rem;
 		border-radius: 10px;
 		box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);
@@ -243,11 +243,11 @@
 		cursor: pointer;
 	}
 
-	.o-group-column {
+	.o-trail-column {
 		text-align: left;
 	}
 
-	.o-group-action-column {
+	.o-trail-action-column {
 		display: flex;
 		flex-direction: row-reverse;
 		text-align: center;
@@ -255,13 +255,13 @@
 		line-height: 3rem;
 	}
 
-	.o-group-header {
+	.o-trail-header {
 		width: 100%;
 		height: 2.2rem;
 		display: flex;
 	}
 
-	.o-group-title {
+	.o-trail-title {
 		display: flex;
 		width: 50%;
 		text-align: left;

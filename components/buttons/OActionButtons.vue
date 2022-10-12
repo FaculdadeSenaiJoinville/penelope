@@ -83,7 +83,9 @@
 				}else if (button.ontest) {
 					classes.push('button-ontest');
 				}else if (button.publish) {
-					classes.push('button-publish');
+					classes.push('button-publish');	
+				}else if (button.access) {
+					classes.push('button-access');
 				} else {
 					console.error(errorMessages.buttonTypeProps);
 				}

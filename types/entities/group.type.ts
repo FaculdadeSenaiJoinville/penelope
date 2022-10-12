@@ -1,5 +1,5 @@
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
-import { User } from '.';
+import { Trail, User } from '.';
 
 export class Group {
 	id?: string;
@@ -9,6 +9,8 @@ export class Group {
 	description: string;
 
 	members: User[];
+	
+	trails: Trail[];
 
 	created_at: Date;
 
@@ -44,6 +46,10 @@ export type GroupUpdate = {
 	members: User[];
 
 	members_to_remove: User[];
+
+	trails: Trail[];
+
+	trails_to_remove: Trail[];
 }
 
 export class GroupDetails {
@@ -53,10 +59,13 @@ export class GroupDetails {
 
 	public members: User[];
 
+	public trails: Trail[];
+
 	constructor(group?: Group) {
 		this.name = group ? group.name : '';
 		this.description = group ? group.description : '';
 		this.members = group ? group.members : [];
+		this.trails = group ? group.trails : [];
 	}
 }
 
@@ -69,12 +78,18 @@ export class EditGroup {
 
 	public members_to_remove: User[];
 
+	public trails: Trail[];
+
+	public trails_to_remove: Trail[];
+
 	constructor(group?: GroupUpdate) {
 		this.name = group ? group.name : '';
 		this.description = group ? group.description : '';
 		this.members = group ? group.members : [];
 		this.members_to_remove = group ? group.members_to_remove : [];
-	}
+		this.trails = group ? group.trails : [];
+		this.trails_to_remove = group ? group.trails_to_remove : [];
+}
 };
 
 export class NewGroup {
@@ -84,9 +99,12 @@ export class NewGroup {
 
 	public members: User[];
 
+	public trails: User[];
+
 	constructor() {
 		this.name = '';
 		this.description = '';
 		this.members = [];
+		this.trails = [];
 	}
 };

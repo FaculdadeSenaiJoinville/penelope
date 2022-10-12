@@ -1,3 +1,4 @@
+import { Status, StatusType, Trail } from '.';
 import { ActionButtonConfig } from '../components/o-action-buttons.type';
 import { Group } from './group.type';
 
@@ -30,6 +31,8 @@ export class User {
 
 	groups: Group[];
 
+	trails: Trail[];
+
 	constructor(user: User) {
 		this.id = user ? user.id: '';
 		this.name = user ? user.name: '';
@@ -37,6 +40,7 @@ export class User {
 		this.type = user ? user.type : '' as UserType;
 		this.active = user ? user.active : true;
 		this.groups = user ? user.groups : [];
+		this.trails = user ? user.trails : [];
 	}
 };
 
@@ -57,6 +61,8 @@ export class NewUser {
 
 	public groups: Group[];
 
+	public trails: Trail[];
+
 	constructor() {
 		this.name = '';
 		this.email = '';
@@ -64,6 +70,7 @@ export class NewUser {
 		this.password = '';
 		this.confirm_password = '';
 		this.groups = [];
+		this.trails = [];
 	}
 }
 
@@ -91,12 +98,18 @@ export class EditUser {
 
 	public groups_to_leave?: Group[];
 
+	public trails: Trail[];
+
+	public trails_to_leave?: Trail[];
+
 	constructor(user?: User) {
 		this.name = user ? user.name : '';
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 		this.active = user ? user.active : true;
 		this.groups = user ? user.groups : [];
+		this.trails = user ? user.trails : [];
+
 	}
 };
 
@@ -119,12 +132,15 @@ export class UserDetails {
 
 	public groups: Group[];
 
+	public trails: Trail[];
+
 	constructor(user?: User) {
 		this.name = user ? user.name : '';
 		this.email = user ? user.email : '';
 		this.type = (user ? user.type : '') as UserType;
 		this.active = user ? user.active : true;
 		this.groups = user ? user.groups : [];
+		this.trails = user ? user.trails : [];
 	}
 }
 
@@ -159,6 +175,11 @@ export class Profile {
 		this.email = user?.email;
 		this.type = user?.type;
 		this.groups = user?.groups as ProfileGroup[];
-		//this.trails = user?.trails as ProfileTrail[];
+		this.trails = user?.trails as ProfileTrail[];
+	}
+
+	concatTrails(trails : Trail[])
+	{
+		this.trails = [...this.trails, ...new Set(trails.filter(trail => trail.status == 'PUBLISHED' as StatusType))];
 	}
 }

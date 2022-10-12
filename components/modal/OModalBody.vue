@@ -16,5 +16,8 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
+    max-height: calc(105vh - 215px);
+		overflow-y: auto;
+    overflow-x: hidden;
 	}
 </style>

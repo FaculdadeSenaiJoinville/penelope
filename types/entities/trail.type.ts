@@ -86,7 +86,6 @@ export class NewTrail {
 		this.icon = '';
 		this.color = '#A31D1D';
 		this.active = true;
-		this.users = [];
 	}
 }
 
@@ -122,12 +121,11 @@ export class EditTrail {
 		this.groups = trail ? trail.groups : [];
 	}
 };
+export class ProfileTrails {
+	trails: Trail[];
 
-export class UserTrails {
-	private trails: Trail[];
-
-	constructor(trails?: Trail[]) {
-		this.trails = trails;
+	constructor(trail?: Trail[]) {
+		this.trails = trail;
 	}
 
 	get(index: Number) : Trail
@@ -140,6 +138,11 @@ export class UserTrails {
 		{
 			this.trails.push(trail);
 		}
+	}
+	
+	concat(trails : Trail[])
+	{
+		this.trails = [...this.trails, ...new Set(trails.filter(trail => trail.status == 'PUBLISHED' as StatusType))];
 	}
 
 	remove(trail: Trail)
@@ -158,30 +161,29 @@ export class UserTrails {
 		}
 	}
 };
-export class TrailStatus {
-	public active: boolean;
 
-	constructor(trail?: Trail) {
-		this.active = trail ? trail.active : true;
-	}
-};
-
-export enum Type {
+export enum EntityType {
 	USER = "USER",
 	GROUP = "GROUP"
+}
+
+export enum Status {
+  ONEDIT = "ONEDIT",
+  ONTEST = "ONTEST",
+  PUBLISHED = "PUBLISHED"
 }
 
 export class AvailableTrail {
 
 	id?: string;
-	type: Type;
+	type: EntityType;
 	trails_id: string;
 	entity_id: string;
 	created_by: string;
 
 	constructor(availableTrail?: AvailableTrail)
 	{
-		this.type = availableTrail ? availableTrail.type : Type.USER;
+		this.type = availableTrail ? availableTrail.type : EntityType.USER;
 		this.trails_id = availableTrail ? availableTrail.trails_id : "";
 		this.entity_id = availableTrail ? availableTrail.entity_id : "";
 		this.created_by = availableTrail ? availableTrail.created_by : "";

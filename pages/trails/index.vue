@@ -66,7 +66,7 @@
 	import OActionButtons from '~/components/buttons/OActionButtons.vue';
 	import OSearchBar from '~/components/inputs/OSearchBar.vue';
 
-	import { Trail, TrailDetails, TrailStatus, TrailWithActions } from '~/types/entities';
+	import { Trail, TrailDetails, TrailWithActions } from '~/types/entities';
 import {TrailButton} from './buttons';
 
 	export default Vue.extend({
@@ -243,7 +243,7 @@ import {TrailButton} from './buttons';
 									show: this.showButton(trail, TrailButton.ACCESS),
 									icon: 'account-multiple-plus',
 									title: this.Dictionary.misc.getLabel('access'),
-									publish: true,
+									access: true,
 									action: () => this.openModal({ modal: 'trails/access', id: trail.id as string })
 								}
 						

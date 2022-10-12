@@ -2,11 +2,13 @@
 	<section class="o-search-bar">
 		<input
 			type="text"
-			name="serachbar"
+			name="searchbar"
 			:value="value"
 			class="input o-search-bar-input"
 			:placeholder="inputPlaceholder"
 			@input="$emit('input', $event.target.value)"
+			@keyup.enter="action"
+			@change="action"
 		/>
 
 		<button

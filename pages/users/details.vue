@@ -29,6 +29,19 @@
 					class="space-top-1 space-bottom-2"
 					read-only
 				/>
+
+			<OTrail
+					:pre-selected-items="preSelectedUserTrails"
+					:title="Dictionary.misc.getModule('trails')"
+					:headers="oTrailHeaders"
+					:columns="oTrailColumns"
+					:no-data-selected-text="Dictionary.trails.getLabel('no_trails_associated')"
+					:items-per-page-text="Dictionary.trails.getLabel('trails_per_page')"
+					class="space-top-1 space-bottom-2"
+					module="trails"
+					read-only
+			/>
+
 			</VForm>
 
 			<OLoader v-else />
@@ -41,13 +54,15 @@
 	import { VForm } from 'vuetify/lib';
 	import { DataTableHeader } from 'vuetify';
 	import { UserDetails } from '~/types/entities/user.type';
-	import { Group } from '~/types/entities';
+	import { Group, Trail } from '~/types/entities';
 	import OGroup from '~/components/OGroup.vue';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
 	import OModalBody from '~/components/modal/OModalBody.vue';
 	import OField from '~/components/OField.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import OTrail from '~/components/OTrail.vue';
+	import { OTrailSelectedData } from '~/types/components/o-trail.type';
 
 	export default Vue.extend({
 		components: {
@@ -57,7 +72,8 @@
 			OToggleSwitch,
 			OField,
 			OLoader,
-			OGroup
+			OGroup,
+			OTrail
 		},
 
 		data() {
@@ -65,7 +81,10 @@
 				loading: false,
 				userData: new UserDetails(),
 				preSelectedUserGroups: [] as Group[],
-				oGroupColumns: ['name']
+				oGroupColumns: ['name'],
+				preSelectedUserTrails: [] as Trail[],
+				trailSelectedData: new OTrailSelectedData(),
+				oTrailColumns: ['name'],
 			};
 		},
 
@@ -78,6 +97,11 @@
 				return [
 					{ text: this.Dictionary.groups.getFieldName('name'), value: 'name', width: '60%' }
 				];
+			},
+			oTrailHeaders(): DataTableHeader[] {
+				return [
+						{ text: this.Dictionary.trails.getFieldName('name'), value: 'name', width: '60%' }
+				];
 			}
 		},
 
@@ -89,6 +113,7 @@
 					.then((response) => {
 						this.userData = new UserDetails(response);
 						this.preSelectedUserGroups = this.userData.groups;
+						this.preSelectedUserTrails = this.userData.trails;
 					})
 					.catch(() => {
 						this.closeModal();

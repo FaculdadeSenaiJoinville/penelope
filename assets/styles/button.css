@@ -37,6 +37,9 @@
 .button-publish {
 	background: var(--green-dark);
 }
+.button-access {
+	background: var(--light-purple);
+}
 .button-ontest {
 	background: var(--yellow);
 }

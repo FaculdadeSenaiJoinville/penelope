@@ -54,6 +54,21 @@
 					api-endpoint="groups"
 					module="groups"
 				/>
+
+		<OTrail
+					v-model="trailSelectedData"
+					:title="Dictionary.misc.getModule('trails')"
+					:pre-selected-items="preSelectedUserTrails"
+					:headers="oTrailHeaders"
+					:columns="oTrailColumns"
+					:placeholder="Dictionary.trails.getLabel('assign_trails')"
+					:no-data-selected-text="Dictionary.trails.getLabel('no_trails_associated')"
+					:items-per-page-text="Dictionary.trails.getLabel('trails_per_page')"
+					class="space-top-1 space-bottom-2"
+					api-endpoint="trails"
+					module="trails"
+			/>
+
 			</VForm>
 
 			<OLoader v-else />
@@ -76,7 +91,7 @@
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
 	import { DataTableHeader } from 'vuetify';
-	import { Group } from '~/types/entities';
+	import { Group, Trail } from '~/types/entities';
 	import { OGroupSlectedData } from '~/types/components/o-group.type';
 	import { EditUser, UserType } from '~/types/entities/user.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
@@ -88,6 +103,9 @@
 	import OLoader from '~/components/OLoader.vue';
 	import OToggleSwitch from '~/components/buttons/OToggleSwitch.vue';
 	import OGroup from '~/components/OGroup.vue';
+	import OTrail from '~/components/OTrail.vue';
+	import { OTrailSelectedData } from '~/types/components/o-trail.type';
+	
 
 	export default Vue.extend({
 		components: {
@@ -100,7 +118,8 @@
 			OButton,
 			OLoader,
 			OToggleSwitch,
-			OGroup
+			OGroup,
+			OTrail
 		},
 
 		data() {
@@ -109,7 +128,10 @@
 				userData: new EditUser(),
 				preSelectedUserGroups: [] as Group[],
 				groupSelectedData: new OGroupSlectedData(),
-				oGroupColumns: ['name']
+				preSelectedUserTrails: [] as Trail[],
+				trailSelectedData: new OTrailSelectedData(),
+				oGroupColumns: ['name'],
+				oTrailColumns: ['name'],
 			};
 		},
 
@@ -140,15 +162,33 @@
 					{ text: 'Nome', value: 'name', width: '60%' },
 					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
 				];
+			},
+			oTrailHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
+				];
 			}
 		},
 
 		methods: {
 			update() {
-				const { selectedItems, removedItems } = this.groupSelectedData;
 
-				this.userData.groups = selectedItems;
-				this.userData.groups_to_leave = removedItems;
+				const trails = {
+					selectedItems:  this.trailSelectedData.selectedItems, 
+					removedItems: this.trailSelectedData.removedItems
+				}
+
+				const groups = {
+					selectedItems:  this.groupSelectedData.selectedItems, 
+					removedItems: this.groupSelectedData.removedItems
+				}
+
+				this.userData.groups = groups.selectedItems;
+				this.userData.groups_to_leave = groups.removedItems;
+
+				this.userData.trails = trails.selectedItems;
+				this.userData.trails_to_leave = trails.removedItems;
 
 				return this.Api.put(`users/update/${this.id}`, this.userData).then(() => {
 					this.$root.$emit('update-list');
@@ -162,7 +202,8 @@
 				return this.Api.get(`users/details/${this.id}`)
 					.then((response) => {
 						this.userData = new EditUser(response);
-						this.preSelectedUserGroups = this.userData.groups;
+						this.preSelectedUserGroups = this.userData.groups;				
+						this.preSelectedUserTrails = this.userData.trails;
 					})
 					.catch(() => {
 						this.closeModal();

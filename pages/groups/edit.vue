@@ -31,11 +31,33 @@
 					:columns="oGroupColumns"
 					:enum-columns="oGroupEnumColumns"
 					:placeholder="Dictionary.users.getLabel('assign_user')"
-					:no-data-selected-text="Dictionary.users.getLabel('no_users_associated')"
-					:items-per-page-text="Dictionary.users.getLabel('users_per_page')"
+					:no-data-selected-text="
+						Dictionary.users.getLabel('no_users_associated')
+					"
+					:items-per-page-text="
+						Dictionary.users.getLabel('users_per_page')
+					"
 					class="space-top-1 space-bottom-2"
 					api-endpoint="users"
 					module="users"
+				/>
+
+				<OTrail
+					v-model="trailSelectedData"
+					:title="Dictionary.misc.getModule('trails')"
+					:pre-selected-items="preSelectedGroupTrails"
+					:headers="oTrailHeaders"
+					:columns="oTrailColumns"
+					:placeholder="Dictionary.trails.getLabel('assign_trails')"
+					:no-data-selected-text="
+						Dictionary.trails.getLabel('no_trails_associated')
+					"
+					:items-per-page-text="
+						Dictionary.trails.getLabel('trails_per_page')
+					"
+					class="space-top-1 space-bottom-2"
+					api-endpoint="trails"
+					module="trails"
 				/>
 			</VForm>
 
@@ -49,97 +71,143 @@
 				:disabled="loading"
 				:title="Dictionary.misc.getLabel('save')"
 			>
-				{{ Dictionary.misc.getLabel('save') }}
+				{{ Dictionary.misc.getLabel("save") }}
 			</OButton>
 		</OModalFooter>
 	</section>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-	import { VForm } from 'vuetify/lib';
-	import { DataTableHeader } from 'vuetify';
-	import { User } from '../../types/entities';
-	import { OGroupSlectedData } from '../../types/components/o-group.type';
-	import { EditGroup } from '~/types/entities/group.type';
-	import OModalHeader from '~/components/modal/OModalHeader.vue';
-	import OModalBody from '~/components/modal/OModalBody.vue';
-	import OModalFooter from '~/components/modal/OModalFooter.vue';
-	import OButton from '~/components/buttons/OButton.vue';
-	import OInput from '~/components/inputs/OInput.vue';
-	import OGroup from '~/components/OGroup.vue';
-	import OLoader from '~/components/OLoader.vue';
+import Vue from "vue";
+import { VForm } from "vuetify/lib";
+import { DataTableHeader } from "vuetify";
+import { User, Trail } from "../../types/entities";
+import { OGroupSlectedData } from "../../types/components/o-group.type";
+import { EditGroup } from "~/types/entities/group.type";
+import OModalHeader from "~/components/modal/OModalHeader.vue";
+import OModalBody from "~/components/modal/OModalBody.vue";
+import OModalFooter from "~/components/modal/OModalFooter.vue";
+import OButton from "~/components/buttons/OButton.vue";
+import OInput from "~/components/inputs/OInput.vue";
+import OGroup from "~/components/OGroup.vue";
+import OLoader from "~/components/OLoader.vue";
+import OTrail from "~/components/OTrail.vue";
+import { OTrailSelectedData } from "~/types/components/o-trail.type";
 
-	export default Vue.extend({
-		components: {
-			VForm,
-			OModalHeader,
-			OModalBody,
-			OInput,
-			OLoader,
-			OGroup,
-			OModalFooter,
-			OButton
+export default Vue.extend({
+	components: {
+		VForm,
+		OModalHeader,
+		OModalBody,
+		OInput,
+		OLoader,
+		OGroup,
+		OModalFooter,
+		OButton,
+		OTrail,
+	},
+
+	data() {
+		return {
+			loading: false,
+			groupData: new EditGroup(),
+			preSelectedGroupMembers: [] as User[],
+			groupSelectedData: new OGroupSlectedData(),
+			oGroupColumns: ["name", "type"],
+			oGroupEnumColumns: ["type"],
+			preSelectedGroupTrails: [] as Trail[],
+			trailSelectedData: new OTrailSelectedData(),
+			oTrailColumns: ["name"],
+		};
+	},
+
+	computed: {
+		id() {
+			return this.$route.query.id;
 		},
 
-		data() {
-			return {
-				loading: false,
-				groupData: new EditGroup(),
-				preSelectedGroupMembers: [] as User[],
-				groupSelectedData: new OGroupSlectedData(),
-				oGroupColumns: ['name', 'type'],
-				oGroupEnumColumns: ['type']
+		oGroupHeaders(): DataTableHeader[] {
+			return [
+				{
+					text: this.Dictionary.users.getFieldName("name"),
+					value: "name",
+					width: "50%",
+				},
+				{
+					text: this.Dictionary.users.getFieldName("type"),
+					value: "type",
+					width: "30%",
+				},
+				{
+					text: "",
+					value: "actions",
+					filterable: false,
+					sortable: false,
+					width: "20%",
+				},
+			];
+		},
+		oTrailHeaders(): DataTableHeader[] {
+			return [
+				{ text: "Nome", value: "name", width: "60%" },
+				{
+					text: "",
+					value: "actions",
+					filterable: false,
+					sortable: false,
+					width: "40%",
+				},
+			];
+		},
+	},
+
+	methods: {
+		update() {
+			const trails = {
+				selectedItems: this.trailSelectedData.selectedItems,
+				removedItems: this.trailSelectedData.removedItems,
 			};
+
+			const users = {
+				selectedItems: this.groupSelectedData.selectedItems,
+				removedItems: this.groupSelectedData.removedItems,
+			};
+
+			this.groupData.members = users.selectedItems;
+			this.groupData.members_to_remove = users.removedItems;
+
+			this.groupData.trails = trails.selectedItems;
+			this.groupData.trails_to_remove = trails.removedItems;
+
+			return this.Api.put(
+				`groups/update/${this.id}`,
+				this.groupData
+			).then(() => {
+				this.$root.$emit("update-list");
+				this.closeModal();
+			});
 		},
+		getGroupDetails() {
+			this.loading = true;
 
-		computed: {
-			id() {
-				return this.$route.query.id;
-			},
-
-			oGroupHeaders(): DataTableHeader[] {
-				return [
-					{ text: this.Dictionary.users.getFieldName('name'), value: 'name', width: '50%' },
-					{ text: this.Dictionary.users.getFieldName('type'), value: 'type', width: '30%' },
-					{ text: '', value: 'actions', filterable: false, sortable: false, width: '20%' }
-				];
-			}
-		},
-
-		methods: {
-			getGroupDetails() {
-				this.loading = true;
-
-				return this.Api.get(`groups/details/${this.id}`)
-					.then((response) => {
-						this.groupData = new EditGroup(response);
-						this.preSelectedGroupMembers = this.groupData.members;
-					})
-					.catch((error) => {
-						this.Messages.error(error);
-						this.closeModal();
-					})
-					.finally(() => {
-						this.loading = false;
-					});
-			},
-
-			update() {
-				const { selectedItems, removedItems } = this.groupSelectedData;
-
-				this.groupData.members = selectedItems;
-				this.groupData.members_to_remove = removedItems;
-
-				return this.Api.put(`groups/update/${this.id}`, this.groupData).then(() => {
-					this.$root.$emit('update-list');
+			return this.Api.get(`groups/details/${this.id}`)
+				.then((response) => {
+					this.groupData = new EditGroup(response);
+					this.preSelectedGroupMembers = this.groupData.members;
+					this.preSelectedGroupTrails = this.groupData.trails;
+				})
+				.catch((error) => {
+					this.Messages.error(error);
 					this.closeModal();
+				})
+				.finally(() => {
+					this.loading = false;
 				});
-			}
 		},
+	},
 
-		mounted() {
-			this.getGroupDetails();
-		}
-	});
+	mounted() {
+		this.getGroupDetails();
+	},
+});
 </script>

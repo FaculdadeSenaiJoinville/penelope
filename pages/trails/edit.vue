@@ -133,7 +133,7 @@ Vue.component('vue-material-design-icon-picker', VueAwesomeIconPicker)
 				this.selected = icon.name;
 				icon.value = this.selected;
 				this.trailData.icon = icon.name;
-        	},
+      },
 
 			update() {
 				return this.Api.put(`trails/update/${this.id}`, this.trailData).then(() => {

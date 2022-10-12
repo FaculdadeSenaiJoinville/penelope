@@ -37,6 +37,20 @@
 					api-endpoint="users"
 					module="users"
 				/>
+
+				<OTrail
+					v-model="trailSelectedData"
+					:title="Dictionary.misc.getModule('trails')"
+					:pre-selected-items="preSelectedGroupTrails"
+					:headers="oTrailHeaders"
+					:columns="oTrailColumns"
+					:placeholder="Dictionary.trails.getLabel('assign_trails')"
+					:no-data-selected-text="Dictionary.trails.getLabel('no_trails_associated')"
+					:items-per-page-text="Dictionary.trails.getLabel('trails_per_page')"
+					class="space-top-1 space-bottom-2"
+					api-endpoint="trails"
+					module="trails"
+			/>
 			</VForm>
 
 			<OLoader v-else />
@@ -70,7 +84,7 @@
 	import Vue from 'vue';
 	import { VForm } from 'vuetify/lib';
 	import { DataTableHeader } from 'vuetify';
-	import { User } from '../../types/entities';
+	import { User, Trail } from '../../types/entities';
 	import { OGroupSlectedData } from '../../types/components/o-group.type';
 	import { NewGroup } from '~/types/entities/group.type';
 	import OModalHeader from '~/components/modal/OModalHeader.vue';
@@ -80,6 +94,9 @@
 	import OInput from '~/components/inputs/OInput.vue';
 	import OGroup from '~/components/OGroup.vue';
 	import OLoader from '~/components/OLoader.vue';
+	import OTrail from '~/components/OTrail.vue';
+	import { OTrailSelectedData } from '~/types/components/o-trail.type';
+
 
 	export default Vue.extend({
 		components: {
@@ -90,7 +107,8 @@
 			OLoader,
 			OGroup,
 			OModalFooter,
-			OButton
+			OButton,
+			OTrail
 		},
 
 		data() {
@@ -100,7 +118,10 @@
 				preSelectedGroupMembers: [] as User[],
 				groupSelectedData: new OGroupSlectedData(),
 				oGroupColumns: ['name', 'type'],
-				oGroupEnumColumns: ['type']
+				oGroupEnumColumns: ['type'],
+				preSelectedGroupTrails: [] as Trail[],
+				trailSelectedData: new OTrailSelectedData(),
+				oTrailColumns: ['name'],
 			};
 		},
 
@@ -114,6 +135,12 @@
 					{ text: this.Dictionary.users.getFieldName('name'), value: 'name', width: '50%' },
 					{ text: this.Dictionary.users.getFieldName('type'), value: 'type', width: '30%' },
 					{ text: '', value: 'actions', filterable: false, sortable: false, width: '20%' }
+				];
+			},
+			oTrailHeaders(): DataTableHeader[] {
+				return [
+					{ text: 'Nome', value: 'name', width: '60%' },
+					{ text: '', value: 'actions', filterable: false, sortable: false, width: '40%' }
 				];
 			}
 		},
@@ -135,9 +162,17 @@
 			},
 
 			saveGroupData() {
-				const { selectedItems } = this.groupSelectedData;
+				
+				const trails = {
+					selectedItems:  this.trailSelectedData.selectedItems
+				}
+				const users = {
+					selectedItems:  this.groupSelectedData.selectedItems
+				}
 
-				this.groupData.members = selectedItems;
+				this.groupData.members = users.selectedItems;
+				this.groupData.trails = trails.selectedItems;
+
 				this.loading = true;
 
 				return this.Api.post('groups/create', this.groupData)

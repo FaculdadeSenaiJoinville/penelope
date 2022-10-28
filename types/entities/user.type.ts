@@ -33,6 +33,8 @@ export class User {
 
 	trails: Trail[];
 
+	photo: string;
+
 	constructor(user: User) {
 		this.id = user ? user.id: '';
 		this.name = user ? user.name: '';
@@ -41,6 +43,7 @@ export class User {
 		this.active = user ? user.active : true;
 		this.groups = user ? user.groups : [];
 		this.trails = user ? user.trails : [];
+		this.photo = user ? user.photo : '';
 	}
 };
 
@@ -170,12 +173,15 @@ export class Profile {
 
 	trails?: ProfileTrail[]
 
+	photo?: string
+
 	constructor(user?: User) {
 		this.name = user?.name;
 		this.email = user?.email;
 		this.type = user?.type;
 		this.groups = user?.groups as ProfileGroup[];
 		this.trails = user?.trails as ProfileTrail[];
+		this.photo = user?.photo;
 	}
 
 	concatTrails(trails : Trail[])

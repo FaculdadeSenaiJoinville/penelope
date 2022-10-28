@@ -1,8 +1,27 @@
 <template>
 	<div class="profile-container">
 		<section class="user-info-container space-top-1 space-bottom-3">
-			<div class="avatar space-right-1" />
-
+			<label class="avatar-container space-right-1 pointer">
+				<input
+					type="file"
+					accept="image/*"
+					class="hidden"
+					ref="file"
+					@change="changePhoto"
+				/>
+				<img
+					class="avatar"
+					:src="
+						this.user.photo
+							? this.user.photo
+							: 'https://cdn.vuetifyjs.com/images/john.jpg'
+					"
+					alt="John"
+				/>
+				<div class="icon">
+					<i class="pencil mdi mdi-lead-pencil" />
+				</div>
+			</label>
 			<article class="user-data-container space-top-1">
 				<span class="user-name">{{ user.name }}</span>
 				<span class="user-email">{{ user.email }}</span>
@@ -74,7 +93,9 @@ import { CardButton } from "../../types/components/o-card.type";
 import { EditPassword, Group, Profile } from "~/types/entities";
 import OInput from "~/components/inputs/OInput.vue";
 import OCard from "~/components/OCard.vue";
+import OIcon from "~/components/OIcon.vue";
 import OActionCard from "~/components/buttons/OActionCard.vue";
+//import Avatar from 'vue-avatar'
 
 export default Vue.extend({
 	components: {
@@ -82,6 +103,7 @@ export default Vue.extend({
 		OInput,
 		OCard,
 		OActionCard,
+		OIcon,
 	},
 
 	data() {
@@ -135,6 +157,31 @@ export default Vue.extend({
 	},
 
 	methods: {
+		changePhoto(e) {
+			let file = e.target.files[0];
+
+			this.$emit("input", file);
+			let reader = new FileReader();
+
+			if (file) {
+
+				let formData = new FormData();
+
+				formData.append('id', this.$auth.user.id)
+				formData.append('image', file, file.name);
+
+				this.Api.post("users/changePhoto", formData)
+					.then((resp) => {
+						reader.readAsDataURL(file);
+					})
+					.catch((e) => {
+					});
+			}
+
+			reader.onload = (e) => {
+				this.user.photo = e.target.result as string;
+			};
+		},
 		getProfileData() {
 			this.loading = true;
 
@@ -142,7 +189,7 @@ export default Vue.extend({
 				.then((response) => {
 					this.user = new Profile(response);
 
-          this.getProfileTrails();
+					this.getProfileTrails();
 				})
 				.finally(() => {
 					this.loading = false;
@@ -156,8 +203,7 @@ export default Vue.extend({
 						let groupList = response as Group[];
 						if (groupList) {
 							groupList.forEach((group) => {
-                debugger;
-                this.user.concatTrails(group.trails);
+								this.user.concatTrails(group.trails);
 							});
 						}
 					}
@@ -184,6 +230,61 @@ export default Vue.extend({
 
 <style scoped>
 @import url("assets/styles/button.css");
+
+.pencil {
+	color: white;
+	font-size: 24px;
+}
+
+.avatar {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.avatar-container {
+	border: 3px solid var(--green);
+	background-color: var(--gray-dark-1);
+	transition: ease-in-out 0.3s;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: auto;
+}
+
+.icon {
+	opacity: 0;
+	transition: ease-in-out 0.3s;
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.hidden {
+	display: none;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.avatar-container:hover {
+	border-radius: 35%;
+}
+.avatar-container:hover > img {
+	filter: brightness(50%);
+}
+
+.avatar-container:hover > .icon {
+	opacity: 1;
+}
 
 .profile-container {
 	display: flex;
@@ -246,13 +347,5 @@ export default Vue.extend({
 .card-btn {
 	border-radius: 0 0 10px 10px;
 	width: 100%;
-}
-
-.avatar {
-	border: 3px solid var(--green);
-	border-radius: 50%;
-	background-color: var(--gray-dark-1);
-	width: 100px;
-	height: 100px;
 }
 </style>
